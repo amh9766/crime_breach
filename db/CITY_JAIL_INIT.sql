@@ -24,10 +24,11 @@ CREATE TABLE Crimes(
     Criminal_ID NUMERIC(6,0) REFERENCES Criminals(Criminal_ID), 
     Classification CHAR(1) DEFAULT 'U', 
     Date_charged DATE, 
-    Status CHAR(2), 
+    Status CHAR(2) NOT NULL, 
     Hearing_date DATE, 
     Appeal_cut_date DATE, 
-    PRIMARY KEY (Crime_ID)
+    PRIMARY KEY (Crime_ID),
+    CONSTRAINT check_hearing_charged_date CHECK(Hearing_date > Date_charged)
 );
 
 CREATE TABLE Prob_officer(
@@ -52,12 +53,13 @@ CREATE TABLE Sentences(
     Start_date DATE,
     End_Date DATE,
     Violations NUMERIC(3,0) NOT NULL, 
-    PRIMARY KEY (Sentence_ID)
+    PRIMARY KEY (Sentence_ID),
+    CONSTRAINT check_end_start_date CHECK(End_date > Start_date)
 );
 
 CREATE TABLE Crime_codes(
-    Crime_code NUMERIC(3,0),  
-    Code_description VARCHAR(30), 
+    Crime_code NUMERIC(3,0) NOT NULL,  
+    Code_description VARCHAR(30) NOT NULL UNIQUE, 
     PRIMARY KEY (Crime_code)
 );
 
