@@ -101,4 +101,26 @@ CREATE TABLE Appeals(
     PRIMARY KEY (Appeal_ID)
 );
 
+CREATE VIEW criminals_publicview AS
+SELECT Last AS "Last Name", First AS "First Name", V_status AS 
+    "Violent Offender?", P_status AS "On Probation?", Alias
+FROM Criminals
+LEFT JOIN Alias
+ON Criminals.Criminal_ID = Alias.Criminal_ID;
 
+CREATE VIEW officer_publicview AS
+SELECT Badge AS "Badge #", Last AS "Last Name", First AS "First Name", Precinct,
+    Status
+FROM Officers;
+
+CREATE VIEW crime_publicview AS
+SELECT Last AS "Last Name", First AS "First Name", Alias, Classification,
+    Date_charged AS "Date Charged", Status, Hearing_date AS "Hearing Date",
+    Charge_status AS "Charge Status"
+FROM Crimes
+LEFT JOIN Crime_charges
+ON Crimes.Crime_ID = Crime_charges.Crime_ID
+INNER JOIN Criminals
+ON Crimes.Criminal_ID = Criminals.Criminal_ID
+LEFT JOIN Alias
+ON Criminals.Criminal_ID = Alias.Criminal_ID;
