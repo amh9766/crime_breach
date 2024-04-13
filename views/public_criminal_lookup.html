@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Criminal Lookup - Crime Breach</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/components/navbar/navbar.js"></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="search-section">
+            <h2>Criminal Lookup: Public Search</h2>
+            <form id="publicCriminalSearchForm" action="/public_search_criminals" method="GET" class="public-search-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John">
+                    </div>
+                    <div class="form-field">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith">
+                    </div>
+                    <div class="form-field">
+                        <label for="alias">Alias</label>
+                        <input type="text" id="alias" name="alias" placeholder="E.g. Zodiac Killer">
+                    </div>
+                    <div class="form-field">
+                        <label for="violent">Violent Offender?</label>
+                        <select id="violent" name="violent">
+                            <option value="">Select</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" placeholder="E.g. NY">
+                    </div>
+                    <div class="form-field">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" placeholder="E.g. Brooklyn">
+                    </div>
+                    <div class="form-field">
+                        <label for="zip">Zip</label>
+                        <input type="text" id="zip" name="zip" placeholder="E.g. 11201">
+                    </div>
+                    <div class="form-field">
+                        <label for="probation">On Probation?</label>
+                        <select id="probation" name="probation">
+                            <option value="">Select</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="sentenceStart">Sentence Start Date</label>
+                        <input type="date" id="sentenceStart" name="sentenceStart">
+                    </div>
+                    <div class="form-field two-item">
+                        <label for="sentenceEnd">Sentence End Date</label>
+                        <input type="date" id="sentenceEnd" name="sentenceEnd">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">View Results</button>
+                    <button type="submit" class="btn-view">View All Records</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

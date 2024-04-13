@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Crime Lookup - Crime Breach</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/components/navbar/navbar.js"></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="search-section">
+            <h2>Crime Lookup: Administrator Search</h2>
+            <form id="adminCrimeSearchForm" action="/admin_search_crimes" method="GET" class="search-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="crimeID">Crime ID</label>
+                        <input type="text" id="crimeID" name="crimeID" placeholder="E.g. 123456789">
+                    </div>
+                    <div class="form-field">
+                        <label for="criminalID">Criminal ID</label>
+                        <input type="text" id="criminalID" name="criminalID" placeholder="E.g. 123456">
+                    </div>
+                    <div class="form-field">
+                        <label for="chargeID">Charge ID</label>
+                        <input type="text" id="chargeID" name="chargeID" placeholder="E.g. 1234567890">
+                    </div>
+                    <div class="form-field">
+                        <label for="coID">C.O. ID</label>
+                        <input type="text" id="coID" name="coID" placeholder="E.g. 12345">
+                    </div>
+                </div>
+                <br>
+                <p><b>OR</b></p>
+                <br>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="crimeCode">Crime Code</label>
+                        <select id="crimeCode" name="crimeCode">
+                            <option value="">Select</option>
+                            <!-- Crime code options -->
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="">Select</option>
+                            <!-- Status options -->
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="classification">Classification</label>
+                        <select id="classification" name="classification">
+                            <option value="">Select</option>
+                            <!-- Classification options -->
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="chargeStatus">Charge Status</label>
+                        <select id="chargeStatus" name="chargeStatus">
+                            <option value="">Select</option>
+                            <!-- Charge status options -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="hearingDate">Hearing Date</label>
+                        <input type="date" id="hearingDate" name="hearingDate">
+                    </div>
+                    <div class="form-field">
+                        <label for="appealCutOffDate">Appeal Cut Off Date</label>
+                        <input type="date" id="appealCutOffDate" name="appealCutOffDate">
+                    </div>
+                    <div class="form-field">
+                        <label for="dateCharged">Date Charged</label>
+                        <input type="date" id="dateCharged" name="dateCharged">
+                    </div>
+                    <div class="form-field">
+                        <label for="filingDate">Filing Date</label>
+                        <input type="date" id="filingDate" name="filingDate">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="coFirstName">C.O. First Name</label>
+                        <input type="text" id="coFirstName" name="coFirstName" placeholder="E.g. John">
+                    </div>
+                    <div class="form-field">
+                        <label for="coLastName">C.O. Last Name</label>
+                        <input type="text" id="coLastName" name="coLastName" placeholder="E.g. Smith">
+                    </div>
+                    <div class="form-field">
+                        <label for="coStatus">C.O. Status</label>
+                        <select id="coStatus" name="coStatus">
+                            <option value="">Select</option>
+                            <!-- C.O. status options -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">View Results</button>
+                    <button type="submit" class="btn-view">View All Records</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

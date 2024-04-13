@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Criminal Lookup - Crime Breach</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/components/navbar/navbar.js"></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="search-section">
+            <h2>Criminal Lookup: Administrator Search</h2>
+            <form id="adminCriminalSearchForm" action="/admin_search_criminals" method="GET" class="search-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="criminalID">Criminal ID</label>
+                        <input type="text" id="criminalID" name="criminalID" placeholder="E.g. 123456">
+                    </div>
+                    <div class="form-field">
+                        <label for="aliasID">Alias ID</label>
+                        <input type="text" id="aliasID" name="aliasID" placeholder="E.g. 123456">
+                    </div>
+                    <div class="form-field">
+                        <label for="sentenceID">Sentence ID</label>
+                        <input type="text" id="sentenceID" name="sentenceID" placeholder="E.g. 123456">
+                    </div>
+                    <div class="form-field">
+                        <label for="poID">P.O. ID</label>
+                        <input type="text" id="poID" name="poID" placeholder="E.g. 12345">
+                    </div>
+                </div>
+                <br>
+                <p><b>OR</b></p>
+                <br>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John">
+                    </div>
+                    <div class="form-field">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith">
+                    </div>
+                    <div class="form-field">
+                        <label for="alias">Alias</label>
+                        <input type="text" id="alias" name="alias" placeholder="E.g. Zodiac Killer">
+                    </div>
+                    <div class="form-field">
+                        <label for="violentOffender">Violent Offender?</label>
+                        <select id="violentOffender" name="violentOffender">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" placeholder="E.g. NY">
+                    </div>
+                    <div class="form-field">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" placeholder="E.g. Brooklyn">
+                    </div>
+                    <div class="form-field">
+                        <label for="zip">Zip</label>
+                        <input type="text" id="zip" name="zip" placeholder="E.g. 11201">
+                    </div>
+                    <div class="form-field">
+                        <label for="probation">On Probation?</label>
+                        <select id="probation" name="probation">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="sentenceType">Sentence Type</label>
+                        <select id="sentenceType" name="sentenceType">
+                            <option value="">Select</option>
+                            <!-- Populate with sentence types -->
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="numberOfViolations">Number of Violations</label>
+                        <select id="numberOfViolations" name="numberOfViolations">
+                            <option value="">Select</option>
+                            <!-- Populate with numbers -->
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="poFirstName">P.O. First Name</label>
+                        <input type="text" id="poFirstName" name="poFirstName" placeholder="E.g. John">
+                    </div>
+                    <div class="form-field">
+                        <label for="poLastName">P.O. Last Name</label>
+                        <input type="text" id="poLastName" name="poLastName" placeholder="E.g. Smith">
+                    </div>
+                    <div class="form-field">
+                        <label for="poStatus">P.O. Status</label>
+                        <select id="poStatus" name="poStatus">
+                            <option value="">Select</option>
+                            <!-- Populate with status options -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">View Results</button>
+                    <button type="submit" class="btn-view">View All Records</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
