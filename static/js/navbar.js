@@ -3,7 +3,7 @@ function loadNavigationBar() {
     const navbarContainer = document.getElementById('navbar-container');
     if (!navbarContainer) return;
 
-    fetch('/components/navbar/navbar.html')
+    fetch('/static/js/navbar.html')
         .then(response => response.text())
         .then(data => {
             navbarContainer.innerHTML = data;
