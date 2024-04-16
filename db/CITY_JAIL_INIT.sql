@@ -124,3 +124,12 @@ INNER JOIN Criminals
 ON Crimes.Criminal_ID = Criminals.Criminal_ID
 LEFT JOIN Alias
 ON Criminals.Criminal_ID = Alias.Criminal_ID;
+
+CREATE VIEW criminals_privateview AS (SELECT Criminals.Criminal_ID AS "Criminal ID", Criminals.Last AS "Criminal Last", Criminals.First AS "Criminal First", 
+Criminals.Street AS "Criminal Street", Criminals.City AS "Criminal City", Criminals.State AS "Criminal State", Criminals.Zip AS "Criminal Zip", Criminals.Phone AS "Criminal Phone", 
+V_Status AS "Violent Offender?", P_Status AS "On Probation?", Alias, Alias_ID AS "Alias ID", Sentence_ID AS "Sentence ID", Type, Sentences.Prob_ID AS "Probation ID", 
+Start_date AS "Start Date", End_date AS "End Date", Violations, Prob_officer.Last AS "Probation Officer Last", Prob_officer.First AS "Probation Officer First", 
+Prob_officer.Street AS "Probation Officer Street", Prob_officer.City AS "Probation Officer City", Prob_officer.State AS "Probation Officer State", 
+Prob_officer.Zip AS "Probation Officer Zip", Prob_officer.Phone AS "Probation Officer Phone", Email AS "Probation Officer Email", 
+Status AS "Probation Offier Status" FROM Criminals INNER JOIN Alias ON Criminals.Criminal_ID = Alias.Criminal_ID INNER JOIN Sentences ON Criminals.Criminal_ID = Sentences.Criminal_ID 
+INNER JOIN Prob_officer ON Sentences.Prob_ID = Prob_officer.Prob_ID);
