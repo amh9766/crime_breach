@@ -147,3 +147,9 @@ INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code;
 
 CREATE ROLE administrator;
 CREATE ROLE everyone;
+
+GRANT SELECT ON Alias TO everyone;
+GRANT SELECT ON Criminals TO everyone;
+GRANT SELECT ON Crime_charges TO everyone;
+GRANT SELECT ON Officers TO everyone;
+GRANT SELECT ON Crimes TO everyone;
