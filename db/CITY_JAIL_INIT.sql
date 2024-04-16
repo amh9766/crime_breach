@@ -145,3 +145,5 @@ INNER JOIN Crime_officers ON Crimes.Crime_ID = Crime_officers.Crime_ID
 INNER JOIN Appeals ON Crimes.Crime_ID = Appeals.Crime_ID
 INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code;
 
+CREATE ROLE administrator;
+CREATE ROLE everyone;
