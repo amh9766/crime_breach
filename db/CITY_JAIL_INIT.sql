@@ -138,3 +138,10 @@ CREATE VIEW officer_privateview AS
 SELECT Officer_ID AS "Officer ID", Last AS "Last Name", First AS "First Name", Badge AS "Badge #", Phone AS "Phone Number", Precinct, Status
 FROM Officers;
 
+CREATE VIEW crime_privateview AS SELECT Crimes.Crime_ID AS "Crime ID", Crimes.Criminal_ID AS "Criminal ID", Classification, Date_charged AS "Date Charged", Crimes.Status AS "Crime Status", Crimes.Hearing_date AS "Crime Hearing Date", Appeal_cut_date AS "Appeal Cut Date", Charge_ID AS "Charge ID", Charge_status AS "Charge Status", Fine_amount AS "Fine Amount", Court_fee AS "Court Fee", Amount_paid AS "Amount Paid", Pay_due_date AS "Pay Due Date", Crime_officers.Officer_ID AS "Officer ID", Code_description AS "Code Description", Appeal_ID AS "Appeal ID", Filing_date AS "Filing Date", Appeals.Hearing_date AS "Appeal Hearing Date", Appeals.Status AS "Appeal Status"
+FROM Crimes
+INNER JOIN Crime_charges ON Crimes.Crime_ID = Crime_charges.Crime_ID
+INNER JOIN Crime_officers ON Crimes.Crime_ID = Crime_officers.Crime_ID
+INNER JOIN Appeals ON Crimes.Crime_ID = Appeals.Crime_ID
+INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code;
+
