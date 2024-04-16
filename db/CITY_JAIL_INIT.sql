@@ -153,3 +153,14 @@ GRANT SELECT ON Criminals TO everyone;
 GRANT SELECT ON Crime_charges TO everyone;
 GRANT SELECT ON Officers TO everyone;
 GRANT SELECT ON Crimes TO everyone;
+
+GRANT ALL ON Alias TO administrator;
+GRANT ALL ON Criminals TO administrator;
+GRANT ALL ON Crimes TO administrator;
+GRANT ALL ON Sentences TO administrator;
+GRANT ALL ON Prob_officer TO administrator;
+GRANT ALL ON Crime_charges TO administrator;
+GRANT ALL ON Crime_officers TO administrator;
+GRANT ALL ON Officers TO administrator;
+GRANT ALL ON Appeals TO administrator;
+GRANT ALL ON Crime_codes TO administrator;
