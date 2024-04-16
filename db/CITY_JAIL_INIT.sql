@@ -133,3 +133,8 @@ Prob_officer.Street AS "Probation Officer Street", Prob_officer.City AS "Probati
 Prob_officer.Zip AS "Probation Officer Zip", Prob_officer.Phone AS "Probation Officer Phone", Email AS "Probation Officer Email", 
 Status AS "Probation Offier Status" FROM Criminals INNER JOIN Alias ON Criminals.Criminal_ID = Alias.Criminal_ID INNER JOIN Sentences ON Criminals.Criminal_ID = Sentences.Criminal_ID 
 INNER JOIN Prob_officer ON Sentences.Prob_ID = Prob_officer.Prob_ID);
+
+CREATE VIEW officer_privateview AS
+SELECT Officer_ID AS "Officer ID", Last AS "Last Name", First AS "First Name", Badge AS "Badge #", Phone AS "Phone Number", Precinct, Status
+FROM Officers;
+
