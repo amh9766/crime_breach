@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Public Criminal Lookup - Crime Breach</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="/components/navbar/navbar.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
     <main>
         <section class="search-section">
             <h2>Criminal Lookup: Public Search</h2>
-            <form id="publicCriminalSearchForm" action="/public_search_criminals" method="GET" class="public-search-form">
+            <form id="publicCriminalSearchForm"
+                action="/public/criminal_lookup/search" method="GET" class="public-search-form">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="firstName">First Name</label>
@@ -31,8 +32,8 @@
                         <label for="violent">Violent Offender?</label>
                         <select id="violent" name="violent">
                             <option value="">Select</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
                         </select>
                     </div>
                 </div>
@@ -53,8 +54,8 @@
                         <label for="probation">On Probation?</label>
                         <select id="probation" name="probation">
                             <option value="">Select</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
                         </select>
                     </div>
                 </div>
@@ -72,7 +73,8 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">View Results</button>
-                    <button type="submit" class="btn-view">View All Records</button>
+                    <button type="reset"
+                                  onclick="location.href='/public/criminal_lookup/view_all'" class="btn-view">View All Records</button>
                 </div>
             </form>
         </section>
