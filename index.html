@@ -11,28 +11,21 @@
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
     <main>
-        <section>
-            <h2>Sign-in</h2>
-            <form id="searchForm" action="/search_criminals" method="GET">
-                <input type="text" name="query" placeholder="Enter name or ID">
-                <button type="submit">Search</button>
+        <section class="signin-section">
+            <form id="signinForm" action="/signin" method="POST" class="signin-form">
+                <div class="form-field">
+                    <label for="userID">User ID</label>
+                    <input type="text" id="userID" name="userID" placeholder="E.g. skb5278">
+                </div>
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-actions">
+                    <a href="/continue_without_signin" class="link-continue">Continue without signing in</a>
+                    <button type="submit" class="btn-signin">Sign in</button>
+                </div>
             </form>
-            <div class="results">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Crime</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Search results will be dynamically filled here -->
-                    </tbody>
-                </table>
-            </div>
         </section>
     </main>
 </body>

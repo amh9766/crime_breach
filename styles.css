@@ -139,3 +139,119 @@ form {
 .two-item {
     margin-right: 475px;
 }
+
+.signin-section {
+    width: 300px; /* Adjust size as needed */
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.signin-form .form-field {
+    margin-bottom: 15px;
+}
+
+.signin-form .form-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.signin-form .form-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.signin-form .form-actions {
+    text-align: right;
+}
+
+.link-continue {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.btn-signin {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+/* Additional responsive styling if necessary */
+@media (max-width: 768px) {
+    .signin-section {
+        width: 90%;
+    }
+}
+
+.public-lookup-results h2 {
+    padding: 10px;
+    background-color: #f9d835;
+    color: #333;
+}
+
+.search-results {
+    background: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-results table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.search-results th,
+.search-results td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.search-results th {
+    background-color: #333;
+    color: #fff;
+}
+
+.admin-lookup-results table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.admin-lookup-results h2 {
+    padding: 10px;
+    background-color: #f9d835;
+    color: #333;
+}
+
+.admin-lookup-results th,
+.admin-lookup-results td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-lookup-results th {
+    background-color: #333;
+    color: #fff;
+}
+
+.lengthy-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
