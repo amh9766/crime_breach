@@ -28,7 +28,7 @@
                         <input type="text" id="chargeID" name="chargeID" placeholder="E.g. 1234567890">
                     </div>
                     <div class="form-field">
-                        <label for="coID">C.O. ID</label>
+                        <label for="coID">Crime Officer ID</label>
                         <input type="text" id="coID" name="coID" placeholder="E.g. 12345">
                     </div>
                 </div>
@@ -37,32 +37,33 @@
                 <br>
                 <div class="form-row">
                     <div class="form-field">
-                        <label for="crimeCode">Crime Code</label>
-                        <select id="crimeCode" name="crimeCode">
-                            <option value="">Select</option>
-                            <!-- Crime code options -->
-                        </select>
-                    </div>
-                    <div class="form-field">
                         <label for="status">Status</label>
                         <select id="status" name="status">
-                            <option value="">Select</option>
-                            <!-- Status options -->
+                            <option value="CL">CL</option>
+                            <option value="CA">CA</option>
+                            <option value="IA">IA</option>
                         </select>
                     </div>
                     <div class="form-field">
                         <label for="classification">Classification</label>
                         <select id="classification" name="classification">
-                            <option value="">Select</option>
-                            <!-- Classification options -->
+                            <option value="F">Felony</option>
+                            <option value="M">Misdemeanor</option>
+                            <option value="O">Other</option>
+                            <option value="U">Undefined</option>
                         </select>
                     </div>
                     <div class="form-field">
                         <label for="chargeStatus">Charge Status</label>
                         <select id="chargeStatus" name="chargeStatus">
-                            <option value="">Select</option>
-                            <!-- Charge status options -->
+                            <option value="PD">Pending</option>
+                            <option value="GL">Guilty</option>
+                            <option value="NG">Not Guilty</option>
                         </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="crimeCode">Crime Code</label>
+                        <input type="text" id="crimeCode" name="crimeCode" placeholder="E.g. 123">
                     </div>
                 </div>
                 <div class="form-row">
@@ -85,18 +86,18 @@
                 </div>
                 <div class="form-row">
                     <div class="form-field">
-                        <label for="coFirstName">C.O. First Name</label>
+                        <label for="coFirstName">Crime Officer First Name</label>
                         <input type="text" id="coFirstName" name="coFirstName" placeholder="E.g. John">
                     </div>
                     <div class="form-field">
-                        <label for="coLastName">C.O. Last Name</label>
+                        <label for="coLastName">Crime Officer Last Name</label>
                         <input type="text" id="coLastName" name="coLastName" placeholder="E.g. Smith">
                     </div>
                     <div class="form-field">
-                        <label for="coStatus">C.O. Status</label>
+                        <label for="coStatus">Crime Officer Status</label>
                         <select id="coStatus" name="coStatus">
-                            <option value="">Select</option>
-                            <!-- C.O. status options -->
+                            <option value="A">Active</option>
+                            <option value="I">Inactive</option>
                         </select>
                     </div>
                 </div>
