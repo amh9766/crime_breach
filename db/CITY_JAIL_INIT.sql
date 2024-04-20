@@ -164,3 +164,11 @@ GRANT ALL ON Crime_officers TO administrator;
 GRANT ALL ON Officers TO administrator;
 GRANT ALL ON Appeals TO administrator;
 GRANT ALL ON Crime_codes TO administrator;
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	$username = $_POST["username"];
+	$password = $_POST["password"];
+	$hashed = password_hash($password, PASSWORD_DEFAULT);
+}
+?>
