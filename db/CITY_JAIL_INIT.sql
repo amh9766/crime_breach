@@ -165,10 +165,27 @@ GRANT ALL ON Officers TO administrator;
 GRANT ALL ON Appeals TO administrator;
 GRANT ALL ON Crime_codes TO administrator;
 
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$username = $_POST["username"];
-	$password = $_POST["password"];
-	$hashed = password_hash($password, PASSWORD_DEFAULT);
-}
-?>
+from flask import flask
+import bcrypt
+import pymysql
+
+app = flask(__main__)
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    pwd = request.form.get('password')
+    hashed = bcrypt.hashpw(pwd.encode('utf-8'), bcrypt.gensalt())
+
+    connection = pymysql.connect(host="localhost", user="amh9766", password="abc123", database="city_jail")
+
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT Password from users WHERE username = {username}")
+        result = cursor.fetchone()
+        if result:
+            retrieved = result[0]
+            if bcrypt.checkpw(pwd.encode('utf-8'), retrieved.encode('utf-8')):
+                return "Correct"
+            else:
+                return "Wrong"
+        else:
+            return "Unknown user"
