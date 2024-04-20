@@ -13,13 +13,13 @@
     <main>
         <section class="admin-lookup-results">
             <h2>Officer Lookup: Administrator View</h2>
-            <div class="search-results">
-                <table>
+            <form id="adminOfficerUpdateForm" action="/admin_update_officer" method="POST">
+                <table class="search-results lengthy-table">
                     <thead>
                         <tr>
                             <th>Officer ID</th>
-                            <th>Last</th>
-                            <th>First</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Precinct</th>
                             <th>Badge #</th>
                             <th>Phone</th>
@@ -29,17 +29,23 @@
                     <tbody>
                         <!-- Example row -->
                         <tr>
-                            <td>11223344</td>
-                            <td>Fields</td>
-                            <td>Brooke</td>
-                            <td>NYPD</td>
-                            <td>Y67HM90L1</td>
-                            <td>1304578901</td>
-                            <td>I</td>
+                            <td><div class="form-field"><input type="text" id="officerID" name="officerID" value="213121234"></div></td>
+                            <td><div class="form-field"><input type="text" id="firstName" name="firstName" value="Brooke"></div></td>
+                            <td><div class="form-field"><input type="text" id="lastName" name="lastName" value="Fields"></div></td>
+                            <td><div class="form-field"><input type="text" id="precinct" name="precinct" value="NYPD"></div></td>
+                            <td><div class="form-field"><input type="text" id="badgeID" name="badgeID" value="Y67HM90L1"></div></td>
+                            <td><div class="form-field"><input type="text" id="officerPhone" name="officerPhone" value="Y67HM90L1"></div></td>
+                            <td><div class="form-field">
+                                <select id="officerStatus" name="officerStatus">
+                                    <option value="A">Active</option>
+                                    <option value="I">Inactive</option>
+                                </select>
+                            </div></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </form>
+            <button type="submit" form="adminOfficerUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
         </section>
     </main>
 </body>
