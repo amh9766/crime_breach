@@ -22,7 +22,7 @@ loggedIn = False
 
 mysql = MySQL(app)
 
-# Functions
+# ---- FUNCTIONS ----
 
 def runStatement(statement):
     cursor = mysql.connection.cursor()
@@ -40,7 +40,7 @@ def runSelectStatement(statement):
     cursor.close()
     return df
 
-# Pages
+# ---- PUBLIC/ADMIN PAGES ----
 
 @app.route("/sign_in", methods=["GET", "POST"])
 def sign_in():
@@ -66,6 +66,7 @@ def sign_in():
     else:
         return render_template("index.html")
 
+# ---- PUBLIC PAGES ----
 @app.route("/public/criminal_lookup")
 def public_criminal_lookup():
     return render_template("public_criminal_lookup.html")
@@ -119,22 +120,21 @@ def public_criminal_search():
                 searchRequest += " AND " + criteria[i]
 
     if aliasSearch:
-        #NOTE: change this to a public view table
-        aliasCriteria = table + ".`ID` IN (SELECT Criminal_ID FROM Alias WHERE Alias LIKE \"" + query["alias"] + "\")"
+        aliasCriteria = table + ".`ID` IN (SELECT ID FROM alias_publicview WHERE Alias LIKE \"" + query["alias"] + "\")"
         if len(criteria) == 0:
             searchRequest += aliasCriteria
         else:
             searchRequest += " AND " + aliasCriteria
 
     if sentenceStartSearch:
-        sentenceStartCriteria = table + ".`ID` IN (SELECT Criminal_ID FROM Sentences WHERE Start_date >= DATE(" + query["sentenceStart"] + "))"
+        sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE Start >= DATE(" + query["sentenceStart"] + "))"
         if len(criteria) == 0 and not aliasSearch:
             searchRequest += sentenceStartCriteria
         else:
             searchRequest += " AND " + sentenceStartCriteria
 
     if sentenceEndSearch:
-        sentenceStartCriteria = table + ".`ID` IN (SELECT Criminal_ID FROM Sentences WHERE End_date <= DATE(" + query["sentenceEnd"] + "))"
+        sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
         if len(criteria) == 0 and (not aliasSearch and not sentenceStartSearch):
             searchRequest += sentenceStartCriteria
         else:
@@ -142,27 +142,40 @@ def public_criminal_search():
 
     searchRequest += ";"
     # DEBUG: Console print to view the end-result SQL query
-    print(searchRequest)
+    #print(searchRequest)
 
     searchDF = runSelectStatement(searchRequest)
     searchList = searchDF.values.tolist()
 
     # Remove duplicates from observed IDs
     idList = list(set(searchDF["ID"].tolist()));
-    print(idList)
+    #print(idList)
+
+    sList, sLabels = getSentencesList(idList)
 
     return render_template("public_criminal_lookup_output.html",
-                           data=searchList, aliases=getAliasList(idList))
+                           data=searchList, aliases=getAliasList(idList),
+                           sentences=sList, sentenceLabels=sLabels)
 
 def getAliasList(ids):
-    # NOTE: change this to a public view table
-    aliasRequest = "SELECT Alias FROM Alias WHERE Criminal_ID = "
+    aliasRequest = "SELECT Alias FROM alias_publicview WHERE ID = "
     aliasList = []
     for crimID in ids:
-        aliasList.append(runSelectStatement(aliasRequest + str(crimID))["Alias"].tolist())
+        aliasList.append(runSelectStatement(aliasRequest + str(crimID) + ";")["Alias"].tolist())
     # DEBUG: Console print to view the list of aliases
     #print(aliasList)
     return aliasList
+
+def getSentencesList(ids):
+    sentencesRequest = "SELECT Type, Start, End FROM sentences_publicview WHERE ID = "
+    sentencesList = []
+    for crimID in ids:
+        sentencesList.append(runSelectStatement(sentencesRequest + str(crimID) +
+                                                ";").values.tolist())
+    # DEBUG: Console print to view the list of sentences
+    #print(sentencesList)
+    sentenceLabels = ["Type", "Start Date", "End Date"]
+    return sentencesList, sentenceLabels
 
 @app.route("/public/criminal_lookup/view_all")
 def public_criminal_view_all():
@@ -175,8 +188,11 @@ def public_criminal_view_all():
     # Remove duplicates from observed IDs
     idList = list(set(searchDF["ID"].tolist()));
 
+    sList, sLabels = getSentencesList(idList)
+
     return render_template("public_criminal_lookup_output.html",
-                           data=searchList, aliases=getAliasList(idList))
+                           data=searchList, aliases=getAliasList(idList),
+                           sentences=sList, sentenceLabels=sLabels)
 
 @app.route("/public/crime_lookup/")
 def public_crime_lookup():

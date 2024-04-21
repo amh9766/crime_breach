@@ -101,11 +101,26 @@ CREATE TABLE Appeals(
     PRIMARY KEY (Appeal_ID)
 );
 
+CREATE TABLE Users(
+    Username VARCHAR(10),
+    Passwodd VARCHAR(256),
+    PRIMARY KEY (Username)
+);
+
 CREATE VIEW criminals_publicview AS
 SELECT Criminals.Criminal_ID AS "ID", Last AS "Last Name", 
     First AS "First Name", V_status AS "Violent Offender?", 
     P_status AS "On Probation?"
 FROM Criminals;
+
+CREATE VIEW alias_publicview AS
+SELECT Alias.Criminal_ID AS "ID", Alias
+FROM Alias;
+
+CREATE VIEW sentences_publicview AS
+SELECT Sentences.Criminal_ID AS "ID", Start_date AS "Start",
+    End_date AS "End", Type
+FROM Sentences;
 
 CREATE VIEW officer_publicview AS
 SELECT Badge AS "Badge #", Last AS "Last Name", First AS "First Name", Precinct,
@@ -121,8 +136,6 @@ LEFT JOIN Crime_charges
 ON Crimes.Crime_ID = Crime_charges.Crime_ID
 INNER JOIN Criminals
 ON Crimes.Criminal_ID = Criminals.Criminal_ID
-LEFT JOIN Alias
-ON Criminals.Criminal_ID = Alias.Criminal_ID;
 
 CREATE VIEW criminals_privateview AS (SELECT Criminals.Criminal_ID AS "Criminal ID", Criminals.Last AS "Criminal Last", Criminals.First AS "Criminal First", 
 Criminals.Street AS "Criminal Street", Criminals.City AS "Criminal City", Criminals.State AS "Criminal State", Criminals.Zip AS "Criminal Zip", Criminals.Phone AS "Criminal Phone", 
@@ -153,6 +166,7 @@ GRANT SELECT ON Crime_charges TO everyone;
 GRANT SELECT ON Officers TO everyone;
 GRANT SELECT ON Crimes TO everyone;
 GRANT SELECT ON criminals_ublic TO everyone;
+
 
 GRANT ALL ON Alias TO administrator;
 GRANT ALL ON Criminals TO administrator;

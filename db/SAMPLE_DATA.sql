@@ -178,3 +178,8 @@ VALUES
 (9, 1, '2020-08-08', '2020-08-12', 'D'),
 (10, 5, '2008-09-27', '2008-10-17', 'D');
 
+INSERT INTO Users(Username, Password)
+VALUES
+("amh9766", "6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090"),
+("skb5278", "8f61ad5cfa0c471c8cbf810ea285cb1e5f9c2c5e5e5e4f58a3229667703e1587"),
+("tm3721", "5eb9480d37ff7490f465d5fad3b425fe4a4c65b46fd4eef160cb1b644df7f1e8");
