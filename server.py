@@ -6,6 +6,13 @@ import pandas as pd
 app = Flask(__name__)
 hashing = Hashing(app)
 
+# "everyone" user account is used for general public usage of app
+# "administrator" user account is used when logged in
+# For demonstration purposes, their passwords will be:
+#   "everyone" -> "every1"
+#   "administrator" -> "adm!n"
+# This is entirely done in MySQL, the commands for which are provided.
+
 app.config["MYSQL_HOST"] = "127.0.0.1"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
@@ -33,21 +40,31 @@ def runSelectStatement(statement):
     cursor.close()
     return df
 
-@app.route("/yup")
-def test():
-    app.config.update(
-            MYSQL_USER="amh9766",
-            MYSQL_PASSWORD="abc123"
-            )
-
-    return runSelectStatement("SELECT * FROM Criminals;").to_json()
-
 # Pages
 
-@app.route("/sign_in")
+@app.route("/sign_in", methods=["GET", "POST"])
 def sign_in():
+    if request.method == "POST":
+        form = request.form.to_dict()
 
-    return render_template("index.html")
+        # SHA256 hashing on password on backend and in database
+        searchRequest = "SELECT COUNT(*) FROM users WHERE Username LIKE \"" + form["userID"] + "\" AND Password LIKE \"" + hashing.hash_value(form["password"]) + "\";"
+        searchResult = runSelectStatement(searchRequest)["COUNT(*)"][0]
+
+        if searchResult == 0:
+            return redirect("/sign_in")
+        else:
+            loggedIn = True
+
+            app.config.update(
+                MYSQL_USER="everyone",
+                MYSQL_PASSWORD="every1"
+            )
+            
+            #NOTE: Change this to home page when there is one
+            return redirect("/public/criminal_lookup")
+    else:
+        return render_template("index.html")
 
 @app.route("/public/criminal_lookup")
 def public_criminal_lookup():
@@ -73,9 +90,15 @@ def public_criminal_search():
     criteria = []
 
     aliasSearch = False
+    sentenceStartSearch = False
+    sentenceEndSearch = False
 
     if query["alias"] != "":
         aliasSearch = True
+    if query["sentenceStart"] != "":
+        sentenceStartSearch = True
+    if query["sentenceEnd"] != "":
+        sentenceEndSearch = True
 
     if query["firstName"] != "":
         criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
@@ -102,6 +125,20 @@ def public_criminal_search():
             searchRequest += aliasCriteria
         else:
             searchRequest += " AND " + aliasCriteria
+
+    if sentenceStartSearch:
+        sentenceStartCriteria = table + ".`ID` IN (SELECT Criminal_ID FROM Sentences WHERE Start_date >= DATE(" + query["sentenceStart"] + "))"
+        if len(criteria) == 0 and not aliasSearch:
+            searchRequest += sentenceStartCriteria
+        else:
+            searchRequest += " AND " + sentenceStartCriteria
+
+    if sentenceEndSearch:
+        sentenceStartCriteria = table + ".`ID` IN (SELECT Criminal_ID FROM Sentences WHERE End_date <= DATE(" + query["sentenceEnd"] + "))"
+        if len(criteria) == 0 and (not aliasSearch and not sentenceStartSearch):
+            searchRequest += sentenceStartCriteria
+        else:
+            searchRequest += " AND " + sentenceStartCriteria
 
     searchRequest += ";"
     # DEBUG: Console print to view the end-result SQL query
