@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Public Officer Lookup - Crime Breach</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="/components/navbar/navbar.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
     <main>
         <section class="search-section">
             <h2>Officer Lookup: Public Search</h2>
-            <form id="publicOfficerSearchForm" action="/public_search_officers" method="GET" class="search-form">
+            <form id="publicOfficerSearchForm" action="/public/officer_lookup/search" method="GET" class="search-form">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="badgeNumber">Badge #</label>
@@ -39,6 +39,7 @@
                     <div class="form-field">
                         <label for="status">Status</label>
                         <select id="status" name="status">
+                            <option value="">Select</option>
                             <option value="A">Active</option>
                             <option value="I">Inactive</option>
                         </select>
@@ -46,7 +47,8 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">View Results</button>
-                    <button type="submit" class="btn-view">View All Records</button>
+                    <button type="button"
+                        onclick="location.href='/public/officer_lookup/view_all'" class="btn-view">View All Records</button>
                 </div>
             </form>
         </section>

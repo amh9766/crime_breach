@@ -37,7 +37,7 @@ def runSelectStatement(statement):
 def test():
     app.config.update(
             MYSQL_USER="amh9766",
-            MYSQL_PASSWORD="*6691484EA6B50DDDE1926A220DA01FA9E575C18A"
+            MYSQL_PASSWORD="abc123"
             )
 
     return runSelectStatement("SELECT * FROM Criminals;").to_json()
@@ -50,11 +50,11 @@ def sign_in():
     return render_template("index.html")
 
 @app.route("/public/criminal_lookup")
-def public_crim_lookup():
+def public_criminal_lookup():
     return render_template("public_criminal_lookup.html")
 
 @app.route("/public/criminal_lookup/search")
-def public_crim_search():
+def public_criminal_search():
     query = request.args.to_dict()
 
     # Check if query is empty; if so, default to viewing all entries
@@ -73,6 +73,7 @@ def public_crim_search():
     criteria = []
 
     if query["alias"] != "":
+        # NOTE: raise flag and only provide list created later
         criteria.append(table + ".`Alias` LIKE \"" + query["alias"] + "\"")
     if query["firstName"] != "":
         criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
@@ -92,18 +93,108 @@ def public_crim_search():
             else:
                 searchRequest += " AND " + criteria[i]
 
-    #if query["city"] != "":
-    #    criteria.append(table + ".`` LiKE \"" + query["city"] + "\"")
+    # DEBUG: Console print to view the end-result SQL query
+    #print(searchRequest)
 
-    searchRequest += ";"
+    searchDF = runSelectStatement(searchRequest)
+    searchList = searchDF.values.tolist()
 
-    print(searchRequest)
+    # Remove duplicates from observed IDs
+    idList = list(set(searchDF["ID"].tolist()));
+    print(idList)
 
-    return runSelectStatement(searchRequest).to_json() 
+    return render_template("public_criminal_lookup_output.html",
+                           data=searchList, aliases=getAliasList(idList))
+
+def getAliasList(ids):
+    # NOTE: change this to a public view table
+    aliasRequest = "SELECT Alias FROM Alias WHERE Criminal_ID = "
+    aliasList = []
+    for crimID in ids:
+        aliasList.append(runSelectStatement(aliasRequest + str(crimID))["Alias"].tolist())
+    # DEBUG: Console print to view the list of aliases
+    #print(aliasList)
+    return aliasList
 
 @app.route("/public/criminal_lookup/view_all")
-def public_crim_view_all():
-    return runSelectStatement("SELECT * FROM criminals_publicview;").to_json()
+def public_criminal_view_all():
+    table = "criminals_publicview"
+    searchRequest = "SELECT * FROM " + table;
+
+    searchDF = runSelectStatement(searchRequest)
+    searchList = searchDF.values.tolist()
+
+    # Remove duplicates from observed IDs
+    idList = list(set(searchDF["ID"].tolist()));
+
+    return render_template("public_criminal_lookup_output.html",
+                           data=searchList, aliases=getAliasList(idList))
+
+@app.route("/public/crime_lookup/")
+def public_crime_lookup():
+    return render_template("public_crime_lookup.html")
+
+@app.route("/public/crime_lookup/search")
+def public_crime_search():
+    return render_template("public_crime_lookup_output.html")
+
+@app.route("/public/officer_lookup/")
+def public_officer_lookup():
+    return render_template("public_officer_lookup.html")
+
+@app.route("/public/officer_lookup/search")
+def public_officer_search():
+    query = request.args.to_dict()
+
+    # Check if query is empty; if so, default to viewing all entries
+    empty = True 
+    for values in query.values():
+        if not values == "":
+            empty = False
+            break
+
+    if empty:
+        return redirect("/public/officer_lookup/view_all")
+
+    table = "officer_publicview"
+    searchRequest = "SELECT * FROM " + table + " WHERE "
+
+    criteria = []
+
+    if query["badgeNumber"] != "":
+        criteria.append(table + ".`Badge #` LIKE \"" + query["badgeNumber"] + "\"")
+    if query["firstName"] != "":
+        criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
+    if query["lastName"] != "":
+        criteria.append(table + ".`Last Name` LIKE \"" + query["lastName"] + "\"")
+    if query["precinct"] != "":
+        criteria.append(table + ".`Precinct` LIKE \"" + query["precinct"] + "\"")
+    if query["status"] != "":
+        criteria.append(table + ".`Status` LIKE \"" + query["status"] + "\"")
+
+    if len(criteria) == 1:
+        searchRequest += criteria[0]
+    else:
+        for i in range(0, len(criteria)):
+            if i == 0:
+                searchRequest += criteria[i]
+            else:
+                searchRequest += " AND " + criteria[i]
+
+    # DEBUG: Console print to view the end-result SQL query
+    #print(searchRequest)
+
+    searchList = runSelectStatement(searchRequest).values.tolist()
+
+    return render_template("public_officer_lookup_output.html",
+                           data=searchList)
+
+@app.route("/public/officer_lookup/view_all")
+def public_officer_view_all():
+    table = "officer_publicview"
+    searchRequest = "SELECT * FROM " + table;
+    return render_template("public_officer_lookup_output.html",
+                           data=runSelectStatement(searchRequest).values.tolist())
 
 # Redirects
 @app.route("/")

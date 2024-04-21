@@ -102,11 +102,10 @@ CREATE TABLE Appeals(
 );
 
 CREATE VIEW criminals_publicview AS
-SELECT Last AS "Last Name", First AS "First Name", V_status AS 
-    "Violent Offender?", P_status AS "On Probation?", Alias
-FROM Criminals
-LEFT JOIN Alias
-ON Criminals.Criminal_ID = Alias.Criminal_ID;
+SELECT Criminals.Criminal_ID AS "ID", Last AS "Last Name", 
+    First AS "First Name", V_status AS "Violent Offender?", 
+    P_status AS "On Probation?"
+FROM Criminals;
 
 CREATE VIEW officer_publicview AS
 SELECT Badge AS "Badge #", Last AS "Last Name", First AS "First Name", Precinct,
@@ -164,28 +163,3 @@ GRANT ALL ON Crime_officers TO administrator;
 GRANT ALL ON Officers TO administrator;
 GRANT ALL ON Appeals TO administrator;
 GRANT ALL ON Crime_codes TO administrator;
-
-from flask import flask
-import bcrypt
-import pymysql
-
-app = flask(__main__)
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form.get('username')
-    pwd = request.form.get('password')
-    hashed = bcrypt.hashpw(pwd.encode('utf-8'), bcrypt.gensalt())
-
-    connection = pymysql.connect(host="localhost", user="amh9766", password="abc123", database="city_jail")
-
-    with connection.cursor() as cursor:
-        cursor.execute(f"SELECT Password from users WHERE username = {username}")
-        result = cursor.fetchone()
-        if result:
-            retrieved = result[0]
-            if bcrypt.checkpw(pwd.encode('utf-8'), retrieved.encode('utf-8')):
-                return "Correct"
-            else:
-                return "Wrong"
-        else:
-            return "Unknown user"

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Public Criminal Lookup Results - Crime Breach</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="/components/navbar/navbar.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
@@ -17,24 +17,23 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Last</th>
-                            <th>First</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
                             <th>Violent Offender?</th>
                             <th>On Probation?</th>
-                            <th>Aliases</th>
-                            <th>Sentences Information</th>
+                            <th>Alias(es)</th>
+                            <th>Sentence(s) Information</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example row -->
-                        <tr>
-                            <td>Smith</td>
-                            <td>John</td>
-                            <td>Y</td>
-                            <td>N</td>
-                            <td>Jones</td>
+                        {% for i in range(data| length) %}<tr>
+                            <td>{{ data[i][1] }}</td>
+                            <td>{{ data[i][2] }}</td>
+                            <td>{{ data[i][3] }}</td>
+                            <td>{{ data[i][4] }}</td>
+                            <td> {% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{%else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</td>
                             <td>Type: J<br>Start Date: 2023-01-06<br>End Date: 2023-03-01</td>
-                        </tr>
+                        </tr>{% endfor %}
                     </tbody>
                 </table>
             </div>
