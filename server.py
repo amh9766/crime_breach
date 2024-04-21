@@ -101,6 +101,9 @@ def sign_in():
     else:
         return render_template("index.html")
 
+# ---- ADMIN PAGES ----
+@app.route
+
 # ---- PUBLIC PAGES ----
 @app.route("/public/criminal_lookup")
 def public_criminal_lookup():
@@ -275,21 +278,21 @@ def public_crime_search():
             searchRequest += " AND " + aliasCriteria
 
     if hearingSearch:
-        hearingCriteria = table + ".`Crime ID` IN (SELECT ID FROM " + table + " WHERE " + table + ".`Hearing Date` >= DATE(" + query["hearingDate"] + ")"
+        hearingCriteria = table + ".`Crime ID` IN (SELECT `Crime ID` FROM " + table + " WHERE " + table + ".`Hearing Date` >= DATE(\"" + query["hearingDate"] + "\"))"
         if len(criteria) == 0 and not aliasSearch:
             searchRequest += hearingCriteria
         else:
             searchRequest += " AND " + hearingCriteria 
 
     if chargedSearch:
-        chargedCriteria = table + ".`Crime ID` IN (SELECT ID FROM " + table + " WHERE " + table + ".`Date Charged` >= DATE(" + query["dateCharged"] + ")"
+        chargedCriteria = table + ".`Crime ID` IN (SELECT `Crime ID` FROM " + table + " WHERE " + table + ".`Date Charged` >= DATE(\"" + query["dateCharged"] + "\"))"
         if len(criteria) == 0 and (not aliasSearch and not hearingSearch):
             searchRequest += chargedCritera
         else:
             searchRequest += " AND " + chargedCriteria
 
     if statusSearch:
-        statusCriteria = table + ".`Crime ID` IN (SELECT ID FROM charges_publicview WHERE Status LIKE \"" + query["chargeStatus"] + "\")"
+        statusCriteria = table + ".`Crime ID` IN (SELECT `Crime ID` FROM charges_publicview WHERE Status LIKE \"" + query["chargeStatus"] + "\")"
         if len(criteria) == 0 and (not aliasSearch and (not hearingSearch and not chargedSearch)):
             searchRequest += statusCriteria
         else:
@@ -304,7 +307,7 @@ def public_crime_search():
     
     searchRequest += ";"
     # DEBUG: Console print to view the end-result SQL query
-    #print(searchRequest)
+    print(searchRequest)
 
     searchDF = runSelectStatement(searchRequest)
     searchList = searchDF.values.tolist()
@@ -401,6 +404,7 @@ def root_redirect():
     if not loggedIn:
         return redirect("/sign_in")
     else:
+        #NOTE: Make home page
         return redirect("/public/criminal_lookup")
 
 @app.route("/crime")
