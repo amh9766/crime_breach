@@ -128,14 +128,19 @@ SELECT Badge AS "Badge #", Last AS "Last Name", First AS "First Name", Precinct,
 FROM Officers;
 
 CREATE VIEW crime_publicview AS
-SELECT Last AS "Last Name", First AS "First Name", Alias, Classification,
-    Date_charged AS "Date Charged", Status, Hearing_date AS "Hearing Date",
-    Charge_status AS "Charge Status"
+SELECT Criminals.Criminal_ID AS "Criminal ID", Last AS "Last Name", First AS "First Name",
+    Classification, Date_charged AS "Date Charged", Status, Hearing_date AS "Hearing Date",
+    Crimes.Crime_ID AS "Crime ID"
 FROM Crimes
-LEFT JOIN Crime_charges
-ON Crimes.Crime_ID = Crime_charges.Crime_ID
 INNER JOIN Criminals
 ON Crimes.Criminal_ID = Criminals.Criminal_ID
+
+CREATE VIEW charges_publicview AS
+SELECT Crime_charges.Crime_ID AS "ID", Crime_codes.Crime_code AS "Code",
+    Code_description AS "Description", Charge_status AS "Status"
+FROM Crime_charges 
+INNER JOIN Crime_codes
+ON Crime_charges.Crime_code = Crime_codes.Crime_code
 
 CREATE VIEW criminals_privateview AS (SELECT Criminals.Criminal_ID AS "Criminal ID", Criminals.Last AS "Criminal Last", Criminals.First AS "Criminal First", 
 Criminals.Street AS "Criminal Street", Criminals.City AS "Criminal City", Criminals.State AS "Criminal State", Criminals.Zip AS "Criminal Zip", Criminals.Phone AS "Criminal Phone", 

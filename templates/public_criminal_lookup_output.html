@@ -37,7 +37,7 @@
                                 {{ sentences[i][k][l] }}<br>{% endfor %} {% else %}
                                 <br>{% for l in range(sentences[i][k]| length) %}
                                 {{ sentenceLabels[l] }}:
-                                {{ sentences[i][k][l] }} <br>{% endfor %}{% endif %}{% endfor %}
+                                {{ sentences[i][k][l] }}<br>{% endfor %}{%endif %}{% endfor %}</td>
                         </tr>{% endfor %}
                     </tbody>
                 </table>

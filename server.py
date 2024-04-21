@@ -40,6 +40,36 @@ def runSelectStatement(statement):
     cursor.close()
     return df
 
+def getAliasList(ids):
+    aliasRequest = "SELECT Alias FROM alias_publicview WHERE ID = "
+    aliasList = []
+    for crimID in ids:
+        aliasList.append(runSelectStatement(aliasRequest + str(crimID) + ";")["Alias"].tolist())
+    # DEBUG: Console print to view the list of aliases
+    #print(aliasList)
+    return aliasList
+
+def getSentencesList(ids):
+    sentencesRequest = "SELECT Type, Start, End FROM sentences_publicview WHERE ID = "
+    sentencesList = []
+    for crimID in ids:
+        sentencesList.append(runSelectStatement(sentencesRequest + str(crimID) +
+                                                ";").values.tolist())
+    # DEBUG: Console print to view the list of sentences
+    #print(sentencesList)
+    sentenceLabels = ["Type", "Start Date", "End Date"]
+    return sentencesList, sentenceLabels
+
+def getCrimeCharges(ids):
+    chargesRequest = "SELECT Code, Description, Status FROM charges_publicview WHERE ID = "
+    chargesList = []
+    for crimID in ids:
+        chargesList.append(runSelectStatement(chargesRequest + str(crimID) +
+                                              ";").values.tolist())
+    # DEBUG: Console print to view the list of charges 
+    print(chargesList)
+    return chargesList 
+
 # ---- PUBLIC/ADMIN PAGES ----
 
 @app.route("/sign_in", methods=["GET", "POST"])
@@ -57,8 +87,8 @@ def sign_in():
             loggedIn = True
 
             app.config.update(
-                MYSQL_USER="everyone",
-                MYSQL_PASSWORD="every1"
+                MYSQL_USER="administrator",
+                MYSQL_PASSWORD="adm!n"
             )
             
             #NOTE: Change this to home page when there is one
@@ -157,26 +187,6 @@ def public_criminal_search():
                            data=searchList, aliases=getAliasList(idList),
                            sentences=sList, sentenceLabels=sLabels)
 
-def getAliasList(ids):
-    aliasRequest = "SELECT Alias FROM alias_publicview WHERE ID = "
-    aliasList = []
-    for crimID in ids:
-        aliasList.append(runSelectStatement(aliasRequest + str(crimID) + ";")["Alias"].tolist())
-    # DEBUG: Console print to view the list of aliases
-    #print(aliasList)
-    return aliasList
-
-def getSentencesList(ids):
-    sentencesRequest = "SELECT Type, Start, End FROM sentences_publicview WHERE ID = "
-    sentencesList = []
-    for crimID in ids:
-        sentencesList.append(runSelectStatement(sentencesRequest + str(crimID) +
-                                                ";").values.tolist())
-    # DEBUG: Console print to view the list of sentences
-    #print(sentencesList)
-    sentenceLabels = ["Type", "Start Date", "End Date"]
-    return sentencesList, sentenceLabels
-
 @app.route("/public/criminal_lookup/view_all")
 def public_criminal_view_all():
     table = "criminals_publicview"
@@ -185,7 +195,7 @@ def public_criminal_view_all():
     searchDF = runSelectStatement(searchRequest)
     searchList = searchDF.values.tolist()
 
-    # Remove duplicates from observed IDs
+    # Remove potential duplicates from observed IDs
     idList = list(set(searchDF["ID"].tolist()));
 
     sList, sLabels = getSentencesList(idList)
@@ -200,7 +210,127 @@ def public_crime_lookup():
 
 @app.route("/public/crime_lookup/search")
 def public_crime_search():
-    return render_template("public_crime_lookup_output.html")
+    query = request.args.to_dict()
+
+    # Check if query is empty; if so, default to viewing all entries
+    empty = True 
+    for values in query.values():
+        if not values == "":
+            empty = False
+            break
+
+    if empty:
+        return redirect("/public/crime_lookup/view_all")
+
+    table = "crime_publicview"
+    searchRequest = "SELECT * FROM " + table + " WHERE "
+
+    criteria = []
+
+    aliasSearch = False
+    hearingSearch = False
+    chargedSearch = False
+    statusSearch = False
+    codeSearch = False
+
+    if query["alias"] != "":
+        aliasSearch = True
+    if query["hearingDate"] != "":
+        hearingSearch = True
+    if query["dateCharged"] != "":
+        chargedSearch = True
+    if query["chargeStatus"] != "":
+        statusSearch = True
+    if query["crimeCode"] != "":
+        codeSearch = True
+
+    if query["firstName"] != "":
+        criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
+    if query["lastName"] != "":
+        criteria.append(table + ".`Last Name` LIKE \"" + query["lastName"] + "\"")
+    if query["status"] != "":
+        criteria.append(table + ".`Status` LIKE \"" + query["status"] + "\"")
+    if query["classification"] != "":
+        criteria.append(table + ".`Classification` LIKE \"" + query["classification"] + "\"")
+
+    if len(criteria) == 1:
+        searchRequest += criteria[0]
+    else:
+        for i in range(0, len(criteria)):
+            if i == 0:
+                searchRequest += criteria[i]
+            else:
+                searchRequest += " AND " + criteria[i]
+
+    if aliasSearch:
+        aliasCriteria = table + ".`Criminal ID` IN (SELECT ID FROM alias_publicview WHERE Alias LIKE \"" + query["alias"] + "\")"
+        if len(criteria) == 0:
+            searchRequest += aliasCriteria
+        else:
+            searchRequest += " AND " + aliasCriteria
+
+    if hearingSearch:
+        hearingCriteria = table + ".`Crime ID` IN (SELECT ID FROM " + table + " WHERE " + table + ".`Hearing Date` >= DATE(" + query["hearingDate"] + ")"
+        if len(criteria) == 0 and not aliasSearch:
+            searchRequest += hearingCriteria
+        else:
+            searchRequest += " AND " + hearingCriteria 
+
+    if chargedSearch:
+        chargedCriteria = table + ".`Crime ID` IN (SELECT ID FROM " + table + " WHERE " + table + ".`Date Charged` >= DATE(" + query["dateCharged"] + ")"
+        if len(criteria) == 0 and (not aliasSearch and not hearingSearch):
+            searchRequest += chargedCritera
+        else:
+            searchRequest += " AND " + chargedCriteria
+
+    if statusSearch:
+        statusCriteria = table + ".`Crime ID` IN (SELECT ID FROM charges_publicview WHERE Status LIKE \"" + query["status"] + "\")"
+        if len(criteria) == 0 and (not aliasSearch and (not hearingSearch and not chargedSearch)):
+            searchRequest += statusCriteria
+        else:
+            searchRequest += " AND " + statusCriteria
+
+    if codeSearch:
+        codeCriteria = table + ".`Crime ID` IN (SELECT ID from charges_publicview WHERE Code = " + query["crimeCode"] + ")"
+        if len(criteria) == 0 and (not aliasSearch and (not hearingSearch and (not chargedSearch and not statusSearch))):
+            searchRequest += codeCritiera 
+        else:
+            searchRequest += " AND " + codeCriteria 
+    
+    searchRequest += ";"
+    # DEBUG: Console print to view the end-result SQL query
+    #print(searchRequest)
+
+    searchDF = runSelectStatement(searchRequest)
+    searchList = searchDF.values.tolist()
+
+    # No necessity to remove duplicates since the view is on a per crime basis
+    # as opposed to a per criminal basis
+    criminalIDList = searchDF["Criminal ID"].tolist()
+    crimeIDList = searchDF["Crime ID"].tolist()
+
+    return render_template("public_crime_lookup_output.html",
+                           data=searchList,
+                           aliases=getAliasList(criminalIDList),
+                           charges=getCrimeCharges(crimeIDList))
+
+@app.route("/public/crime_lookup/view_all")
+def public_crime_view_all():
+    table = "crime_publicview"
+    searchRequest = "SELECT * FROM " + table + ";"
+
+    searchDF = runSelectStatement(searchRequest)
+    searchList = searchDF.values.tolist()
+
+    # No necessity to remove duplicates since the view is on a per crime basis
+    # as opposed to a per criminal basis
+    criminalIDList = searchDF["Criminal ID"].tolist()
+    crimeIDList = searchDF["Crime ID"].tolist()
+
+    return render_template("public_crime_lookup_output.html",
+                           data=searchList,
+                           aliases=getAliasList(criminalIDList),
+                           charges=getCrimeCharges(crimeIDList))
 
 @app.route("/public/officer_lookup/")
 def public_officer_lookup():

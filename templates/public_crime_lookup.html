@@ -49,6 +49,7 @@
                     <div class="form-field">
                         <label for="status">Status</label>
                         <select id="status" name="status">
+                            <option value="">Select</option>
                             <option value="CL">CL</option>
                             <option value="CA">CA</option>
                             <option value="IA">IA</option>
@@ -59,6 +60,7 @@
                     <div class="form-field">
                         <label for="chargeStatus">Charge Status</label>
                         <select id="chargeStatus" name="chargeStatus">
+                            <option value="">Select</option>
                             <option value="PD">Pending</option>
                             <option value="GL">Guilty</option>
                             <option value="NG">Not Guilty</option>
@@ -67,6 +69,7 @@
                     <div class="form-field">
                         <label for="classification">Classification</label>
                         <select id="classification" name="classification">
+                            <option value="">Select</option>
                             <option value="F">Felony</option>
                             <option value="M">Misdemeanor</option>
                             <option value="O">Other</option>
@@ -90,6 +93,7 @@
                     <div class="form-field">
                         <label for="coStatus">Crime Officer Status</label>
                         <select id="coStatus" name="coStatus">
+                            <option value="">Select</option>
                             <option value="A">Active</option>
                             <option value="I">Inactive</option>
                         </select>
@@ -97,7 +101,8 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">View Results</button>
-                    <button type="submit" class="btn-view">View All Records</button>
+                    <button type="button"
+                        onclick="location.href='/public/crime_lookup/view_all'" class="btn-view">View All Records</button>
                 </div>
             </form>
         </section>
