@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
 from flask_hashing import Hashing
 import pandas as pd
+import sys
 
 app = Flask(__name__)
 hashing = Hashing(app)
@@ -259,6 +260,209 @@ def public_officer_view_all():
     searchRequest = "SELECT * FROM " + table;
     return render_template("public_officer_lookup_output.html",
                            data=runSelectStatement(searchRequest).values.tolist())
+
+# ---- ADMIN PAGES ----
+@app.route("/admin/crime_lookup/")
+def admin_crime_lookup():
+    return render_template("admin_crime_lookup.html")
+
+@app.route("/admin/crime_lookup/search")
+def admin_crime_search():
+    return render_template("admin_crime_lookup_output.html")
+
+@app.route("/admin/crime_lookup/view_all")
+def admin_crime_view_all():
+    return render_template("admin_crime_lookup_output.html")
+
+@app.route("/admin/officer_lookup/")
+def admin_officer_lookup():
+    return render_template("admin_officer_lookup.html")
+
+@app.route("/admin/officer_lookup/search")
+def admin_officer_search():
+    return render_template("admin_officer_lookup_output.html")
+
+@app.route("/admin/officer_lookup/view_all")
+def admin_officer_view_all():
+    return render_template("admin_officer_lookup_output.html")
+
+@app.route("/admin/criminal_lookup/")
+def admin_criminal_lookup():
+    return render_template("admin_criminal_lookup.html")
+
+@app.route("/admin/criminal_lookup/search")
+def admin_criminal_search():
+    query = request.args.to_dict()
+    print(query)
+
+    # Check if query is empty; if so, default to viewing all entries
+    empty = True 
+    for values in query.values():
+        if not values == "":
+            empty = False
+            break
+
+    if empty:
+        return redirect("/admin/criminal_lookup/view_all")
+
+    table = "criminals_privateview"
+    searchRequest = "SELECT * FROM " + table + " WHERE "
+
+    criteria = []
+
+    aliasSearch = False
+    sentenceStartSearch = False
+    sentenceEndSearch = False
+
+    criminalIdSearch = False
+    aliasIdSearch = False
+    sentenceIdSearch = False
+    poIdSearch = False
+
+
+
+    if query["criminalID"] != None:
+        criminalIdSearch = True
+    if query["aliasID"] != None:
+        aliasIdSearch = True
+    if query["sentenceID"] != None:
+        sentenceIdSearch = True
+    if query["poID"] != None:
+        poIdSearch = True
+
+    # perform the following if we are searching on ID
+    if criminalIdSearch or aliasIdSearch or sentenceIdSearch or poIdSearch:
+        print("HERE")
+        print(query["criminalID"])
+        if criminalIdSearch:
+            criteria.append(table + ".`Criminal ID` = " + query["criminalID"] + "")
+
+        if len(criteria) == 1:
+            searchRequest += criteria[0]
+        else:
+            for i in range(0, len(criteria)):
+                if i == 0:
+                    searchRequest += criteria[i]
+                else:
+                    searchRequest += " AND " + criteria[i]
+
+        searchRequest += ";"
+
+        # DEBUG: Console print to view the end-result SQL query
+        print(searchRequest)
+
+        searchDF = runSelectStatement(searchRequest)
+        searchList = searchDF.values.tolist()
+        print(searchList)
+
+        # Remove duplicates from observed IDs
+        idList = list(set(searchDF["Criminal ID"].tolist()));
+        print(idList)
+
+        # sList, sLabels = getSentencesList(idList)
+
+    # otherwise, perform the following if we are searching on other criteria
+    else:
+        print("HERE 2")
+        if query["alias"] != "":
+            aliasSearch = True
+        if query["sentenceStart"] != "":
+            sentenceStartSearch = True
+        if query["sentenceEnd"] != "":
+            sentenceEndSearch = True
+
+        if query["firstName"] != "":
+            criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
+        if query["lastName"] != "":
+            criteria.append(table + ".`Last Name` LIKE \"" + query["lastName"] + "\"")
+        if query["violent"] != "":
+            criteria.append(table + ".`Violent Offender?` LIKE \"" + query["violent"] + "\"")
+        if query["probation"] != "":
+            criteria.append(table + ".`On Probation?` LIKE \"" + query["probation"] + "\"")
+
+        if len(criteria) == 1:
+            searchRequest += criteria[0]
+        else:
+            for i in range(0, len(criteria)):
+                if i == 0:
+                    searchRequest += criteria[i]
+                else:
+                    searchRequest += " AND " + criteria[i]
+
+        if aliasSearch:
+            aliasCriteria = table + ".`ID` IN (SELECT ID FROM alias_privateview WHERE Alias LIKE \"" + query["alias"] + "\")"
+            if len(criteria) == 0:
+                searchRequest += aliasCriteria
+            else:
+                searchRequest += " AND " + aliasCriteria
+
+        if sentenceStartSearch:
+            sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_privateview WHERE Start >= DATE(" + query["sentenceStart"] + "))"
+            if len(criteria) == 0 and not aliasSearch:
+                searchRequest += sentenceStartCriteria
+            else:
+                searchRequest += " AND " + sentenceStartCriteria
+
+        if sentenceEndSearch:
+            sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_privateview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
+            if len(criteria) == 0 and (not aliasSearch and not sentenceStartSearch):
+                searchRequest += sentenceStartCriteria
+            else:
+                searchRequest += " AND " + sentenceStartCriteria
+
+        searchRequest += ";"
+        # DEBUG: Console print to view the end-result SQL query
+        print(searchRequest)
+
+        searchDF = runSelectStatement(searchRequest)
+        searchList = searchDF.values.tolist()
+
+        # Remove duplicates from observed IDs
+        idList = list(set(searchDF["ID"].tolist()));
+        print(idList)
+
+        sList, sLabels = getSentencesList(idList)
+
+    return render_template("admin_criminal_lookup_output.html",
+                           data=searchList, aliases=getAliasList(idList),
+                           sentences=None, sentenceLabels=None)
+
+def getAliasList(ids):
+    aliasRequest = "SELECT Alias FROM alias_privateview WHERE ID = "
+    aliasList = []
+    for crimID in ids:
+        aliasList.append(runSelectStatement(aliasRequest + str(crimID) + ";")["Alias"].tolist())
+    # DEBUG: Console print to view the list of aliases
+    #print(aliasList)
+    return aliasList
+
+def getSentencesList(ids):
+    sentencesRequest = "SELECT Type, Start, End FROM sentences_privateview WHERE ID = "
+    sentencesList = []
+    for crimID in ids:
+        sentencesList.append(runSelectStatement(sentencesRequest + str(crimID) +
+                                                ";").values.tolist())
+    # DEBUG: Console print to view the list of sentences
+    #print(sentencesList)
+    sentenceLabels = ["Type", "Start Date", "End Date"]
+    return sentencesList, sentenceLabels
+
+@app.route("/admin/criminal_lookup/view_all")
+def admin_criminal_view_all():
+    table = "criminals_privateview"
+    searchRequest = "SELECT * FROM " + table + ";"
+
+    searchDF = runSelectStatement(searchRequest)
+    searchList = searchDF.values.tolist()
+
+    # Remove duplicates from observed IDs
+    idList = list(set(searchDF["ID"].tolist()));
+
+    sList, sLabels = getSentencesList(idList)
+
+    return render_template("admin_criminal_lookup_output.html",
+                           data=searchList, aliases=getAliasList(idList),
+                           sentences=sList, sentenceLabels=sLabels)
 
 # Redirects
 @app.route("/")

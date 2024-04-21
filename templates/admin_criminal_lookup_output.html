@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Criminal Lookup Results - Crime Breach</title>
-    <link rel="stylesheet" href="../styles.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="/components/navbar/navbar.js"></script>
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
     <main>
         <section class="admin-lookup-results">
             <h2>Criminal Lookup: Administrator View</h2>
-            <form id="criminalOfficerUpdateForm" action="/admin_update_criminal" method="POST">
+            <form id="criminalOfficerUpdateForm" action="/admin/criminal_lookup/editable" method="POST">
                 <table class="lengthy-table search-results">
                     <thead>
                         <tr>
@@ -41,10 +41,12 @@
                             <th>P.O. Phone</th>
                             <th>P.O. Email</th>
                             <th>P.O. Status</th>
+                            <th>Delete?</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Example row -->
+                        {% for i in range(data| length) %}
                         <tr>
                             <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value="793691"></div></td>
                             <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value="b"></div></td>
@@ -61,7 +63,6 @@
                                 </select>
                             </div></td>
                             <td><div class="form-field">
-                                <label for="probation">On Probation?</label>
                                 <select id="probation" name="probation">
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
@@ -87,11 +88,15 @@
                                     <option value="I">Inactive</option>
                                 </select>
                             </div></td>
-                        </tr>
+                            <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
+                        </tr>{% endfor %}
                     </tbody>
                 </table>
             </form>
-            <button type="submit" form="adminCriminalUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+            <div class="form-actions"  style="display: inline-block;">
+                <button type="submit" form="adminCriminalUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+                <button type="button" onclick="location.href='/admin/criminal_lookup'" class="btn-view">Return to Lookup</button>
+            </div>
         </section>
     </main>
 </body>

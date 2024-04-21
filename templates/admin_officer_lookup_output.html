@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Officer Lookup Results - Crime Breach</title>
-    <link rel="stylesheet" href="../styles.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="/components/navbar/navbar.js"></script>
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
@@ -24,6 +24,7 @@
                             <th>Badge #</th>
                             <th>Phone</th>
                             <th>Status</th>
+                            <th>Delete?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,11 +42,15 @@
                                     <option value="I">Inactive</option>
                                 </select>
                             </div></td>
+                            <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
                         </tr>
                     </tbody>
                 </table>
             </form>
-            <button type="submit" form="adminOfficerUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+            <div class="form-actions"  style="display: inline-block;">
+                <button type="submit" form="adminOfficerUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+                <button type="button" onclick="location.href='/admin/officer_lookup'" class="btn-view">Return to Lookup</button>
+            </div>
         </section>
     </main>
 </body>
