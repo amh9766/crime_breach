@@ -12,14 +12,14 @@
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
     <main>
         <section class="admin-lookup-results">
-            <h2>Criminal Lookup: Administrator Search</h2>
-            <div class="search-results">
-                <table class="lengthy-table">
+            <h2>Criminal Lookup: Administrator View</h2>
+            <form id="criminalOfficerUpdateForm" action="/admin_update_criminal" method="POST">
+                <table class="lengthy-table search-results">
                     <thead>
                         <tr>
                             <th>Criminal ID</th>
-                            <th>Last</th>
-                            <th>First</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Street</th>
                             <th>City</th>
                             <th>State</th>
@@ -28,7 +28,9 @@
                             <th>Violent Offender?</th>
                             <th>On Probation?</th>
                             <th>Aliases</th>
-                            <th>Sentences Information</th>
+                            <th>Sentences Types</th>
+                            <th>Sentences Start Dates</th>
+                            <th>Sentences End Dates</th>
                             <th>P.O. ID</th>
                             <th>P.O. Last</th>
                             <th>P.O. First</th>
@@ -44,32 +46,52 @@
                     <tbody>
                         <!-- Example row -->
                         <tr>
-                            <td>793691</td>
-                            <td>Smith</td>
-                            <td>John</td>
-                            <td>Apple Av</td>
-                            <td>Mulberry</td>
-                            <td>VA</td>
-                            <td>19801</td>
-                            <td>8293451678</td>
-                            <td>Y</td>
-                            <td>N</td>
-                            <td>Jones</td>
-                            <td>Type: J<br>Start Date: 2023-01-06<br>End Date: 2023-03-01</td>
-                            <td>15612</td>
-                            <td>Gilbert</td>
-                            <td>Thomas</td>
-                            <td>Johnson St</td>
-                            <td>Brooklyn</td>
-                            <td>NY</td>
-                            <td>11201</td>
-                            <td>8716523647</td>
-                            <td>tgilbert@email.com</td>
-                            <td>A</td>
+                            <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value="793691"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value="b"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value="b"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalStreet" name="criminalStreet" value="b"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value="b"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalState" name="criminalState" value="b"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalZip" name="criminalZip" value="b"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalPhone" name="criminalPhone" value="b"></div></td>
+                            <td><div class="form-field">
+                                <select id="violentOffender" name="violentOffender">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div></td>
+                            <td><div class="form-field">
+                                <label for="probation">On Probation?</label>
+                                <select id="probation" name="probation">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div></td>
+                            <td><div class="form-field"><input type="text" id="alias" name="alias" value="Alias"></div></td>
+                            <td><div class="form-field"><input type="text" id="sentenceTypes" name="sentenceTypes" value="type"></div></td>
+                            <td><div class="form-field"><input type="date" id="sentenceStart" name="sentenceStart" value="b"></div></td>
+                            <td><div class="form-field"><input type="date" id="sentenceEnd" name="sentenceEnd" value="b"></div></td>
+                            <td><div class="form-field"><input type="text" id="poID" name="poID" value="793691"></div></td>
+                            <td><div class="form-field"><input type="text" id="poFirstName" name="poFirstName" value="first"></div></td>
+                            <td><div class="form-field"><input type="text" id="poLastName" name="poLastName" value="last"></div></td>
+                            <td><div class="form-field"><input type="text" id="poStreet" name="poStreet" value="b"></div></td>
+                            <td><div class="form-field"><input type="text" id="poCity" name="poCity" value="city"></div></td>
+                            <td><div class="form-field"><input type="text" id="poState" name="poState" value="b"></div></td>
+                            <td><div class="form-field"><input type="text" id="poZip" name="poZip" value="zip"></div></td>
+                            <td><div class="form-field"><input type="text" id="poPhone" name="poPhone" value="b"></div></td>
+                            <td><div class="form-field"><input type="text" id="poEmail" name="poEmail" value="b"></div></td>
+                            <td><div class="form-field">
+                                <label for="poStatus">Probation Officer Status</label>
+                                <select id="poStatus" name="poStatus">
+                                    <option value="A">Active</option>
+                                    <option value="I">Inactive</option>
+                                </select>
+                            </div></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </form>
+            <button type="submit" form="adminCriminalUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
         </section>
     </main>
 </body>
