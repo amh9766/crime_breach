@@ -284,7 +284,7 @@ def public_crime_search():
             searchRequest += " AND " + chargedCriteria
 
     if statusSearch:
-        statusCriteria = table + ".`Crime ID` IN (SELECT ID FROM charges_publicview WHERE Status LIKE \"" + query["status"] + "\")"
+        statusCriteria = table + ".`Crime ID` IN (SELECT ID FROM charges_publicview WHERE Status LIKE \"" + query["chargeStatus"] + "\")"
         if len(criteria) == 0 and (not aliasSearch and (not hearingSearch and not chargedSearch)):
             searchRequest += statusCriteria
         else:
