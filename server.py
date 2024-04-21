@@ -72,9 +72,11 @@ def public_criminal_search():
 
     criteria = []
 
+    aliasSearch = False
+
     if query["alias"] != "":
-        # NOTE: raise flag and only provide list created later
-        criteria.append(table + ".`Alias` LIKE \"" + query["alias"] + "\"")
+        aliasSearch = True
+
     if query["firstName"] != "":
         criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
     if query["lastName"] != "":
@@ -93,8 +95,17 @@ def public_criminal_search():
             else:
                 searchRequest += " AND " + criteria[i]
 
+    if aliasSearch:
+        #NOTE: change this to a public view table
+        aliasCriteria = table + ".`ID` IN (SELECT Criminal_ID FROM Alias WHERE Alias LIKE \"" + query["alias"] + "\")"
+        if len(criteria) == 0:
+            searchRequest += aliasCriteria
+        else:
+            searchRequest += " AND " + aliasCriteria
+
+    searchRequest += ";"
     # DEBUG: Console print to view the end-result SQL query
-    #print(searchRequest)
+    print(searchRequest)
 
     searchDF = runSelectStatement(searchRequest)
     searchList = searchDF.values.tolist()
@@ -119,7 +130,7 @@ def getAliasList(ids):
 @app.route("/public/criminal_lookup/view_all")
 def public_criminal_view_all():
     table = "criminals_publicview"
-    searchRequest = "SELECT * FROM " + table;
+    searchRequest = "SELECT * FROM " + table + ";"
 
     searchDF = runSelectStatement(searchRequest)
     searchList = searchDF.values.tolist()
