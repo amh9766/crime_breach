@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
+from flask_hashing import Hashing
 import pandas as pd
 
 app = Flask(__name__)
+hashing = Hashing(app)
 
 app.config["MYSQL_HOST"] = "127.0.0.1"
 app.config["MYSQL_USER"] = "root"
@@ -31,10 +33,20 @@ def runSelectStatement(statement):
     cursor.close()
     return df
 
+@app.route("/yup")
+def test():
+    app.config.update(
+            MYSQL_USER="amh9766",
+            MYSQL_PASSWORD="*6691484EA6B50DDDE1926A220DA01FA9E575C18A"
+            )
+
+    return runSelectStatement("SELECT * FROM Criminals;").to_json()
+
 # Pages
 
 @app.route("/sign_in")
 def sign_in():
+
     return render_template("index.html")
 
 @app.route("/public/criminal_lookup")
