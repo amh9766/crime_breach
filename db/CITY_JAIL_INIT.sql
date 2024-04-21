@@ -165,23 +165,24 @@ INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code;
 CREATE OR REPLACE USER "administrator"@"%" IDENTIFIED BY "adm!n";
 CREATE OR REPLACE USER "everyone"@"%" IDENTIFIED BY "every1";
 
-GRANT SELECT ON Alias TO everyone;
-GRANT SELECT ON Criminals TO everyone;
-GRANT SELECT ON Crime_charges TO everyone;
-GRANT SELECT ON Officers TO everyone;
-GRANT SELECT ON Crimes TO everyone;
-GRANT SELECT ON criminals_ublic TO everyone;
+GRANT SELECT ON criminals_publicview TO everyone@'%';
+GRANT SELECT ON alias_publicview TO everyone@'%';
+GRANT SELECT ON sentences_publicview TO everyone@'%';
+GRANT SELECT ON officer_publicview TO everyone@'%';
+GRANT SELECT ON crime_publicview TO everyone@'%';
+GRANT SELECT on charges_publicview TO everyone@'%';
 
+GRANT ALL ON Alias TO administrator@'%';
+GRANT ALL ON Criminals TO administrator@'%';
+GRANT ALL ON Crimes TO administrator@'%';
+GRANT ALL ON Sentences TO administrator@'%';
+GRANT ALL ON Prob_officer TO administrator@'%';
+GRANT ALL ON Crime_charges TO administrator@'%';
+GRANT ALL ON Crime_officers TO administrator@'%';
+GRANT ALL ON Officers TO administrator@'%';
+GRANT ALL ON Appeals TO administrator@'%';
+GRANT ALL ON Crime_codes TO administrator@'%';
+GRANT ALL ON Users to administrator@'%';
 
-GRANT ALL ON Alias TO administrator;
-GRANT ALL ON Criminals TO administrator;
-GRANT ALL ON Crimes TO administrator;
-GRANT ALL ON Sentences TO administrator;
-GRANT ALL ON Prob_officer TO administrator;
-GRANT ALL ON Crime_charges TO administrator;
-GRANT ALL ON Crime_officers TO administrator;
-GRANT ALL ON Officers TO administrator;
-GRANT ALL ON Appeals TO administrator;
-GRANT ALL ON Crime_codes TO administrator;
 
 FLUSH PRIVILEGES;

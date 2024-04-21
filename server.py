@@ -14,8 +14,8 @@ hashing = Hashing(app)
 # This is entirely done in MySQL, the commands for which are provided.
 
 app.config["MYSQL_HOST"] = "127.0.0.1"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_USER"] = "everyone"
+app.config["MYSQL_PASSWORD"] = "every1"
 app.config["MYSQL_DB"] = "city_jail"
 
 loggedIn = False
@@ -77,19 +77,24 @@ def sign_in():
     if request.method == "POST":
         form = request.form.to_dict()
 
+        app.config.update(
+            MYSQL_USER="administrator",
+            MYSQL_PASSWORD="adm!n"
+        )
+
         # SHA256 hashing on password on backend and in database
-        searchRequest = "SELECT COUNT(*) FROM users WHERE Username LIKE \"" + form["userID"] + "\" AND Password LIKE \"" + hashing.hash_value(form["password"]) + "\";"
+        searchRequest = "SELECT COUNT(*) FROM Users WHERE Username LIKE \"" + form["userID"] + "\" AND Password LIKE \"" + hashing.hash_value(form["password"]) + "\";"
         searchResult = runSelectStatement(searchRequest)["COUNT(*)"][0]
 
         if searchResult == 0:
+            app.config.update(
+                MYSQL_USER="everyone",
+                MYSQL_PASSWORD="every1"
+            )
+
             return redirect("/sign_in")
         else:
             loggedIn = True
-
-            app.config.update(
-                MYSQL_USER="administrator",
-                MYSQL_PASSWORD="adm!n"
-            )
             
             #NOTE: Change this to home page when there is one
             return redirect("/public/criminal_lookup")
