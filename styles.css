@@ -21,6 +21,11 @@ header h1 {
     margin: 0;
 }
 
+h2{
+    background-color: #f9d835;
+    padding: 0.5%;
+}
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -184,7 +189,24 @@ form {
     color: white;
     cursor: pointer;
 }
+.home-buttons{
+    padding: 1%;
+}
 
+.home-align{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-buttons .btn-view {
+    padding: 15px 50px; 
+    font-size: 1.1em;
+    font-weight: bold;
+    background-color: #353434;
+    color: #fff ;
+}
 /* Additional responsive styling if necessary */
 @media (max-width: 768px) {
     .signin-section {
@@ -255,3 +277,4 @@ form {
     overflow-x: auto;
     white-space: nowrap;
 }
+
