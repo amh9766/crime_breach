@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Criminal Lookup - Crime Breach</title>
-    <link rel="stylesheet" href="../styles.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="/components/navbar/navbar.js"></script>
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
     <main>
         <section class="search-section">
             <h2>Criminal Lookup: Administrator Search</h2>
-            <form id="adminCriminalSearchForm" action="/admin_search_criminals" method="GET" class="search-form">
+            <form id="adminCriminalSearchForm" action="/admin/criminal_lookup/search" method="GET" class="search-form">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="criminalID">Criminal ID</label>

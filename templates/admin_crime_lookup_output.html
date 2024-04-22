@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../styles.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="/components/navbar/navbar.js"></script>
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
     <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
@@ -38,10 +40,12 @@
                             <th>Criminal First Name</th>
                             <th>Criminal Last Name</th>
                             <th>Criminal Alias</th>
+                            <th>Delete?</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- editable row, replace value with value pulled from db -->
+                        {% for i in range(data| length) %}
                         <tr>
                             <td><div class="form-field"><input type="text" id="crimeID" name="crimeID" value="213121234"></div></td>
                             <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value="793691"></div></td>
@@ -68,11 +72,16 @@
                             <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value="b"></div></td>
                             <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value="b"></div></td>
                             <td><div class="form-field"></div><input type="text" id="criminalAlias" name="criminalAlias" value="b"></div></td>
+                            <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </form>
-            <button type="submit" form="adminCrimeUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+            <div class="form-actions"  style="display: inline-block;">
+                <button type="submit" form="adminCrimeUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+                <button type="button" onclick="location.href='/admin/crime_lookup'" class="btn-view">Return to Lookup</button>
+            </div>
         </section>
     </main>
 </body>

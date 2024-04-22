@@ -103,7 +103,7 @@ CREATE TABLE Appeals(
 
 CREATE TABLE Users(
     Username VARCHAR(10),
-    Passwodd VARCHAR(256),
+    Password VARCHAR(256),
     PRIMARY KEY (Username)
 );
 
@@ -183,6 +183,5 @@ GRANT ALL ON Officers TO administrator@'%';
 GRANT ALL ON Appeals TO administrator@'%';
 GRANT ALL ON Crime_codes TO administrator@'%';
 GRANT ALL ON Users to administrator@'%';
-
 
 FLUSH PRIVILEGES;
