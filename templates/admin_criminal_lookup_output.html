@@ -28,19 +28,7 @@
                             <th>Violent Offender?</th>
                             <th>On Probation?</th>
                             <th>Aliases</th>
-                            <th>Sentences Types</th>
-                            <th>Sentences Start Dates</th>
-                            <th>Sentences End Dates</th>
-                            <th>P.O. ID</th>
-                            <th>P.O. Last</th>
-                            <th>P.O. First</th>
-                            <th>P.O. Street</th>
-                            <th>P.O. City</th>
-                            <th>P.O. State</th>
-                            <th>P.O. Zip</th>
-                            <th>P.O. Phone</th>
-                            <th>P.O. Email</th>
-                            <th>P.O. Status</th>
+                            <th>Sentences</th>
                             <th>Delete?</th>
                         </tr>
                     </thead>
@@ -48,53 +36,40 @@
                         <!-- Example row -->
                         {% for i in range(data| length) %}
                         <tr>
-                            <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value="793691"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalStreet" name="criminalStreet" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalState" name="criminalState" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalZip" name="criminalZip" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalPhone" name="criminalPhone" value="b"></div></td>
+                            <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value={{data[i][0]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value={{data[i][2]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value={{data[i][1]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalStreet" name="criminalStreet" value={{data[i][3]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value={{data[i][4]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalState" name="criminalState" value={{data[i][5]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalZip" name="criminalZip" value={{data[i][6]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalPhone" name="criminalPhone" value={{data[i][7]}}></div></td>
                             <td><div class="form-field">
                                 <select id="violentOffender" name="violentOffender">
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
+                                    <option value="N"{% if data[i][8] == 'N' %} selected="selected" {% endif %}>No</option>
+                                    <option value="Y" {% if data[i][8] == 'Y' %} selected="selected" {% endif %}>Yes</option>
                                 </select>
                             </div></td>
                             <td><div class="form-field">
                                 <select id="probation" name="probation">
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
+                                    <option value="N" {% if data[i][9] == 'N' %} selected="selected" {% endif %}>No</option>
+                                    <option value="Y" {% if data[i][9] == 'Y' %} selected="selected" {% endif %}>Yes</option>
                                 </select>
                             </div></td>
-                            <td><div class="form-field"><input type="text" id="alias" name="alias" value="Alias"></div></td>
-                            <td><div class="form-field"><input type="text" id="sentenceTypes" name="sentenceTypes" value="type"></div></td>
-                            <td><div class="form-field"><input type="date" id="sentenceStart" name="sentenceStart" value="b"></div></td>
-                            <td><div class="form-field"><input type="date" id="sentenceEnd" name="sentenceEnd" value="b"></div></td>
-                            <td><div class="form-field"><input type="text" id="poID" name="poID" value="793691"></div></td>
-                            <td><div class="form-field"><input type="text" id="poFirstName" name="poFirstName" value="first"></div></td>
-                            <td><div class="form-field"><input type="text" id="poLastName" name="poLastName" value="last"></div></td>
-                            <td><div class="form-field"><input type="text" id="poStreet" name="poStreet" value="b"></div></td>
-                            <td><div class="form-field"><input type="text" id="poCity" name="poCity" value="city"></div></td>
-                            <td><div class="form-field"><input type="text" id="poState" name="poState" value="b"></div></td>
-                            <td><div class="form-field"><input type="text" id="poZip" name="poZip" value="zip"></div></td>
-                            <td><div class="form-field"><input type="text" id="poPhone" name="poPhone" value="b"></div></td>
-                            <td><div class="form-field"><input type="text" id="poEmail" name="poEmail" value="b"></div></td>
-                            <td><div class="form-field">
-                                <label for="poStatus">Probation Officer Status</label>
-                                <select id="poStatus" name="poStatus">
-                                    <option value="A">Active</option>
-                                    <option value="I">Inactive</option>
-                                </select>
-                            </div></td>
+                            <td><div class="form-field">{% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{% else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</div></td>
+                            <td><div class="form-field">{% for k in range(sentences[i]| length) %}{% if k == 0 %}{% for l in range(sentences[i][k]| length) %}
+                                {{ sentenceLabels[l] }}:
+                                {{ sentences[i][k][l] }}<br>{% endfor %} {% else %}
+                                <br>{% for l in range(sentences[i][k]| length) %}
+                                {{ sentenceLabels[l] }}:
+                                {{ sentences[i][k][l] }} <br>{% endfor %}{% endif %}{% endfor %} </div></td>
                             <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
                         </tr>{% endfor %}
                     </tbody>
                 </table>
             </form>
             <div class="form-actions"  style="display: inline-block;">
-                <button type="submit" form="adminCriminalUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+                <button type="submit" form="adminCriminalUpdateForm" class="btn-submit" name="save" value="">Save</button>
                 <button type="button" onclick="location.href='/admin/criminal_lookup'" class="btn-view">Return to Lookup</button>
             </div>
         </section>

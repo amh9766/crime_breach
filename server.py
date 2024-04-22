@@ -187,7 +187,7 @@ def public_criminal_view_all():
     searchList = searchDF.values.tolist()
 
     # Remove duplicates from observed IDs
-    idList = list(set(searchDF["ID"].tolist()));
+    idList = list(set(searchDF["ID"].tolist()))
 
     sList, sLabels = getSentencesList(idList)
 
@@ -257,7 +257,7 @@ def public_officer_search():
 @app.route("/public/officer_lookup/view_all")
 def public_officer_view_all():
     table = "officer_publicview"
-    searchRequest = "SELECT * FROM " + table;
+    searchRequest = "SELECT * FROM " + table
     return render_template("public_officer_lookup_output.html",
                            data=runSelectStatement(searchRequest).values.tolist())
 
@@ -293,7 +293,7 @@ def admin_criminal_lookup():
 @app.route("/admin/criminal_lookup/search")
 def admin_criminal_search():
     query = request.args.to_dict()
-    print(query)
+    # print(query)
 
     # Check if query is empty; if so, default to viewing all entries
     empty = True 
@@ -321,13 +321,13 @@ def admin_criminal_search():
 
 
 
-    if query["criminalID"] != None:
+    if query["criminalID"] != "":
         criminalIdSearch = True
-    if query["aliasID"] != None:
+    if query["aliasID"] != "":
         aliasIdSearch = True
-    if query["sentenceID"] != None:
+    if query["sentenceID"] != "":
         sentenceIdSearch = True
-    if query["poID"] != None:
+    if query["poID"] != "":
         poIdSearch = True
 
     # perform the following if we are searching on ID
@@ -336,6 +336,13 @@ def admin_criminal_search():
         print(query["criminalID"])
         if criminalIdSearch:
             criteria.append(table + ".`Criminal ID` = " + query["criminalID"] + "")
+        if aliasIdSearch:
+            criteria.append(table + ".`Alias ID` = " + query["aliasID"] + "")
+        if sentenceIdSearch:
+            criteria.append(table + ".`Sentence ID` = " + query["sentenceID"] + "")
+        if poIdSearch:
+            criteria.append(table + ".`Probation ID` = " + query["poID"] + "")
+
 
         if len(criteria) == 1:
             searchRequest += criteria[0]
@@ -349,17 +356,16 @@ def admin_criminal_search():
         searchRequest += ";"
 
         # DEBUG: Console print to view the end-result SQL query
-        print(searchRequest)
+        # print(searchRequest)
 
         searchDF = runSelectStatement(searchRequest)
         searchList = searchDF.values.tolist()
-        print(searchList)
+        # print(searchList)
 
         # Remove duplicates from observed IDs
-        idList = list(set(searchDF["Criminal ID"].tolist()));
-        print(idList)
+        idList = list(set(searchDF["Criminal ID"].tolist()))
 
-        # sList, sLabels = getSentencesList(idList)
+        sList, sLabels = getSentencesList(idList)
 
     # otherwise, perform the following if we are searching on other criteria
     else:
@@ -390,21 +396,21 @@ def admin_criminal_search():
                     searchRequest += " AND " + criteria[i]
 
         if aliasSearch:
-            aliasCriteria = table + ".`ID` IN (SELECT ID FROM alias_privateview WHERE Alias LIKE \"" + query["alias"] + "\")"
+            aliasCriteria = table + ".`ID` IN (SELECT ID FROM alias_publicview WHERE Alias LIKE \"" + query["alias"] + "\")"
             if len(criteria) == 0:
                 searchRequest += aliasCriteria
             else:
                 searchRequest += " AND " + aliasCriteria
 
         if sentenceStartSearch:
-            sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_privateview WHERE Start >= DATE(" + query["sentenceStart"] + "))"
+            sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE Start >= DATE(" + query["sentenceStart"] + "))"
             if len(criteria) == 0 and not aliasSearch:
                 searchRequest += sentenceStartCriteria
             else:
                 searchRequest += " AND " + sentenceStartCriteria
 
         if sentenceEndSearch:
-            sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_privateview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
+            sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
             if len(criteria) == 0 and (not aliasSearch and not sentenceStartSearch):
                 searchRequest += sentenceStartCriteria
             else:
@@ -418,17 +424,17 @@ def admin_criminal_search():
         searchList = searchDF.values.tolist()
 
         # Remove duplicates from observed IDs
-        idList = list(set(searchDF["ID"].tolist()));
+        idList = list(set(searchDF["ID"].tolist()))
         print(idList)
 
         sList, sLabels = getSentencesList(idList)
 
     return render_template("admin_criminal_lookup_output.html",
                            data=searchList, aliases=getAliasList(idList),
-                           sentences=None, sentenceLabels=None)
+                           sentences=sList, sentenceLabels=sLabels)
 
 def getAliasList(ids):
-    aliasRequest = "SELECT Alias FROM alias_privateview WHERE ID = "
+    aliasRequest = "SELECT Alias FROM alias_publicview WHERE ID = "
     aliasList = []
     for crimID in ids:
         aliasList.append(runSelectStatement(aliasRequest + str(crimID) + ";")["Alias"].tolist())
@@ -437,7 +443,7 @@ def getAliasList(ids):
     return aliasList
 
 def getSentencesList(ids):
-    sentencesRequest = "SELECT Type, Start, End FROM sentences_privateview WHERE ID = "
+    sentencesRequest = "SELECT Type, Start, End FROM sentences_publicview WHERE ID = "
     sentencesList = []
     for crimID in ids:
         sentencesList.append(runSelectStatement(sentencesRequest + str(crimID) +
@@ -456,7 +462,7 @@ def admin_criminal_view_all():
     searchList = searchDF.values.tolist()
 
     # Remove duplicates from observed IDs
-    idList = list(set(searchDF["ID"].tolist()));
+    idList = list(set(searchDF["ID"].tolist()))
 
     sList, sLabels = getSentencesList(idList)
 
