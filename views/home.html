@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page - Crime Breach</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+        <main>
+            <h2>Sign In</h2>
+            <form class="signin-form" action="/signin" method="POST">
+            <div class="form-field">
+                <label for="userID">User ID</label>
+                <input type="text" id="userID" name="userID" placeholder="Enter your User ID">
+            </div>
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-signin">Sign In</button>
+            </div>
+        </form>
+        <a href="#" class="continue-link">Continue without signing in (Home)</a>
+    </main>
+</body>
+</html>
