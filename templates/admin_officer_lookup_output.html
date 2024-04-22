@@ -42,27 +42,37 @@
                                                                name="firstName-{{ i }}"
                                                                value="{{
                                                                       data[i][1]
-                                                                      }}"></div></td>
+                                                                      }}" required
+                                                             pattern="[A-z]{1,10}" size="10" maxlength="10"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="lastName"
                                                                name="lastName-{{ i }}"
                                                                value="{{
-                                                               data[i][2] }}"></div></td>
+                                                               data[i][2] }}" required
+                                                             pattern="[A-z]{1,15}" size="15" maxlength="15"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="precinct"
                                                                name="precinct-{{ i }}"
                                                                value="{{
-                                                               data[i][3] }}"></div></td>
+                                                               data[i][3] }}" required
+                                                             pattern="[A-z0-9]{4}"
+                                                             size="4"
+                                                             maxlength="4"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="badgeID"
                                                                name="badgeID-{{ i }}"
                                                                value="{{data[i][4]
-                                                               }}"></div></td>
+                                                               }}" required
+                                                               pattern="[A-z0-9]{1,14}"
+                                                               size="14"
+                                                               maxlength="14"></div></td>
                             <td><div class="form-field"><input type="text"
                                     id="officerPhone" name="officerPhone-{{ i }}"
-                                                      value="{{ data[i][5] }}"></div></td>
+                                                      value="{{ data[i][5] }}" required
+                            pattern="[0-9]{10}" size="10" maxlength="10"></div></td>
                             <td><div class="form-field">
-                                    <select id="officerStatus" name="officerStatus-{{ i }}">
+                                    <select id="officerStatus"
+                                        name="officerStatus-{{ i }}" required>
                                     <option value="A" {% if data[i][6] == 'A' %}selected="selected" {% endif %}>Active</option>
                                     <option value="I" {% if data[i][6] == 'I' %}selected="selected" {% endif %}>Inactive</option>
                                 </select>

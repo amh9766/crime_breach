@@ -142,26 +142,6 @@ FROM Crime_charges
 INNER JOIN Crime_codes
 ON Crime_charges.Crime_code = Crime_codes.Crime_code
 
-CREATE VIEW criminals_privateview AS (SELECT Criminals.Criminal_ID AS "Criminal ID", Criminals.Last AS "Criminal Last", Criminals.First AS "Criminal First", 
-Criminals.Street AS "Criminal Street", Criminals.City AS "Criminal City", Criminals.State AS "Criminal State", Criminals.Zip AS "Criminal Zip", Criminals.Phone AS "Criminal Phone", 
-V_Status AS "Violent Offender?", P_Status AS "On Probation?", Alias, Alias_ID AS "Alias ID", Sentence_ID AS "Sentence ID", Type, Sentences.Prob_ID AS "Probation ID", 
-Start_date AS "Start Date", End_date AS "End Date", Violations, Prob_officer.Last AS "Probation Officer Last", Prob_officer.First AS "Probation Officer First", 
-Prob_officer.Street AS "Probation Officer Street", Prob_officer.City AS "Probation Officer City", Prob_officer.State AS "Probation Officer State", 
-Prob_officer.Zip AS "Probation Officer Zip", Prob_officer.Phone AS "Probation Officer Phone", Email AS "Probation Officer Email", 
-Status AS "Probation Offier Status" FROM Criminals INNER JOIN Alias ON Criminals.Criminal_ID = Alias.Criminal_ID INNER JOIN Sentences ON Criminals.Criminal_ID = Sentences.Criminal_ID 
-INNER JOIN Prob_officer ON Sentences.Prob_ID = Prob_officer.Prob_ID);
-
-CREATE VIEW officer_privateview AS
-SELECT Officer_ID AS "Officer ID", Last AS "Last Name", First AS "First Name", Badge AS "Badge #", Phone AS "Phone Number", Precinct, Status
-FROM Officers;
-
-CREATE VIEW crime_privateview AS SELECT Crimes.Crime_ID AS "Crime ID", Crimes.Criminal_ID AS "Criminal ID", Classification, Date_charged AS "Date Charged", Crimes.Status AS "Crime Status", Crimes.Hearing_date AS "Crime Hearing Date", Appeal_cut_date AS "Appeal Cut Date", Charge_ID AS "Charge ID", Charge_status AS "Charge Status", Fine_amount AS "Fine Amount", Court_fee AS "Court Fee", Amount_paid AS "Amount Paid", Pay_due_date AS "Pay Due Date", Crime_officers.Officer_ID AS "Officer ID", Code_description AS "Code Description", Appeal_ID AS "Appeal ID", Filing_date AS "Filing Date", Appeals.Hearing_date AS "Appeal Hearing Date", Appeals.Status AS "Appeal Status"
-FROM Crimes
-INNER JOIN Crime_charges ON Crimes.Crime_ID = Crime_charges.Crime_ID
-INNER JOIN Crime_officers ON Crimes.Crime_ID = Crime_officers.Crime_ID
-INNER JOIN Appeals ON Crimes.Crime_ID = Appeals.Crime_ID
-INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code;
-
 CREATE OR REPLACE USER "administrator"@"%" IDENTIFIED BY "adm!n";
 CREATE OR REPLACE USER "everyone"@"%" IDENTIFIED BY "every1";
 

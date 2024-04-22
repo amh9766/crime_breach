@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, send_file
+from flask import Flask, render_template, request, redirect, session, send_file, flash
 from flask_mysqldb import MySQL
 from flask_hashing import Hashing
 import pandas as pd
@@ -492,7 +492,7 @@ def admin_crime_view_all():
 
 @app.route("/admin/crime_lookup/delete", methods=["GET", "POST"])
 def admin_delete_crime():
-    form = request.form.to_dict();
+    form = request.form.to_dict()
 
     recordNum = ""
     # Search for the record associated with the button press 
@@ -505,6 +505,30 @@ def admin_delete_crime():
     runStatement(deleteStatement)
 
     return redirect("/admin/crime_lookup/")
+
+@app.route("/admin/crime_lookup/add", methods=["GET", "POST"])
+def admin_add_crime():
+    form = request.form.to_dict()
+
+    empty = False
+
+    for value in form.values():
+        if value == "":
+            empty = True
+
+    if empty:
+        return redirect("/home/" + session["user"])
+
+    insertStatement = "INSERT INTO Crimes(Crime_ID, Criminal_ID, Classification, Date_charged, Status, Hearing_date, Appeal_cut_date) VALUES (" + form["crimeID"] + ", " + form["criminalID"] + ", \"" + form["classification"] + "\", DATE(\"" + form["dateCharged"] + "\"), \"" + form["crimeStatus"] + "\", DATE(\"" + form["hearingDate"] + "\"), DATE(\"" + form["appealCutOffDate"] + "\"));"
+
+    print(insertStatement)
+
+    try:
+        runStatement(insertStatement)
+    except MySQLdb.Error:
+        return redirect("/home/" + session["user"])
+    else:
+        return redirect("/admin/crime_lookup")
 
 @app.route("/admin/officer_lookup/")
 def admin_officer_lookup():

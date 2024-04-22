@@ -16,7 +16,7 @@
         <div>
             <section class="home-section">
                 <h3 class="space-h3">Update the City Jail Database</h3>
-                <form id="crimeUpdateForm" action="/admin/crime_lookup/update" method="POST">
+                <form id="crimeUpdateForm" action="/admin/crime_lookup/add" method="POST">
                     <table class="search-results lengthy-table">
                         <thead>
                             <tr>
@@ -31,16 +31,44 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><div class="form-field"><input type="text" id="crimeID" name="crimeID" value=""></div></td>
-                                <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value=""></div></td>
-                                <td><div class="form-field"><input type="text" id="classification" name="classification" value=""></div></td>
-                                <td><div class="form-field"><input type="date" id="dateCharged" name="dateCharged" value=""></div></td>
-                                <td><div class="form-field"><select type="select" id="crimeStatus" name="crimeStatus">
+                                <td><div class="form-field"><input type="text"
+                                        id="crimeID" name="crimeID" value=""
+                                                                    required
+                                                                    pattern="[0-9]{1,
+                                                                              9}"
+                                        size="9" maxlength="9"></div></td>
+                                <td><div class="form-field"><input type="text"
+                                        id="criminalID" name="criminalID"
+                                                        value="" required
+                                                        pattern="[0-9]{1, 6}"
+                                        size="6" maxlength="6"></div></td>
+                                <td><div class="form-field">
+                                        <select id="classification"
+                                            name="classification" required>
+                                            <option value="">Select</option>
+                                            <option value="F">Felony</option>
+                                            <option value="M">Misdemeanor</option>
+                                            <option value="O">Other</option>
+                                            <option value="U">Undefined</option>
+                                        </select>
+                                        </div></td>
+                                <td><div class="form-field"><input type="date"
+                                        id="dateCharged" name="dateCharged"
+                                        value="" required></div></td>
+                                <td><div class="form-field"><select
+                                            type="select" id="crimeStatus"
+                                            name="crimeStatus" required>
+                                    <option value="">Select</option>
                                     <option value="CL" >CL</option>
                                     <option value="CA" >CA</option>
                                     <option value="IA" >IA</option></div></td>
-                                <td><div class="form-field"><input type="date" id="hearingDate" name="hearingDate" value=""></div></td>
-                                <td><div class="form-field"><input type="date" id="appealCutOffDate" name="appealCutOffDate" value=""></div></td>
+                                <td><div class="form-field"><input type="date"
+                                        id="hearingDate" name="hearingDate"
+                                        value="" required></div></td>
+                                <td><div class="form-field"><input type="date"
+                                        id="appealCutOffDate"
+                                        name="appealCutOffDate" value=""
+                                        required></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -66,22 +94,46 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value=""></div></td>
-                                <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value=""></div></td>
-                                <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value=""></div></td>
-                                <td><div class="form-field"></div><input type="text" id="criminalStreet" name="criminalStreet" value=""></div></td>
-                                <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value=""></div></td>
-                                <td><div class="form-field"></div><input type="text" id="criminalState" name="criminalState" value=""></div></td>
-                                <td><div class="form-field"></div><input type="text" id="criminalZip" name="criminalZip" value=""></div></td>
-                                <td><div class="form-field"></div><input type="text" id="criminalPhone" name="criminalPhone" value=""></div></td>
+                                <td><div class="form-field"><input type="text"
+                                        id="criminalID" name="criminalID"
+                                                        value="" required
+                                                        pattern="[0-9]{1,6}"
+                                        size="6" maxlength="6"></div></td>
+                                <td><div class="form-field"></div><input
+                                    type="text" id="criminalFirstName"
+                                    name="criminalFirstName" value="" required
+                                                             pattern="[A-z]{1,10}" size="10" maxlength="10"></div></td>
+                                <td><div class="form-field"></div><input
+                                    type="text" id="criminalLastName"
+                                    name="criminalLastName" value="" required
+                                                             pattern="[A-z]{1,15}" size="15" maxlength="15"></div></td>
+                                <td><div class="form-field"></div><input
+                                                type="text" id="criminalStreet"
+                                                name="criminalStreet" value=""
+                                                required
+                                                pattern="[A-z0-9.]{1,30}"
+                                                size="30" maxlength="30"></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value="" required pattern="[A-z]{1,20}" size="20" maxlength="20"></div></td>
+                                <td><div class="form-field"></div><input
+                                    type="text" id="criminalState"
+                                    name="criminalState" value="" required
+                            pattern="[A-Z]{2}" size="2" maxlength="2"></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalZip" name="criminalZip" value="" required
+                            pattern="[0-9]{5}" size="5" maxlength="5"></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalPhone" name="criminalPhone" value="" required
+                            pattern="[0-9]{10}" size="10" maxlength="10"></div></td>
                                 <td><div class="form-field">
-                                    <select id="violentOffender" name="violentOffender">
+                                    <select id="violentOffender"
+                                        name="violentOffender" required>
+                                        <option value="">Select</option>
                                         <option value="N">No</option>
                                         <option value="Y">Yes</option>
                                     </select>
                                 </div></td>
                                 <td><div class="form-field">
-                                    <select id="probation" name="probation">
+                                    <select id="probation" name="probation"
+                                        required>
+                                        <option value="">Select</option>
                                         <option value="N">No</option>
                                         <option value="Y">Yes</option>
                                     </select>
@@ -111,30 +163,43 @@
                             <td><div class="form-field"><input type="text"
                                                                id="officerID"
                                                                name="officerID"
-                                                               value=""></div></td>
+                                                               value="" required
+                                                        pattern="[0-9]{1,8}"
+                                        size="8" maxlength="8"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="firstName"
                                                                name="firstName"
-                                                               value=""></div></td>
+                                                               value="" required
+                                                             pattern="[A-z]{1,10}" size="10" maxlength="10"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="lastName"
                                                                name="lastName"
-                                                               value=""></div></td>
+                                                               value="" required
+                                                             pattern="[A-z]{1,15}" size="15" maxlength="15"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="precinct"
                                                                name="precinct"
-                                                               value=""></div></td>
+                                                               value="" required
+                                                             pattern="[A-z0-9]{4}"
+                                                             size="4"
+                                                             maxlength="4"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="badgeID"
                                                                name="badgeID"
-                                                               value=""></div></td>
+                                                               value="" required
+                                                               pattern="[A-z0-9]{1,14}"
+                                                               size="14"
+                                                               maxlength="14"></div></td>
                             <td><div class="form-field"><input type="text"
                                     id="officerPhone" name="officerPhone"
-                                                      value=""></div></td>
+                                                      value="" required
+                            pattern="[0-9]{10}" size="10" maxlength="10"></div></td>
                             <td><div class="form-field">
-                                    <select id="officerStatus" name="officerStatus">
-                                    <option value="A">Active</option>
-                                    <option value="I">Inactive</option>
+                                    <select id="officerStatus"
+                                        name="officerStatus" required >
+                                        <option value="">Select</option>
+                                        <option value="A">Active</option>
+                                        <option value="I">Inactive</option>
                                 </select>
                             </div></td>
                         </tr>
