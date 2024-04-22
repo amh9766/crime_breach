@@ -19,6 +19,7 @@ app.config["MYSQL_PASSWORD"] = "every1"
 app.config["MYSQL_DB"] = "city_jail"
 
 loggedIn = False
+curLoggedUser = ""
 
 mysql = MySQL(app)
 
@@ -117,11 +118,17 @@ def sign_in():
         else:
             global loggedIn
             loggedIn = True
+            global curLoggedUser
+            curLoggedUser = form["userID"]
 
-            #NOTE: Change this to home page when there is one
-            return redirect("/criminal")
+            return redirect("/home/" + curLoggedUser)
     else:
         return render_template("index.html")
+
+@app.route("/home/<user>")
+def admin_home(user):
+    return render_template("home.html", name=user)
+    
 
 # ---- PUBLIC PAGES ----
 @app.route("/public/criminal_lookup")
@@ -481,6 +488,8 @@ def admin_officer_search():
 
     searchList = runSelectStatement(searchRequest).values.tolist()
 
+    
+
     print(searchList)
 
     return render_template("admin_officer_lookup_output.html",
@@ -665,8 +674,7 @@ def root_redirect():
     if not loggedIn:
         return redirect("/sign_in")
     else:
-        #NOTE: Make home page
-        return redirect("/public/criminal_lookup")
+        return redirect("/home/" + curLoggedUser)
 
 @app.route("/crime")
 def crime_redirect():

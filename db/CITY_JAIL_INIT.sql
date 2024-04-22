@@ -182,6 +182,6 @@ GRANT ALL ON Crime_officers TO administrator@'%';
 GRANT ALL ON Officers TO administrator@'%';
 GRANT ALL ON Appeals TO administrator@'%';
 GRANT ALL ON Crime_codes TO administrator@'%';
-GRANT ALL ON Users to administrator@'%';
+GRANT SELECT ON Users TO administrator@'%';
 
 FLUSH PRIVILEGES;
