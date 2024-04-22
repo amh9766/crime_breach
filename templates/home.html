@@ -76,7 +76,7 @@
                 <div style="display: inline-block; margin-bottom: 30px;">
                     <button type="submit" form="crimeUpdateForm" class="btn-submit">Add Crime</button>
                 </div>
-                <form id="criminalUpdateForm" action="/admin/criminal_lookup/update" method="POST">
+                <form id="criminalUpdateForm" action="/admin/criminal_lookup/add" method="POST">
                     <table class="lengthy-table search-results">
                         <thead>
                             <tr>
@@ -111,7 +111,7 @@
                                                 type="text" id="criminalStreet"
                                                 name="criminalStreet" value=""
                                                 required
-                                                pattern="[A-z0-9.]{1,30}"
+                                                pattern="[A-z0-9. ]{1,30}"
                                                 size="30" maxlength="30"></div></td>
                                 <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value="" required pattern="[A-z]{1,20}" size="20" maxlength="20"></div></td>
                                 <td><div class="form-field"></div><input
@@ -145,7 +145,7 @@
                 <div style="display: inline-block; margin-bottom: 30px;">
                     <button type="submit" form="criminalUpdateForm" class="btn-submit">Add Criminal</button>
                 </div>
-            <form id="officerUpdateForm" action="/admin/officer_lookup/update", method="POST">
+            <form id="officerUpdateForm" action="/admin/officer_lookup/add", method="POST">
                 <table class="search-results lengthy-table">
                     <thead>
                         <tr>

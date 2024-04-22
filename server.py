@@ -521,11 +521,11 @@ def admin_add_crime():
 
     insertStatement = "INSERT INTO Crimes(Crime_ID, Criminal_ID, Classification, Date_charged, Status, Hearing_date, Appeal_cut_date) VALUES (" + form["crimeID"] + ", " + form["criminalID"] + ", \"" + form["classification"] + "\", DATE(\"" + form["dateCharged"] + "\"), \"" + form["crimeStatus"] + "\", DATE(\"" + form["hearingDate"] + "\"), DATE(\"" + form["appealCutOffDate"] + "\"));"
 
-    print(insertStatement)
+    #print(insertStatement)
 
     try:
         runStatement(insertStatement)
-    except MySQLdb.Error:
+    except:
         return redirect("/home/" + session["user"])
     else:
         return redirect("/admin/crime_lookup")
@@ -612,6 +612,30 @@ def admin_update_officer():
         runStatement(updateStatement)
 
     return redirect("/admin/officer_lookup/")
+
+@app.route("/admin/officer_lookup/add", methods=["GET", "POST"])
+def admin_add_officer():
+    form = request.form.to_dict()
+
+    empty = False
+
+    for value in form.values():
+        if value == "":
+            empty = True
+
+    if empty:
+        return redirect("/home/" + session["user"])
+    
+    insertStatement = "INSERT INTO Officers(Officer_ID, Last, First, Precinct, Badge, Phone, Status) VALUES (" + form["officerID"] + ", \"" + form["lastName"] + "\", \"" + form["firstName"] + "\", \"" + form["precinct"] + "\", \"" + form["badgeID"] + "\", \"" + form["officerPhone"] + "\", \"" + form["officerStatus"] + "\");"
+
+    #print(insertStatement)
+
+    try:
+        runStatement(insertStatement)
+    except:
+        return redirect("/home/" + session["user"])
+    else:
+        return redirect("/admin/officer_lookup")
 
 @app.route("/admin/criminal_lookup/")
 def admin_criminal_lookup():
@@ -720,6 +744,29 @@ def admin_delete_criminal():
     runStatement(deleteStatement)
 
     return redirect("/admin/criminal_lookup/")
+
+@app.route("/admin/criminal_lookup/add", methods=["GET", "POST"])
+def admin_add_criminal():
+    form = request.form.to_dict()
+
+    empty = False
+
+    for value in form.values():
+        if value == "":
+            empty = True
+
+    if empty:
+        return redirect("/home/" + session["user"])
+    
+    insertStatement = "INSERT INTO Criminals(Criminal_ID, Last, First, Street, City, State, Zip, Phone, V_status, P_status) VALUES (" + form["criminalID"] + ", \"" + form["criminalLastName"] + "\", \"" + form["criminalFirstName"] + "\", \"" + form["criminalStreet"] + "\", \"" + form["criminalCity"] + "\", \"" + form["criminalState"] + "\", \"" + form["criminalZip"] + "\", \"" + form["criminalPhone"] + "\", \"" + form["violentOffender"] + "\", \"" + form["probation"] + "\");"
+    #print(insertStatement)
+
+    try:
+        runStatement(insertStatement)
+    except:
+        return redirect("/home/" + session["user"])
+    else:
+        return redirect("/admin/criminal_lookup")
 
 @app.route("/home/<user>")
 def admin_home(user):
