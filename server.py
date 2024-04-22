@@ -191,9 +191,9 @@ def public_criminal_search():
             searchRequest += " AND " + sentenceStartCriteria
 
     if sentenceEndSearch:
-        sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
+        sentenceEndCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
         if len(criteria) == 0 and (not aliasSearch and not sentenceStartSearch):
-            searchRequest += sentenceStartCriteria
+            searchRequest += sentenceEndCriteria
         else:
             searchRequest += " AND " + sentenceStartCriteria
 
@@ -434,8 +434,11 @@ def admin_crime_view_all():
 def admin_officer_lookup():
     return render_template("admin_officer_lookup.html")
 
-@app.route("/admin/officer_lookup/search")
+@app.route("/admin/officer_lookup/search", methods=["GET", "POST"])
 def admin_officer_search():
+    if request.method == "POST":
+        print(request.form.to_dict())
+        return redirect("/admin/officer_lookup")
     query = request.args.to_dict()
 
     # Check if query is empty; if so, default to viewing all entries
@@ -676,7 +679,6 @@ def crime_redirect():
 @app.route("/criminal")
 def criminal_redirect():
     criminal_lookup = "/criminal_lookup"
-    print(loggedIn)
     if not loggedIn:
         return redirect("/public" + criminal_lookup)
     else:
