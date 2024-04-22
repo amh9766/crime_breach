@@ -27,6 +27,7 @@
                             <th>Phone</th>
                             <th>Violent Offender?</th>
                             <th>On Probation?</th>
+                            <th>Violations</th>
                             <th>Aliases</th>
                             <th>Sentences</th>
                             <th>Delete?</th>
@@ -56,6 +57,7 @@
                                     <option value="Y" {% if data[i][9] == 'Y' %} selected="selected" {% endif %}>Yes</option>
                                 </select>
                             </div></td>
+                            <td><div class="form-field"><input type="text" id="violations" name="violations" value={{data[i][17]}}></div></td>
                             <td><div class="form-field">{% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{% else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</div></td>
                             <td><div class="form-field">{% for k in range(sentences[i]| length) %}{% if k == 0 %}{% for l in range(sentences[i][k]| length) %}
                                 {{ sentenceLabels[l] }}:

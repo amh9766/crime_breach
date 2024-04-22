@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Crime Lookup Results - Crime Breach</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
@@ -24,20 +25,17 @@
                             <th>Status</th>
                             <th>Crime Hearing Date</th>
                             <th>Appeal Cut Date</th>
-                            <th>Officer IDs</th>
+                            <th>Officer ID</th>
                             <th>Appeal ID</th>
                             <th>Filing Date</th>
                             <th>Hearing Date</th>
                             <th>Charge ID</th>
-                            <th>Crime Code & Description</th>
+                            <th>Crime Description</th>
                             <th>Charge Status</th>
                             <th>Fine Amount</th>
                             <th>Court Fee</th>
                             <th>Amount Paid</th>
                             <th>Pay Due Date</th>
-                            <th>Criminal First Name</th>
-                            <th>Criminal Last Name</th>
-                            <th>Criminal Alias</th>
                             <th>Delete?</th>
                         </tr>
                     </thead>
@@ -45,31 +43,31 @@
                         <!-- editable row, replace value with value pulled from db -->
                         {% for i in range(data| length) %}
                         <tr>
-                            <td><div class="form-field"><input type="text" id="crimeID" name="crimeID" value="213121234"></div></td>
-                            <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value="793691"></div></td>
-                            <td><div class="form-field"><input type="text" id="classification" name="classification" value="F"></div></td>
-                            <td><div class="form-field"><input type="date" id="dateCharged" name="dateCharged" value="2023-09-01"></div></td>
-                            <td><div class="form-field"><select type="select" id="crimeStatus" name="crimeStatus" value="IA"><option value="CL">CL</option><option value="CA">CA</option><option value="IA">IA</option></div></td>
-                            <td><div class="form-field"><input type="date" id="hearingDate" name="hearingDate" value="b"></div></td>
-                            <td><div class="form-field"><input type="date" id="appealCutOffDate" name="appealCutOffDate" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="coID" name="coID" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="appID" name="appID" value="12345"></div></td>
-                            <td><div class="form-field"></div><input type="date" id="filingDate" name="filingDate" value="2023-09-09"></div></td>
-                            <td><div class="form-field"></div><input type="date" id="hearingDate" name="hearingDate" value="2023-09-30"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="chargeID" name="chargeID" value="1234567890"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="crimeCode" name="crimeCode" value="123"></div></td>
+                            <td><div class="form-field"><input type="text" id="crimeID" name="crimeID" value={{data[i][0]}}></div></td>
+                            <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value={{data[i][1]}}></div></td>
+                            <td><div class="form-field"><input type="text" id="classification" name="classification" value={{data[i][2]}}></div></td>
+                            <td><div class="form-field"><input type="date" id="dateCharged" name="dateCharged" value={{data[i][3]}}></div></td>
+                            <td><div class="form-field"><select type="select" id="crimeStatus" name="crimeStatus">
+                                <option value="CL" {% if data[i][4] == "CL" %} selected="selected" {% endif %}>CL</option>
+                                <option value="CA" {% if data[i][4] == "CA" %} selected="selected" {% endif %}>CA</option>
+                                <option value="IA" {% if data[i][4] == "IA" %} selected="selected" {% endif %}>IA</option></div></td>
+                            <td><div class="form-field"><input type="date" id="hearingDate" name="hearingDate" value={{data[i][5]}}></div></td>
+                            <td><div class="form-field"><input type="date" id="appealCutOffDate" name="appealCutOffDate" value={{data[i][6]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="coID" name="coID" value={{data[i][13]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="appID" name="appID" value={{data[i][15]}}></div></td>
+                            <td><div class="form-field"></div><input type="date" id="filingDate" name="filingDate" value={{data[i][16]}}></div></td>
+                            <td><div class="form-field"></div><input type="date" id="hearingDate" name="hearingDate" value={{data[i][17]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="chargeID" name="chargeID" value={{data[i][7]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="crimeCode" name="crimeCode" value={{data[i][14]}}></div></td>
                             <td><div class="form-field"></div><select id="chargeStatus" name="chargeStatus">
-                                <option value="PD">Pending</option>
-                                <option value="GL">Guilty</option>
-                                <option value="NG">Not Guilty</option>
+                                <option value="PD" {% if data[i][8] == "PD" %} selected="selected" {% endif %}>Pending</option>
+                                <option value="GL" {% if data[i][8] == "GL" %} selected="selected" {% endif %}>Guilty</option>
+                                <option value="NG" {% if data[i][8] == "NG" %} selected="selected" {% endif %}>Not Guilty</option>
                             </select></div></td>
-                            <td><div class="form-field"></div><input type="text" id="fineAmount" name="fineAmount" value="230.99"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="courtFee" name="courtFee" value="230.99"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="amountPaid" name="amountPaid" value="230.99"></div></td>
-                            <td><div class="form-field"></div><input type="date" id="payDueDate" name="payDueDate" value="2023-10-30"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value="b"></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalAlias" name="criminalAlias" value="b"></div></td>
+                            <td><div class="form-field"></div><input type="text" id="fineAmount" name="fineAmount" value={{data[i][9]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="courtFee" name="courtFee" value={{data[i][10]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="amountPaid" name="amountPaid" value={{data[i][11]}}></div></td>
+                            <td><div class="form-field"></div><input type="date" id="payDueDate" name="payDueDate" value={{data[i][12]}}></div></td>
                             <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
                         </tr>
                         {% endfor %}
