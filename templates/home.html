@@ -1,6 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <h2>Admin Home: Welcome {{name}}!</h2>
+        <div>
+            <section class="home-section-upd">
+            <h3 class="space-h3">Update the City Jail Database</h3>
+                <div>
+                    <button class="btn-submit">Add Criminal</button>
+                    <button class="btn-submit">Add Crime</button>
+                    <button class="btn-submit">Add Officer</button>
+                </div>
+            </section>
+            <section class="home-section-acc">
+                <h3 class="space-h3">Account</h3>
+                    <div>
+                        <button class="btn-submit">Change Password</button>
+                        <button class="btn-submit">Sign Out</button>
+                    </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home - Crime Breach</title>
@@ -10,7 +46,7 @@
     <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
 </head>
 <body>
-    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <div id="navbar-container"></div>
     <main>
         <h2>Admin Home: Welcome {{name}}!</h2>
         <div class="home-align">
@@ -25,4 +61,4 @@
         </div>
     </main>
 </body>
-</html>
+</html> -->

@@ -145,6 +145,23 @@ form {
     margin-right: 475px;
 }
 
+.home-section-upd, .home-section-acc {
+    padding: 30px;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.home-section-upd {
+    width: 47%;
+
+}
+
+.home-section-acc {
+    width: 40%;
+}
+
 .signin-section {
     width: 300px; /* Adjust size as needed */
     margin: 50px auto;
@@ -276,5 +293,9 @@ form {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+}
+
+.space-h3 {
+    padding-bottom: 20px;
 }
 
