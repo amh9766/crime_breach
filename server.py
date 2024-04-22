@@ -118,6 +118,11 @@ def sign_in():
     else:
         return render_template("index.html")
 
+@app.route("/sign_out")
+def sign_out():
+    session.pop("user", None)
+    return redirect("/sign_in")
+
 # ---- PUBLIC PAGES ----
 @app.route("/public/criminal_lookup")
 def public_criminal_lookup():
