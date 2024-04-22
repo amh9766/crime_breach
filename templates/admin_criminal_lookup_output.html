@@ -13,7 +13,7 @@
     <main>
         <section class="admin-lookup-results">
             <h2>Criminal Lookup: Administrator View</h2>
-            <form id="criminalOfficerUpdateForm" action="/admin/criminal_lookup/editable" method="POST">
+            <form id="criminalDeleteForm" action="/admin/criminal_lookup/delete" method="POST">
                 <table class="lengthy-table search-results">
                     <thead>
                         <tr>
@@ -27,51 +27,37 @@
                             <th>Phone</th>
                             <th>Violent Offender?</th>
                             <th>On Probation?</th>
-                            <th>Violations</th>
                             <th>Aliase(es)</th>
                             <th>Sentence(s)</th>
                             <th>Delete?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example row -->
                         {% for i in range(data| length) %}
                         <tr>
-                            <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value={{data[i][0]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value={{data[i][1]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value={{data[i][2]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalStreet" name="criminalStreet" value={{data[i][3]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value={{data[i][4]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalState" name="criminalState" value={{data[i][5]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalZip" name="criminalZip" value={{data[i][6]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalPhone" name="criminalPhone" value={{data[i][7]}}></div></td>
-                            <td><div class="form-field">
-                                <select id="violentOffender" name="violentOffender">
-                                    <option value="N"{% if data[i][8] == 'N' %} selected="selected" {% endif %}>No</option>
-                                    <option value="Y" {% if data[i][8] == 'Y' %} selected="selected" {% endif %}>Yes</option>
-                                </select>
-                            </div></td>
-                            <td><div class="form-field">
-                                <select id="probation" name="probation">
-                                    <option value="N" {% if data[i][9] == 'N' %} selected="selected" {% endif %}>No</option>
-                                    <option value="Y" {% if data[i][9] == 'Y' %} selected="selected" {% endif %}>Yes</option>
-                                </select>
-                            </div></td>
-                            <td><div class="form-field"><input type="text" id="violations" name="violations" value={{data[i][17]}}></div></td>
-                            <td><div class="form-field">{% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{% else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</div></td>
+                            <td><div class="form-field"><input type="text" id="criminalID" name="criminalID-{{i}}" value={{data[i][0]}} readonly></div></td>
+                            <td>{{data[i][1]}}</td>
+                            <td>{{data[i][2]}}</td>
+                            <td>{{data[i][3]}}</td>
+                            <td>{{data[i][4]}}</td>
+                            <td>{{data[i][5]}}</td>
+                            <td>{{data[i][6]}}</td>
+                            <td>{{data[i][7]}}</td>
+                            <td>{{data[i][8]}}</td>
+                            <td>{{data[i][9]}}</td>
+                            <td>{% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{% else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</td>
                             <td><div class="form-field">{% for k in range(sentences[i]| length) %}{% if k == 0 %}{% for l in range(sentences[i][k]| length) %}
                                 {{ sentenceLabels[l] }}:
                                 {{ sentences[i][k][l] }}<br>{% endfor %} {% else %}
                                 <br>{% for l in range(sentences[i][k]| length) %}
                                 {{ sentenceLabels[l] }}:
                                 {{ sentences[i][k][l] }} <br>{% endfor %}{% endif %}{% endfor %} </div></td>
-                            <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
+                            <td><input type="submit" name="{{i}}" value="Delete Record" class="btn-submit"></td>
                         </tr>{% endfor %}
                     </tbody>
                 </table>
             </form>
             <div class="form-actions"  style="display: inline-block;">
-                <button type="submit" form="adminCriminalUpdateForm" class="btn-submit" name="save" value="">Save</button>
                 <button type="button" onclick="location.href='/admin/criminal_lookup'" class="btn-view">Return to Lookup</button>
             </div>
         </section>

@@ -744,6 +744,22 @@ def admin_criminal_view_all():
                            data=searchList, aliases=getAdminAliasList(idList),
                            sentences=sList, sentenceLabels=sLabels)
 
+@app.route("/admin/criminal_lookup/delete", methods=["GET", "POST"])
+def admin_delete_criminal():
+    form = request.form.to_dict();
+
+    recordNum = ""
+    # Search for the record associated with the button press 
+    for key in form.keys():
+        if form[key] == "Delete Record":
+            recordNum = key
+
+    criminalID = form["criminalID-" + recordNum]
+    deleteStatement = "DELETE FROM Criminals WHERE Criminal_ID = " + criminalID + ";"
+    runStatement(deleteStatement)
+
+    return redirect("/admin/criminal_lookup/")
+
 @app.route("/home/<user>")
 def admin_home(user):
     return render_template("home.html", name=user)
