@@ -18,11 +18,11 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="criminalID">Criminal ID</label>
-                        <input type="text" id="criminalID" name="criminalID" placeholder="E.g. 123456">
+                        <input type="text" id="criminalID" name="criminalID" placeholder="E.g. 123456" pattern="[0-9]{0, 6}" size="6" maxlength="6">
                     </div>
                     <div class="form-field two-item">
                         <label for="aliasID">Alias ID</label>
-                        <input type="text" id="aliasID" name="aliasID" placeholder="E.g. 123456">
+                        <input type="text" id="aliasID" name="aliasID" placeholder="E.g. 123456" pattern="[0-9]{0, 6}" size="6" maxlength="6">
                     </div>
                     <!-- <div class="form-field">
                         <label for="sentenceID">Sentence ID</label>
@@ -39,15 +39,15 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John">
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John" pattern="[A-z]{0,10}" size="10" maxlength="10">
                     </div>
                     <div class="form-field">
                         <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith">
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith" pattern="[A-z]{0,15}" size="15" maxlength="15">
                     </div>
                     <div class="form-field">
                         <label for="alias">Alias</label>
-                        <input type="text" id="alias" name="alias" placeholder="E.g. Zodiac Killer">
+                        <input type="text" id="alias" name="alias" placeholder="E.g. Zodiac Killer" size="20" maxlength="20">
                     </div>
                     <div class="form-field">
                         <label for="violentOffender">Violent Offender?</label>
@@ -61,15 +61,19 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="state">State</label>
-                        <input type="text" id="state" name="state" placeholder="E.g. NY">
+                        <input type="text" id="state" name="state"
+                        placeholder="E.g. NY" pattern="[A-Z]{2}" size="2" maxlength="2">
                     </div>
                     <div class="form-field">
                         <label for="city">City</label>
-                        <input type="text" id="city" name="city" placeholder="E.g. Brooklyn">
+                        <input type="text" id="city" name="city"
+                                                     placeholder="E.g. Brooklyn"
+                                                     pattern="[A-z]{0,20}"
+                                                     size="20" maxlength="20">
                     </div>
                     <div class="form-field">
                         <label for="zip">Zip</label>
-                        <input type="text" id="zip" name="zip" placeholder="E.g. 11201">
+                        <input type="text" id="zip" name="zip" placeholder="E.g. 11201" pattern="[0-9]{5}" size="5" maxlength="5">
                     </div>
                     <div class="form-field">
                         <label for="probation">On Probation?</label>
@@ -89,34 +93,6 @@
                         <label for="sentenceEnd">Sentence End Date</label>
                         <input type="date" id="sentenceEnd" name="sentenceEnd">
                     </div>
-
-                    <!-- <div class="form-field">
-                        <label for="sentenceType">Sentence Type</label>
-                        <select id="sentenceType" name="sentenceType">
-                            <option value="J">Jail Period</option>
-                            <option value="H">House Arrest</option>
-                            <option value="P">Probation</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label for="numberOfViolations">Number of Violations</label>
-                        <input type="text" id="violations" name="violations" placeholder="E.g. 4">
-                    </div> -->
-                    <!-- <div class="form-field">
-                        <label for="poFirstName">Probation Officer First Name</label>
-                        <input type="text" id="poFirstName" name="poFirstName" placeholder="E.g. John">
-                    </div>
-                    <div class="form-field">
-                        <label for="poLastName">Probation Officer Last Name</label>
-                        <input type="text" id="poLastName" name="poLastName" placeholder="E.g. Smith">
-                    </div>
-                    <div class="form-field">
-                        <label for="poStatus">Probation Officer Status</label>
-                        <select id="poStatus" name="poStatus">
-                            <option value="A">Active</option>
-                            <option value="I">Inactive</option>
-                        </select>
-                    </div> -->
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">View Results</button>

@@ -19,16 +19,19 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John">
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John" pattern="[A-z]{1,10}" size="10" maxlength="10">
                     </div>
                     <div class="form-field">
                         <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith">
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith" pattern="[A-z]{1,10}" size="10" maxlength="10">
                     </div>
                     <div class="form-field">
                         <label for="alias">Alias</label>
-                        <input type="text" id="alias" name="alias" placeholder="E.g. Zodiac Killer">
+                        <input type="text" id="alias" name="alias"
+                                     placeholder="E.g. Zodiac Killer" size="20" maxlength="20">
                     </div>
+                </div>
+                <div class="form-row">
                     <div class="form-field">
                         <label for="violent">Violent Offender?</label>
                         <select id="violent" name="violent">
@@ -37,21 +40,7 @@
                             <option value="N">No</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-field">
-                        <label for="state">State</label>
-                        <input type="text" id="state" name="state" placeholder="E.g. NY">
-                    </div>
-                    <div class="form-field">
-                        <label for="city">City</label>
-                        <input type="text" id="city" name="city" placeholder="E.g. Brooklyn">
-                    </div>
-                    <div class="form-field">
-                        <label for="zip">Zip</label>
-                        <input type="text" id="zip" name="zip" placeholder="E.g. 11201">
-                    </div>
-                    <div class="form-field">
+                   <div class="form-field">
                         <label for="probation">On Probation?</label>
                         <select id="probation" name="probation">
                             <option value="">Select</option>

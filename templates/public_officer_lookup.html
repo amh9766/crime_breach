@@ -18,7 +18,7 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="badgeNumber">Badge #</label>
-                        <input type="text" id="badgeNumber" name="badgeNumber" placeholder="E.g. 123456">
+                        <input type="text" id="badgeNumber" name="badgeNumber" placeholder="E.g. 123456" pattern="[A-z0-9]{1,14}" size="14" maxlength="14">
                     </div>
                 </div>
                 <br>
@@ -27,15 +27,16 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John">
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John" pattern="[A-z]{1,10}" size="10" maxlength="10">
                     </div>
                     <div class="form-field">
                         <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith">
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith" pattern="[A-z]{1,15}" size="15" maxlength="15">
+
                     </div>
                     <div class="form-field">
                         <label for="precinct">Precinct</label>
-                        <input type="text" id="precinct" name="precinct" placeholder="E.g. NYPD">
+                        <input type="text" id="precinct" name="precinct" placeholder="E.g. NYPD" pattern="[A-z0-9]{4}" size="4" maxlength="4">
                     </div>
                     <div class="form-field">
                         <label for="status">Status</label>

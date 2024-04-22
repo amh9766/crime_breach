@@ -15,27 +15,20 @@
         <section class="search-section">
             <h2>Crime Lookup: Public Search</h2>
             <form id="publicCrimeSearchForm" action="/public/crime_lookup/search" method="GET" class="search-form">
-                <!-- <div class="form-row">
-                    <div class="form-field">
-                        <label for="badgeNumber">Crime Officer Badge #</label>
-                        <input type="text" id="badgeNumber" name="badgeNumber" placeholder="E.g. 12345">
-                    </div>
-                </div>
-                <br>
-                <p><b>OR</b></p>
-                <br> -->
                 <div class="form-row">
                     <div class="form-field">
                         <label for="firstName">Criminal First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John">
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John" pattern="[A-z]{1,10}" size="10" maxlength="10">
                     </div>
                     <div class="form-field">
                         <label for="lastName">Criminal Last Name</label>
-                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith">
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith" pattern="[A-z]{1,15}" size="15" maxlength="15">
                     </div>
                     <div class="form-field">
                         <label for="alias">Alias</label>
-                        <input type="text" id="alias" name="alias" placeholder="E.g. Zodiac Killer">
+                        <input type="text" id="alias" name="alias"
+                                     placeholder="E.g. Zodiac Killer" size="20"
+                                     maxlength="20">
                     </div>
                 </div>
                 <div class="form-row">
@@ -79,27 +72,9 @@
                     </div>
                     <div class="form-field">
                         <label for="crimeCode">Crime Code</label>
-                        <input type="text" id="crimeCode" name="crimeCode" placeholder="E.g. 123">
+                        <input type="text" id="crimeCode" name="crimeCode" placeholder="E.g. 123" pattern="[0-9]{0,3}" size="3" maxlength="3">
                     </div>
                 </div>
-                <!-- <div class="form-row">
-                    <div class="form-field">
-                        <label for="coFirstName">Crime Officer First Name</label>
-                        <input type="text" id="coFirstName" name="coFirstName" placeholder="E.g. John">
-                    </div>
-                    <div class="form-field">
-                        <label for="coLastName">Crime Officer Last Name</label>
-                        <input type="text" id="coLastName" name="coLastName" placeholder="E.g. Smith">
-                    </div>
-                    <div class="form-field">
-                        <label for="coStatus">Crime Officer Status</label>
-                        <select id="coStatus" name="coStatus">
-                            <option value="">Select</option>
-                            <option value="A">Active</option>
-                            <option value="I">Inactive</option>
-                        </select>
-                    </div>
-                </div> -->
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">View Results</button>
                     <button type="button"
