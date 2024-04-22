@@ -13,7 +13,7 @@
     <main>
         <section class="search-section">
             <h2>Crime Lookup: Administrator Search</h2>
-            <form id="adminCrimeSearchForm" action="/admin_search_crimes" method="GET" class="search-form">
+            <form id="adminCrimeSearchForm" action="/admin/crime_lookup/search" method="GET" class="search-form">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="crimeID">Crime ID</label>
@@ -27,14 +27,14 @@
                         <label for="chargeID">Charge ID</label>
                         <input type="text" id="chargeID" name="chargeID" placeholder="E.g. 1234567890">
                     </div>
-                    <div class="form-field">
+                    <!-- <div class="form-field">
                         <label for="coID">Crime Officer ID</label>
                         <input type="text" id="coID" name="coID" placeholder="E.g. 12345">
                     </div>
                     <div class="form-field">
                         <label for="appID">Appeal ID</label>
                         <input type="text" id="appID" name="appID" placeholder="E.g. 12345">
-                    </div>
+                    </div> -->
                 </div>
                 <br>
                 <p><b>OR</b></p>
@@ -42,7 +42,8 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="crimeStatus">Status</label>
-                        <select id="crimeStatus" name="status">
+                        <select id="crimeStatus" name="crimeStatus">
+                            <option value="">Select</option>
                             <option value="CL">CL</option>
                             <option value="CA">CA</option>
                             <option value="IA">IA</option>
@@ -51,6 +52,7 @@
                     <div class="form-field">
                         <label for="classification">Classification</label>
                         <select id="classification" name="classification">
+                            <option value="">Select</option>
                             <option value="F">Felony</option>
                             <option value="M">Misdemeanor</option>
                             <option value="O">Other</option>
@@ -60,6 +62,7 @@
                     <div class="form-field">
                         <label for="chargeStatus">Charge Status</label>
                         <select id="chargeStatus" name="chargeStatus">
+                            <option value="">Select</option>
                             <option value="PD">Pending</option>
                             <option value="GL">Guilty</option>
                             <option value="NG">Not Guilty</option>
@@ -88,7 +91,7 @@
                         <input type="date" id="filingDate" name="filingDate">
                     </div>
                 </div>
-                <div class="form-row">
+                <!-- <div class="form-row">
                     <div class="form-field">
                         <label for="coFirstName">Crime Officer First Name</label>
                         <input type="text" id="coFirstName" name="coFirstName" placeholder="E.g. John">
@@ -104,7 +107,7 @@
                             <option value="I">Inactive</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">View Results</button>
                     <button type="submit" class="btn-view">View All Records</button>
