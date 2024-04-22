@@ -354,6 +354,16 @@ def public_crime_view_all():
                            aliases=getAliasList(criminalIDList),
                            charges=getCrimeCharges(crimeIDList))
 
+def getCrimeCharges(ids):
+    chargesRequest = "SELECT Code, Description, Status FROM charges_publicview WHERE ID = "
+    chargesList = []
+    for crimID in ids:
+        chargesList.append(runSelectStatement(chargesRequest + str(crimID) +
+                                              ";").values.tolist())
+    # DEBUG: Console print to view the list of charges 
+    print(chargesList)
+    return chargesList 
+
 @app.route("/public/officer_lookup/")
 def public_officer_lookup():
     return render_template("public_officer_lookup.html")
@@ -482,7 +492,6 @@ def admin_crime_search():
 
     return render_template("admin_crime_lookup_output.html",
                            data=searchList,
-                           aliases=getAdminAliasList(criminalIDList),
                            charges=getAdminCrimeCharges(crimeIDList),
                            officers=getAdminOfficers(crimeIDList),
                            appeals=getAdminOfficers(crimeIDList))
