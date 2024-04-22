@@ -145,20 +145,20 @@ form {
     margin-right: 475px;
 }
 
-.home-section-upd, .home-section-acc {
+.home-section {
     padding: 30px;
-    display: inline-block;
+    margin-bottom: 10px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.home-section-upd {
+.upd {
     width: 47%;
 
 }
 
-.home-section-acc {
+.acc {
     width: 40%;
 }
 
