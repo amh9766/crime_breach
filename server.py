@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
 from flask_hashing import Hashing
 import pandas as pd
-import sys
 
 app = Flask(__name__)
 hashing = Hashing(app)
