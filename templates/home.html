@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home - Crime Breach</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <h2>Admin Home: Welcome {{name}}!</h2>
+        <div class="home-align">
+            <div class="home-buttons"><button class="btn-view">Add Criminal</button><br></div><div class="home-buttons">
+        <button class="btn-view">Add Crime</button><br></div><div class="home-buttons">
+        <button class="btn-view">Add officer</button></div></div>
+        
+        <div class="form-actions">
+            
+            <button class="btn-submit">Change Password</button>
+            <button class="btn-view">Sign Out</button>
+        </div>
+    </main>
+</body>
+</html>

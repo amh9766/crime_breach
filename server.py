@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session, send_file
 from flask_mysqldb import MySQL
 from flask_hashing import Hashing
 import pandas as pd
+import os
 
 app = Flask(__name__)
 hashing = Hashing(app)
@@ -18,7 +19,8 @@ app.config["MYSQL_USER"] = "everyone"
 app.config["MYSQL_PASSWORD"] = "every1"
 app.config["MYSQL_DB"] = "city_jail"
 
-loggedIn = False
+app.config["UPLOAD_FOLDER"] = "/queries/"
+app.secret_key = "S3CR3T"
 
 mysql = MySQL(app)
 
@@ -90,7 +92,6 @@ def getAdminSentencesList(ids):
     sentenceLabels = ["Type", "Start Date", "End Date"]
     return sentencesList, sentenceLabels
 
-
 # ---- PUBLIC/ADMIN PAGES ----
 
 @app.route("/sign_in", methods=["GET", "POST"])
@@ -115,13 +116,20 @@ def sign_in():
 
             return redirect("/sign_in")
         else:
-            global loggedIn
-            loggedIn = True
+            session["user"] = form["userID"]
 
-            #NOTE: Change this to home page when there is one
-            return redirect("/criminal")
+            return redirect("/home/" + session["user"])
     else:
         return render_template("index.html")
+
+@app.route("/home/<user>")
+def admin_home(user):
+    return render_template("home.html", name=user)
+
+@app.route("/download_query")
+def download():
+    return send_file(os.path.join("queries", session["user"] + "query.json"),
+                     as_attachment=True)
 
 # ---- PUBLIC PAGES ----
 @app.route("/public/criminal_lookup")
@@ -191,9 +199,9 @@ def public_criminal_search():
             searchRequest += " AND " + sentenceStartCriteria
 
     if sentenceEndSearch:
-        sentenceStartCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
+        sentenceEndCriteria = table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(" + query["sentenceEnd"] + "))"
         if len(criteria) == 0 and (not aliasSearch and not sentenceStartSearch):
-            searchRequest += sentenceStartCriteria
+            searchRequest += sentenceEndCriteria
         else:
             searchRequest += " AND " + sentenceStartCriteria
 
@@ -566,8 +574,11 @@ def admin_crime_view_all():
 def admin_officer_lookup():
     return render_template("admin_officer_lookup.html")
 
-@app.route("/admin/officer_lookup/search")
+@app.route("/admin/officer_lookup/search", methods=["GET", "POST"])
 def admin_officer_search():
+    if request.method == "POST":
+        print(request.form.to_dict())
+        return redirect("/admin/officer_lookup")
     query = request.args.to_dict()
 
     # Check if query is empty; if so, default to viewing all entries
@@ -608,9 +619,13 @@ def admin_officer_search():
     # DEBUG: Console print to view the end-result SQL query
     #print(searchRequest)
 
-    searchList = runSelectStatement(searchRequest).values.tolist()
+    searchDF = runSelectStatement(searchRequest)
+    searchList = searchDF.values.tolist()
 
-    # print(searchList)
+    searchDF.to_json(os.path.join("queries", session["user"] + "query.json"),
+                     orient="records")
+    
+    print(searchList)
 
     return render_template("admin_officer_lookup_output.html",
                            data=searchList)
@@ -619,8 +634,15 @@ def admin_officer_search():
 def admin_officer_view_all():
     table = "Officers"
     searchRequest = "SELECT * FROM " + table
+    searchDF = runSelectStatement(searchRequest)
+
+    searchDF.to_json(os.path.join("queries", session["user"] + "query.json"),
+                     orient="records")
+
     return render_template("admin_officer_lookup_output.html",
                            data=runSelectStatement(searchRequest).values.tolist())
+
+    return render_template("admin_officer_lookup_output.html")
 
 @app.route("/admin/criminal_lookup/")
 def admin_criminal_lookup():
@@ -764,16 +786,15 @@ def admin_criminal_view_all():
 # Redirects
 @app.route("/")
 def root_redirect():
-    if not loggedIn:
+    if session.get("user", None) == None:
         return redirect("/sign_in")
     else:
-        #NOTE: Make home page
-        return redirect("/public/criminal_lookup")
+        return redirect("/home/" + session["user"])
 
 @app.route("/crime")
 def crime_redirect():
     crime_lookup = "/crime_lookup"
-    if not loggedIn:
+    if session.get("user", None) == None:
         return redirect("/public" + crime_lookup)
     else:
         return redirect("/admin" + crime_lookup)
@@ -781,8 +802,7 @@ def crime_redirect():
 @app.route("/criminal")
 def criminal_redirect():
     criminal_lookup = "/criminal_lookup"
-    print(loggedIn)
-    if not loggedIn:
+    if session.get("user", None) == None:
         return redirect("/public" + criminal_lookup)
     else:
         return redirect("/admin" + criminal_lookup)
@@ -790,7 +810,7 @@ def criminal_redirect():
 @app.route("/officer")
 def officer_redirect():
     officer_lookup = "/officer_lookup"
-    if not loggedIn:
+    if session.get("user", None) == None:
         return redirect("/public" + officer_lookup)
     else:
         return redirect("/admin" + officer_lookup)
