@@ -27,11 +27,13 @@ mysql = MySQL(app)
 # ---- FUNCTIONS ----
 
 def runStatement(statement):
+    flushPermissions()
     cursor = mysql.connection.cursor()
     cursor.execute(statement)
     mysql.connection.commit()
 
 def runSelectStatement(statement):
+    flushPermissions()
     cursor = mysql.connection.cursor()
     cursor.execute(statement)
     results = cursor.fetchall()
@@ -109,11 +111,6 @@ def sign_in():
         searchResult = runSelectStatement(searchRequest)["COUNT(*)"][0]
 
         if searchResult == 0:
-            app.config.update(
-                MYSQL_USER="everyone",
-                MYSQL_PASSWORD="every1"
-            )
-
             return redirect("/sign_in")
         else:
             session["user"] = form["userID"]
@@ -121,6 +118,18 @@ def sign_in():
             return redirect("/home/" + session["user"])
     else:
         return render_template("index.html")
+
+def flushPermissions():
+    if session.get("user", None) == None:
+        app.config.update(
+                MYSQL_USER="everyone",
+                MYSQL_PASSWORD="every1"
+        )
+    else:
+        app.config.update(
+            MYSQL_USER="administrator",
+            MYSQL_PASSWORD="adm!n"
+        )
 
 @app.route("/home/<user>")
 def admin_home(user):
