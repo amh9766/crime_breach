@@ -14,18 +14,171 @@
     <main>
         <h2>Admin Home: Welcome {{name}}!</h2>
         <div>
-            <section class="home-section upd">
-            <h3 class="space-h3">Update the City Jail Database</h3>
-                <div>
-                    <button class="btn-submit">Add Criminal</button>
-                    <button class="btn-submit">Add Crime</button>
-                    <button class="btn-submit">Add Officer</button>
+            <section class="home-section">
+                <h3 class="space-h3">Update the City Jail Database</h3>
+                <form id="crimeUpdateForm" action="/admin/crime_lookup/update" method="POST">
+                    <table class="search-results lengthy-table">
+                        <thead>
+                            <tr>
+                                <th>Crime ID</th>
+                                <th>Criminal ID</th>
+                                <th>Classification</th>
+                                <th>Date Charged</th>
+                                <th>Status</th>
+                                <th>Crime Hearing Date</th>
+                                <th>Appeal Cut Date</th>
+                                <th>Officer ID(s)</th>
+                                <th>Appeal ID</th>
+                                <th>Filing Date</th>
+                                <th>Hearing Date</th>
+                                <th>Charge ID</th>
+                                <th>Crime Description</th>
+                                <th>Charge Status</th>
+                                <th>Fine Amount</th>
+                                <th>Court Fee</th>
+                                <th>Amount Paid</th>
+                                <th>Pay Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="form-field"><input type="text" id="crimeID" name="crimeID" value=""></div></td>
+                                <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value=""></div></td>
+                                <td><div class="form-field"><input type="text" id="classification" name="classification" value=""></div></td>
+                                <td><div class="form-field"><input type="date" id="dateCharged" name="dateCharged" value=""></div></td>
+                                <td><div class="form-field"><select type="select" id="crimeStatus" name="crimeStatus">
+                                    <option value="CL" >CL</option>
+                                    <option value="CA" >CA</option>
+                                    <option value="IA" >IA</option></div></td>
+                                <td><div class="form-field"><input type="date" id="hearingDate" name="hearingDate" value=""></div></td>
+                                <td><div class="form-field"><input type="date" id="appealCutOffDate" name="appealCutOffDate" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="coID" name="coID" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="appID" name="appID" value=""></div></td>
+                                <td><div class="form-field"></div><input type="date" id="filingDate" name="filingDate" value=""></div></td>
+                                <td><div class="form-field"></div><input type="date" id="hearingDate" name="hearingDate" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="chargeID" name="chargeID" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="crimeCode" name="crimeCode" value=""></div></td>
+                                <td><div class="form-field"></div><select id="chargeStatus" name="chargeStatus">
+                                    <option value="PD">Pending</option>
+                                    <option value="GL">Guilty</option>
+                                    <option value="NG">Not Guilty</option>
+                                </select></div></td>
+                                <td><div class="form-field"></div><input type="text" id="fineAmount" name="fineAmount" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="courtFee" name="courtFee" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="amountPaid" name="amountPaid" value=""></div></td>
+                                <td><div class="form-field"></div><input type="date" id="payDueDate" name="payDueDate" value=""></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <div style="display: inline-block; margin-bottom: 30px;">
+                    <button type="submit" form="crimeUpdateForm" class="btn-submit">Add Crime</button>
                 </div>
+                <form id="criminalUpdateForm" action="/admin/criminal_lookup/update" method="POST">
+                    <table class="lengthy-table search-results">
+                        <thead>
+                            <tr>
+                                <th>Criminal ID</th>
+                                <th>Last Name</th>
+                                <th>First Name</th>
+                                <th>Street</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zip</th>
+                                <th>Phone</th>
+                                <th>Violent Offender?</th>
+                                <th>On Probation?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalStreet" name="criminalStreet" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalState" name="criminalState" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalZip" name="criminalZip" value=""></div></td>
+                                <td><div class="form-field"></div><input type="text" id="criminalPhone" name="criminalPhone" value=""></div></td>
+                                <td><div class="form-field">
+                                    <select id="violentOffender" name="violentOffender">
+                                        <option value="N">No</option>
+                                        <option value="Y">Yes</option>
+                                    </select>
+                                </div></td>
+                                <td><div class="form-field">
+                                    <select id="probation" name="probation">
+                                        <option value="N">No</option>
+                                        <option value="Y">Yes</option>
+                                    </select>
+                                </div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <div style="display: inline-block; margin-bottom: 30px;">
+                    <button type="submit" form="criminalUpdateForm" class="btn-submit">Add Criminal</button>
+                </div>
+            <form id="officerUpdateForm" action="/admin/officer_lookup/update", method="POST">
+                <table class="search-results lengthy-table">
+                    <thead>
+                        <tr>
+                            <th>Officer ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Precinct</th>
+                            <th>Badge #</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="form-field"><input type="text"
+                                                               id="officerID"
+                                                               name="officerID"
+                                                               value=""></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="firstName"
+                                                               name="firstName"
+                                                               value=""></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="lastName"
+                                                               name="lastName"
+                                                               value=""></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="precinct"
+                                                               name="precinct"
+                                                               value=""></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="badgeID"
+                                                               name="badgeID"
+                                                               value=""></div></td>
+                            <td><div class="form-field"><input type="text"
+                                    id="officerPhone" name="officerPhone"
+                                                      value=""></div></td>
+                            <td><div class="form-field">
+                                    <select id="officerStatus" name="officerStatus">
+                                    <option value="A">Active</option>
+                                    <option value="I">Inactive</option>
+                                </select>
+                            </div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div style="margin-bottom: 30px; display: inline-block;">
+                <button type="submit" form="officerUpdateForm" class="btn-submit">Add Officer</button>
+            </div>
             </section>
-            <section class="home-section acc">
+            <section class="home-section">
                 <h3 class="space-h3">Account</h3>
+                <!-- <div class="form-field">
+                    <label for="password">Create New Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                    <button type="button" onclick="location.href='/new_pass' "class="btn-submit">Submit</button>
+                </div> -->
                     <div>
-                        <button class="btn-submit">Change Password</button>
                         <button type="button" onclick="location.href='/sign_out' "class="btn-submit">Sign Out</button>
                     </div>
             </section>
@@ -33,32 +186,3 @@
     </main>
 </body>
 </html>
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Home - Crime Breach</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
-</head>
-<body>
-    <div id="navbar-container"></div>
-    <main>
-        <h2>Admin Home: Welcome {{name}}!</h2>
-        <div class="home-align">
-            <div class="home-buttons"><button class="btn-view">Add Criminal</button><br></div><div class="home-buttons">
-        <button class="btn-view">Add Crime</button><br></div><div class="home-buttons">
-        <button class="btn-view">Add officer</button></div></div>
-        
-        <div class="form-actions">
-            
-            <button class="btn-submit">Change Password</button>
-            <button class="btn-view">Sign Out</button>
-        </div>
-    </main>
-</body>
-</html> -->
