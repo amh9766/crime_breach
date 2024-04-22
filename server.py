@@ -366,7 +366,7 @@ def getCrimeCharges(ids):
         chargesList.append(runSelectStatement(chargesRequest + str(crimID) +
                                               ";").values.tolist())
     # DEBUG: Console print to view the list of charges 
-    print(chargesList)
+    #print(chargesList)
     return chargesList 
 
 @app.route("/public/officer_lookup/")
@@ -451,9 +451,9 @@ def admin_crime_search():
 
     criteria = []
 
-    if query["criminalID"]:
+    if query["criminalID"] != "":
         criteria.append(table + ".Criminal_ID = " + query["criminalID"])
-    if query["crimeID"]:
+    if query["crimeID"] != "":
         criteria.append(table + ".Crime_ID = " + query["crimeID"])
     if query["crimeStatus"] != "":
         criteria.append(table + ".Status LIKE \"" + query["crimeStatus"] + "\"")
@@ -499,7 +499,7 @@ def admin_crime_search():
                            data=searchList,
                            charges=getAdminCrimeCharges(crimeIDList),
                            officers=getAdminOfficers(crimeIDList),
-                           appeals=getAdminOfficers(crimeIDList))
+                           appeals=getAdminAppeals(crimeIDList))
 
 def getAdminCrimeCharges(ids):
     chargesRequest = "SELECT Charge_ID, Crime_charges.Crime_code, Code_description, Fine_amount, Court_fee, Amount_paid, Pay_due_date FROM Crime_charges INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code WHERE Crime_charges.Crime_ID = "
@@ -526,7 +526,25 @@ def getAdminAppeals(ids):
     for crimID in ids:
         appealsList.append(runSelectStatement(appealsRequest + str(crimID) +
                                               ";").values.tolist())
+    #print(appealsList)
     return appealsList
+
+@app.route("/admin/crime_lookup/delete", methods=["GET", "POST"])
+def admin_delete_crime():
+    form = request.form.to_dict();
+
+    recordNum = ""
+    # Search for the record associated with the button press 
+    for key in form.keys():
+        if form[key] == "Delete Record":
+            recordNum = key
+
+    criminalID = form["crimeID-" + recordNum]
+    deleteStatement = "DELETE FROM Crimes WHERE Crime_ID = " + criminalID + ";"
+    runStatement(deleteStatement)
+
+    return redirect("/admin/crime_lookup/")
+
 
 @app.route("/admin/crime_lookup/view_all")
 def admin_crime_view_all():
@@ -546,7 +564,7 @@ def admin_crime_view_all():
                            aliases=getAdminAliasList(criminalIDList),
                            charges=getAdminCrimeCharges(crimeIDList),
                            officers=getAdminOfficers(crimeIDList),
-                           appeals=getAdminOfficers(crimeIDList))
+                           appeals=getAdminAppeals(crimeIDList))
 
 @app.route("/admin/officer_lookup/")
 def admin_officer_lookup():

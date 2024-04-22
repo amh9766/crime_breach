@@ -14,7 +14,7 @@
     <main>
         <section class="admin-lookup-results">
             <h2>Crime Lookup: Administrator View</h2>
-            <form id="adminCrimeUpdateForm" action="/admin_update_crime" method="POST">
+            <form id="adminCrimeUpdateForm" action="/admin/crime_lookup/delete" method="POST">
                 <table class="search-results lengthy-table">
                     <thead>
                         <tr>
@@ -44,7 +44,7 @@
                         {% for i in range(data| length) %}
                         <tr>
                             <td><div class="form-field"><input type="text" id="crimeID"
-name="crimeID-{{i}}" value={{data[i][0]}}></div></td>
+name="crimeID-{{i}}" value={{data[i][0]}} readonly></div></td>
                             <td>{{data[i][0]}}</td>
                             <td>{{data[i][1]}}</td>
                             <td>{{data[i][3]}}</td>
@@ -58,11 +58,31 @@ name="crimeID-{{i}}" value={{data[i][0]}}></div></td>
                             <td>{% for k in range(appeals[i]| length) %}{% if k
                                 == 0 %}{{appeals[i][k][1]}}<br>{% else %}
                                 <br>{{appeals[i][k][1]}}<br>{% endif %}{% endfor %}</td>
-                            <td>{{data[i][9]}}</td>
-                            <td>{{data[i][10]}}</td>
-                            <td>{{data[i][11]}}</td>
-                            <td>{{data[i][12]}}</td>
-                            <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
+                            <td>{% for k in range(appeals[i]| length) %}{% if k
+                                == 0 %}{{appeals[i][k][2]}}<br>{% else %}
+                                <br>{{appeals[i][k][2]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][0]}}<br>{% else %}
+                                <br>{{charges[i][k][0]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][1]}}<br>{% else %}
+                                <br>{{charges[i][k][1]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][2]}}<br>{% else %}
+                                <br>{{charges[i][k][2]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][3]}}<br>{% else %}
+                                <br>{{charges[i][k][3]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][4]}}<br>{% else %}
+                                <br>{{charges[i][k][4]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][5]}}<br>{% else %}
+                                <br>{{charges[i][k][5]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][6]}}<br>{% else %}
+                                <br>{{charges[i][k][6]}}<br>{% endif %}{% endfor %}</td>
+                            <td><input type="submit" name={{i}} value="Delete Record" class="btn-submit"</td>
                         </tr>
                         {% endfor %}
                     </tbody>
