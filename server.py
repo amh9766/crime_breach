@@ -207,18 +207,22 @@ def public_criminal_search():
     # DEBUG: Console print to view the end-result SQL query
     #print(searchRequest)
 
-    searchDF = runSelectStatement(searchRequest)
-    searchList = searchDF.values.tolist()
+    try:
+        searchDF = runSelectStatement(searchRequest)
+    except:
+        return redirect("/public/criminal_lookup")
+    else:
+        searchList = searchDF.values.tolist()
 
-    # Remove duplicates from observed IDs
-    idList = list(set(searchDF["ID"].tolist()));
-    #print(idList)
+        # Remove duplicates from observed IDs
+        idList = list(set(searchDF["ID"].tolist()));
+        #print(idList)
 
-    sList, sLabels = getSentencesList(idList)
+        sList, sLabels = getSentencesList(idList)
 
-    return render_template("public_criminal_lookup_output.html",
-                           data=searchList, aliases=getAliasList(idList),
-                           sentences=sList, sentenceLabels=sLabels)
+        return render_template("public_criminal_lookup_output.html",
+                               data=searchList, aliases=getAliasList(idList),
+                               sentences=sList, sentenceLabels=sLabels)
 
 @app.route("/public/criminal_lookup/view_all")
 def public_criminal_view_all():
@@ -298,18 +302,23 @@ def public_crime_search():
     # DEBUG: Console print to view the end-result SQL query
     print(searchRequest)
 
-    searchDF = runSelectStatement(searchRequest)
-    searchList = searchDF.values.tolist()
+    try:
+        searchDF = runSelectStatement(searchRequest)
+    except:
+        return redirect("/public/crime_lookup/")
+    else:
 
-    # No necessity to remove duplicates since the view is on a per crime basis
-    # as opposed to a per criminal basis
-    criminalIDList = searchDF["Criminal ID"].tolist()
-    crimeIDList = searchDF["Crime ID"].tolist()
+        searchList = searchDF.values.tolist()
 
-    return render_template("public_crime_lookup_output.html",
-                           data=searchList,
-                           aliases=getAliasList(criminalIDList),
-                           charges=getCrimeCharges(crimeIDList))
+        # No necessity to remove duplicates since the view is on a per crime basis
+        # as opposed to a per criminal basis
+        criminalIDList = searchDF["Criminal ID"].tolist()
+        crimeIDList = searchDF["Crime ID"].tolist()
+
+        return render_template("public_crime_lookup_output.html",
+                               data=searchList,
+                               aliases=getAliasList(criminalIDList),
+                               charges=getCrimeCharges(crimeIDList))
 
 @app.route("/public/crime_lookup/view_all")
 def public_crime_view_all():
@@ -385,10 +394,13 @@ def public_officer_search():
     # DEBUG: Console print to view the end-result SQL query
     #print(searchRequest)
 
-    searchList = runSelectStatement(searchRequest).values.tolist()
-
-    return render_template("public_officer_lookup_output.html",
-                           data=searchList)
+    try:
+        searchList = runSelectStatement(searchRequest).values.tolist()
+    except:
+        return redirect("/public/officer_lookup/")
+    else:
+        return render_template("public_officer_lookup_output.html",
+                               data=searchList)
 
 @app.route("/public/officer_lookup/view_all")
 def public_officer_view_all():
@@ -453,22 +465,25 @@ def admin_crime_search():
     # DEBUG: Console print to view the end-result SQL query
     #print(searchRequest)
 
-    searchDF = runSelectStatement(searchRequest)
-    #print(searchDF)
-    searchList = searchDF.values.tolist()
-    #print(searchList)
+    try:
+        searchDF = runSelectStatement(searchRequest)
+    except:
+        return redirect("/admin/crime_lookup/")
+    else:
+        #print(searchDF)
+        searchList = searchDF.values.tolist()
+        #print(searchList)
 
-    # No necessity to remove duplicates since the view is on a per crime basis
-    # as opposed to a per criminal basis
-    criminalIDList = searchDF["Criminal_ID"].tolist()
-    crimeIDList = searchDF["Crime_ID"].tolist()
-    
+        # No necessity to remove duplicates since the view is on a per crime basis
+        # as opposed to a per criminal basis
+        criminalIDList = searchDF["Criminal_ID"].tolist()
+        crimeIDList = searchDF["Crime_ID"].tolist()
 
-    return render_template("admin_crime_lookup_output.html",
-                           data=searchList,
-                           charges=getAdminCrimeCharges(crimeIDList),
-                           officers=getAdminOfficers(crimeIDList),
-                           appeals=getAdminAppeals(crimeIDList))
+        return render_template("admin_crime_lookup_output.html",
+                               data=searchList,
+                               charges=getAdminCrimeCharges(crimeIDList),
+                               officers=getAdminOfficers(crimeIDList),
+                               appeals=getAdminAppeals(crimeIDList))
 
 @app.route("/admin/crime_lookup/view_all")
 def admin_crime_view_all():
@@ -579,16 +594,20 @@ def admin_officer_search():
     # DEBUG: Console print to view the end-result SQL query
     #print(searchRequest)
 
-    searchDF = runSelectStatement(searchRequest)
-    searchList = searchDF.values.tolist()
+    try:
+        searchDF = runSelectStatement(searchRequest)
+    except:
+        return redirect("/admin/officer_lookup/")
+    else:
+        searchList = searchDF.values.tolist()
 
-    searchDF.to_json(os.path.join("queries", session["user"] + "query.json"),
+        searchDF.to_json(os.path.join("queries", session["user"] + "query.json"),
                      orient="records")
     
-    print(searchList)
+        print(searchList)
 
-    return render_template("admin_officer_lookup_output.html",
-                           data=searchList)
+        return render_template("admin_officer_lookup_output.html",
+                               data=searchList)
 
 @app.route("/admin/officer_lookup/view_all")
 def admin_officer_view_all():
@@ -609,7 +628,11 @@ def admin_update_officer():
     for i in range(0, int(form["save"])):
         iStr = str(i)
         updateStatement = "UPDATE Officers SET Last = \"" + form["lastName-" + iStr] + "\", First = \"" + form["firstName-" + iStr] + "\", Precinct = \"" + form["precinct-" + iStr] + "\", Phone = " + form["officerPhone-" + iStr] + ", Status = \"" + form["officerStatus-" + iStr] + "\" WHERE Officer_ID = " + form["officerID-" + iStr] + ";"
-        runStatement(updateStatement)
+
+        try:
+            runStatement(updateStatement)
+        except:
+            continue
 
     return redirect("/admin/officer_lookup/")
 
@@ -699,18 +722,22 @@ def admin_criminal_search():
     # DEBUG: Console print to view the end-result SQL query
     print(searchRequest)
 
-    searchDF = runSelectStatement(searchRequest)
-    searchList = searchDF.values.tolist()
+    try:
+        searchDF = runSelectStatement(searchRequest)
+    except:
+        return redirect("/admin/criminal_lookup/")
+    else:
+        searchList = searchDF.values.tolist()
 
-    # Remove duplicates from observed IDs
-    idList = list(set(searchDF["Criminal_ID"].tolist()));
-    #print(idList)
+        # Remove duplicates from observed IDs
+        idList = list(set(searchDF["Criminal_ID"].tolist()));
+        #print(idList)
 
-    sList, sLabels = getAdminSentencesList(idList)
+        sList, sLabels = getAdminSentencesList(idList)
 
-    return render_template("admin_criminal_lookup_output.html",
-                           data=searchList, aliases=getAdminAliasList(idList),
-                           sentences=sList, sentenceLabels=sLabels)
+        return render_template("admin_criminal_lookup_output.html",
+                               data=searchList, aliases=getAdminAliasList(idList),
+                               sentences=sList, sentenceLabels=sLabels)
 
 @app.route("/admin/criminal_lookup/view_all")
 def admin_criminal_view_all():
