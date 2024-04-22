@@ -29,21 +29,46 @@
                     </thead>
                     <tbody>
                         <!-- Example row -->
+                        {% for entry in data %}
                         <tr>
-                            <td><div class="form-field"><input type="text" id="officerID" name="officerID" value="213121234"></div></td>
-                            <td><div class="form-field"><input type="text" id="firstName" name="firstName" value="Brooke"></div></td>
-                            <td><div class="form-field"><input type="text" id="lastName" name="lastName" value="Fields"></div></td>
-                            <td><div class="form-field"><input type="text" id="precinct" name="precinct" value="NYPD"></div></td>
-                            <td><div class="form-field"><input type="text" id="badgeID" name="badgeID" value="Y67HM90L1"></div></td>
-                            <td><div class="form-field"><input type="text" id="officerPhone" name="officerPhone" value="Y67HM90L1"></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="officerID"
+                                                               name="officerID"
+                                                               value="{{
+                                                               entry[0] }}"></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="firstName"
+                                                               name="firstName"
+                                                               value="{{
+                                                                      entry[1]
+                                                                      }}"></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="lastName"
+                                                               name="lastName"
+                                                               value="{{
+                                                               entry[2] }}"></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="precinct"
+                                                               name="precinct"
+                                                               value="{{
+                                                               entry[3] }}"></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="badgeID"
+                                                               name="badgeID"
+                                                               value="{{entry[4]
+                                                               }}"></div></td>
+                            <td><div class="form-field"><input type="text"
+                                    id="officerPhone" name="officerPhone"
+                                                      value="{{ entry[5] }}"></div></td>
                             <td><div class="form-field">
                                 <select id="officerStatus" name="officerStatus">
-                                    <option value="A">Active</option>
-                                    <option value="I">Inactive</option>
+                                    <option value="A" {% if entry[6] == 'A' %}selected="selected" {% endif %}>Active</option>
+                                    <option value="I" {% if entry[6] == 'I' %}selected="selected" {% endif %}>Inactive</option>
                                 </select>
                             </div></td>
                             <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </form>

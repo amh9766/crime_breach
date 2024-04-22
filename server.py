@@ -437,10 +437,60 @@ def admin_officer_lookup():
 
 @app.route("/admin/officer_lookup/search")
 def admin_officer_search():
-    return render_template("admin_officer_lookup_output.html")
+    query = request.args.to_dict()
+
+    # Check if query is empty; if so, default to viewing all entries
+    empty = True 
+    for values in query.values():
+        if not values == "":
+            empty = False
+            break
+
+    if empty:
+        return redirect("/admin/officer_lookup/view_all")
+
+    table = "Officers"
+    searchRequest = "SELECT * FROM " + table + " WHERE "
+
+    criteria = []
+
+    if query["badgeNumber"] != "":
+        criteria.append(table + ".`Badge #` LIKE \"" + query["badgeNumber"] + "\"")
+    if query["firstName"] != "":
+        criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
+    if query["lastName"] != "":
+        criteria.append(table + ".`Last Name` LIKE \"" + query["lastName"] + "\"")
+    if query["precinct"] != "":
+        criteria.append(table + ".`Precinct` LIKE \"" + query["precinct"] + "\"")
+    if query["status"] != "":
+        criteria.append(table + ".`Status` LIKE \"" + query["status"] + "\"")
+
+    if len(criteria) == 1:
+        searchRequest += criteria[0]
+    else:
+        for i in range(0, len(criteria)):
+            if i == 0:
+                searchRequest += criteria[i]
+            else:
+                searchRequest += " AND " + criteria[i]
+
+    # DEBUG: Console print to view the end-result SQL query
+    #print(searchRequest)
+
+    searchList = runSelectStatement(searchRequest).values.tolist()
+
+    print(searchList)
+
+    return render_template("admin_officer_lookup_output.html",
+                           data=searchList)
 
 @app.route("/admin/officer_lookup/view_all")
 def admin_officer_view_all():
+    table = "Officers"
+    searchRequest = "SELECT * FROM " + table;
+    return render_template("admin_officer_lookup_output.html",
+                           data=runSelectStatement(searchRequest).values.tolist())
+
     return render_template("admin_officer_lookup_output.html")
 
 @app.route("/admin/criminal_lookup/")

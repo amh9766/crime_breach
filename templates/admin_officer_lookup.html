@@ -13,7 +13,7 @@
     <main>
         <section class="search-section">
             <h2>Officer Lookup: Administrator Search</h2>
-            <form id="adminOfficerSearchForm" action="/admin_search_officers" method="GET" class="search-form">
+            <form id="adminOfficerSearchForm" action="/admin/officer_lookup/search" method="GET" class="search-form">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="officerID">Officer ID</label>
@@ -43,6 +43,7 @@
                     <div class="form-field">
                         <label for="status">Status</label>
                         <select id="status" name="status">
+                            <option value="">Select</option>
                             <option value="A">Active</option>
                             <option value="I">Inactive</option>
                         </select>
@@ -50,7 +51,9 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">View Results</button>
-                    <button type="submit" class="btn-view">View All Records</button>
+                    <button type="button" 
+                    onclick="location.href='/admin/officer_lookup/view_all'" class="btn-view">View All Records</button>
+
                 </div>
             </form>
         </section>
