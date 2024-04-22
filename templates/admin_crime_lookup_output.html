@@ -65,11 +65,8 @@ name="crimeID-{{i}}" value={{data[i][0]}} readonly></div></td>
                                 == 0 %}{{charges[i][k][0]}}<br>{% else %}
                                 <br>{{charges[i][k][0]}}<br>{% endif %}{% endfor %}</td>
                             <td>{% for k in range(charges[i]| length) %}{% if k
-                                == 0 %}{{charges[i][k][1]}}<br>{% else %}
-                                <br>{{charges[i][k][1]}}<br>{% endif %}{% endfor %}</td>
-                            <td>{% for k in range(charges[i]| length) %}{% if k
-                                == 0 %}{{charges[i][k][2]}}<br>{% else %}
-                                <br>{{charges[i][k][2]}}<br>{% endif %}{% endfor %}</td>
+                                == 0 %}{{charges[i][k][1]}}: {{charges[i][k][2]}}<br>{% else %}
+                                <br>{{charges[i][k][1]}}: {{charges[i][k][2]}}<br>{% endif %}{% endfor %}</td>
                             <td>{% for k in range(charges[i]| length) %}{% if k
                                 == 0 %}{{charges[i][k][3]}}<br>{% else %}
                                 <br>{{charges[i][k][3]}}<br>{% endif %}{% endfor %}</td>
@@ -82,6 +79,9 @@ name="crimeID-{{i}}" value={{data[i][0]}} readonly></div></td>
                             <td>{% for k in range(charges[i]| length) %}{% if k
                                 == 0 %}{{charges[i][k][6]}}<br>{% else %}
                                 <br>{{charges[i][k][6]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][7]}}<br>{% else %}
+                                <br>{{charges[i][k][7]}}<br>{% endif %}{% endfor %}</td>
                             <td><input type="submit" name={{i}} value="Delete Record" class="btn-submit"</td>
                         </tr>
                         {% endfor %}

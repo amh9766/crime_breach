@@ -98,7 +98,7 @@ def getAdminSentencesList(ids):
     return sentencesList, sentenceLabels
 
 def getAdminCrimeCharges(ids):
-    chargesRequest = "SELECT Charge_ID, Crime_charges.Crime_code, Code_description, Fine_amount, Court_fee, Amount_paid, Pay_due_date FROM Crime_charges INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code WHERE Crime_charges.Crime_ID = "
+    chargesRequest = "SELECT Charge_ID, Crime_charges.Crime_code, Code_description, Charge_status, Fine_amount, Court_fee, Amount_paid, Pay_due_date FROM Crime_charges INNER JOIN Crime_codes ON Crime_charges.Crime_code = Crime_codes.Crime_code WHERE Crime_charges.Crime_ID = "
 
     chargesList = []
     for crimID in ids:
