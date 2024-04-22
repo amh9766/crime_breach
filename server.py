@@ -512,6 +512,17 @@ def admin_officer_view_all():
 
     return render_template("admin_officer_lookup_output.html")
 
+@app.route("/admin/officer_lookup/update", methods=["GET", "POST"])
+def admin_update_officer():
+    form = request.form.to_dict();
+
+    for i in range(0, int(form["save"])):
+        iStr = str(i)
+        updateStatement = "UPDATE Officers SET Last = \"" + form["lastName-" + iStr] + "\", First = \"" + form["firstName-" + iStr] + "\", Precinct = \"" + form["precinct-" + iStr] + "\", Phone = " + form["officerPhone-" + iStr] + ", Status = \"" + form["officerStatus-" + iStr] + "\" WHERE Officer_ID = " + form["officerID-" + iStr] + ";"
+        runStatement(updateStatement)
+
+    return redirect("/admin/officer_lookup/")
+
 @app.route("/admin/criminal_lookup/")
 def admin_criminal_lookup():
     return render_template("admin_criminal_lookup.html")

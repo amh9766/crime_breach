@@ -13,7 +13,8 @@
     <main>
         <section class="admin-lookup-results">
             <h2>Officer Lookup: Administrator View</h2>
-            <form id="adminOfficerUpdateForm" action="/admin_update_officer" method="POST">
+            <form id="adminOfficerUpdateForm"
+                action="/admin/officer_lookup/update", method="POST">
                 <table class="search-results lengthy-table">
                     <thead>
                         <tr>
@@ -28,41 +29,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in data %}
+                        {% for i in range(data| length) %}
                         <tr>
                             <td><div class="form-field"><input type="text"
                                                                id="officerID"
-                                                               name="officerID"
+                                                               name="officerID-{{ i }}"
                                                                value="{{
-                                                               entry[0] }}"></div></td>
+                                                               data[i][0] }}"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="firstName"
-                                                               name="firstName"
+                                                               name="firstName-{{ i }}"
                                                                value="{{
-                                                                      entry[1]
+                                                                      data[i][1]
                                                                       }}"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="lastName"
-                                                               name="lastName"
+                                                               name="lastName-{{ i }}"
                                                                value="{{
-                                                               entry[2] }}"></div></td>
+                                                               data[i][2] }}"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="precinct"
-                                                               name="precinct"
+                                                               name="precinct-{{ i }}"
                                                                value="{{
-                                                               entry[3] }}"></div></td>
+                                                               data[i][3] }}"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="badgeID"
-                                                               name="badgeID"
-                                                               value="{{entry[4]
+                                                               name="badgeID-{{ i }}"
+                                                               value="{{data[i][4]
                                                                }}"></div></td>
                             <td><div class="form-field"><input type="text"
-                                    id="officerPhone" name="officerPhone"
-                                                      value="{{ entry[5] }}"></div></td>
+                                    id="officerPhone" name="officerPhone-{{ i }}"
+                                                      value="{{ data[i][5] }}"></div></td>
                             <td><div class="form-field">
-                                <select id="officerStatus" name="officerStatus">
-                                    <option value="A" {% if entry[6] == 'A' %}selected="selected" {% endif %}>Active</option>
-                                    <option value="I" {% if entry[6] == 'I' %}selected="selected" {% endif %}>Inactive</option>
+                                    <select id="officerStatus" name="officerStatus-{{ i }}">
+                                    <option value="A" {% if data[i][6] == 'A' %}selected="selected" {% endif %}>Active</option>
+                                    <option value="I" {% if data[i][6] == 'I' %}selected="selected" {% endif %}>Inactive</option>
                                 </select>
                             </div></td>
                             <td><input type="button" value="Delete Record" class="btn-submit" onclick="SomeDeleteRowFunction()"></td>
@@ -72,7 +73,7 @@
                 </table>
             </form>
             <div class="form-actions"  style="display: inline-block;">
-                <button type="submit" form="adminOfficerUpdateForm" class="btn-submit" name="save" value="idk">Save</button>
+                <button type="submit" form="adminOfficerUpdateForm" class="btn-submit" name="save" value="{{ data| length }}">Save</button>
                 <button type="button" onclick="location.href='/admin/officer_lookup'" class="btn-view">Return to Lookup</button>
             </div>
         </section>
