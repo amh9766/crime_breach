@@ -18,8 +18,8 @@
                     <thead>
                         <tr>
                             <th>Criminal ID</th>
-                            <th>First Name</th>
                             <th>Last Name</th>
+                            <th>First Name</th>
                             <th>Street</th>
                             <th>City</th>
                             <th>State</th>
@@ -28,8 +28,8 @@
                             <th>Violent Offender?</th>
                             <th>On Probation?</th>
                             <th>Violations</th>
-                            <th>Aliases</th>
-                            <th>Sentences</th>
+                            <th>Aliase(es)</th>
+                            <th>Sentence(s)</th>
                             <th>Delete?</th>
                         </tr>
                     </thead>
@@ -38,8 +38,8 @@
                         {% for i in range(data| length) %}
                         <tr>
                             <td><div class="form-field"><input type="text" id="criminalID" name="criminalID" value={{data[i][0]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value={{data[i][2]}}></div></td>
-                            <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value={{data[i][1]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalFirstName" name="criminalFirstName" value={{data[i][1]}}></div></td>
+                            <td><div class="form-field"></div><input type="text" id="criminalLastName" name="criminalLastName" value={{data[i][2]}}></div></td>
                             <td><div class="form-field"></div><input type="text" id="criminalStreet" name="criminalStreet" value={{data[i][3]}}></div></td>
                             <td><div class="form-field"></div><input type="text" id="criminalCity" name="criminalCity" value={{data[i][4]}}></div></td>
                             <td><div class="form-field"></div><input type="text" id="criminalState" name="criminalState" value={{data[i][5]}}></div></td>
