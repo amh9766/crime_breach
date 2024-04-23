@@ -133,14 +133,14 @@ SELECT Criminals.Criminal_ID AS "Criminal ID", Last AS "Last Name", First AS "Fi
     Crimes.Crime_ID AS "Crime ID"
 FROM Crimes
 INNER JOIN Criminals
-ON Crimes.Criminal_ID = Criminals.Criminal_ID
+ON Crimes.Criminal_ID = Criminals.Criminal_ID;
 
 CREATE VIEW charges_publicview AS
 SELECT Crime_charges.Crime_ID AS "ID", Crime_codes.Crime_code AS "Code",
     Code_description AS "Description", Charge_status AS "Status"
 FROM Crime_charges 
 INNER JOIN Crime_codes
-ON Crime_charges.Crime_code = Crime_codes.Crime_code
+ON Crime_charges.Crime_code = Crime_codes.Crime_code;
 
 CREATE OR REPLACE USER "administrator"@"%" IDENTIFIED BY "adm!n";
 CREATE OR REPLACE USER "everyone"@"%" IDENTIFIED BY "every1";

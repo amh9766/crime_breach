@@ -176,9 +176,6 @@ def public_criminal_search():
 
     criteria = []
 
-    sentenceStartSearch = False
-    sentenceEndSearch = False
-
     if query["alias"] != "":
         criteria.append(table + ".`ID` IN (SELECT ID FROM alias_publicview WHERE Alias LIKE \"" + query["alias"] + "\")")
     if query["sentenceStart"] != "":
@@ -205,7 +202,7 @@ def public_criminal_search():
 
     searchRequest += ";"
     # DEBUG: Console print to view the end-result SQL query
-    #print(searchRequest)
+    print(searchRequest)
 
     try:
         searchDF = runSelectStatement(searchRequest)
@@ -264,20 +261,14 @@ def public_crime_search():
 
     criteria = []
 
-    aliasSearch = False
-    hearingSearch = False
-    chargedSearch = False
-    statusSearch = False
-    codeSearch = False
-
     if query["alias"] != "":
         criteria.append(table + ".`Criminal ID` IN (SELECT ID FROM alias_publicview WHERE Alias LIKE \"" + query["alias"] + "\")")
     if query["hearingDate"] != "":
-        criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM " + table + "WHERE " + table + ".`Hearing Date` >= DATE(\"" + query["hearingDate"] + "\"))")
+        criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM " + table + " WHERE " + table + ".`Hearing Date` >= DATE(\"" + query["hearingDate"] + "\"))")
     if query["dateCharged"] != "":
-        criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM " + table + "WHERE " + table + ".`Date Charged` >= DATE(\"" + query["dateCharged"] + "\"))")
+        criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM " + table + " WHERE " + table + ".`Date Charged` >= DATE(\"" + query["dateCharged"] + "\"))")
     if query["chargeStatus"] != "":
-        criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM charges_publicview WHERE Status LIKE \"" + query["chargeStatus"] + "\"")
+        criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM charges_publicview WHERE Status LIKE \"" + query["chargeStatus"] + "\")")
     if query["crimeCode"] != "":
         criteria.append(table + ".`Crime ID` IN (SELECT ID from charges_publicview WHERE Code = " + query["crimeCode"] + ")")
     if query["firstName"] != "":

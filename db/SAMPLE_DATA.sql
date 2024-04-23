@@ -33,7 +33,7 @@ VALUES
 (7, 2, "Mad Hatter"),
 (8, 10, "Penguin"),
 (9, 1, "Firefly"),
-(10, 9, "Mr. Negative");
+(10, 9, "Mr. Negative"),
 (11, 4, "Joker");
 
 INSERT INTO Crimes(Crime_ID, Criminal_ID, Classification, Date_charged, Status,
