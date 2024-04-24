@@ -33,7 +33,7 @@
                             <td>{{ data[i][3] }}</td>
                             <td>{{ data[i][4] }}</td>
                             <td> {% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{% else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</td>
-                            <td> {% for k in range(sentences[i]| length) %}{% if k == 0 %}{% for l in range(sentences[i][k]| length) %}
+                            <td>{% for k in range(sentences[i]| length) %}{% if k == 0 %}{% for l in range(sentences[i][k]| length) %}
                                 {{ sentenceLabels[l] }}:
                                 {{ sentences[i][k][l] }}<br>{% endfor %} {% else %}
                                 <br>{% for l in range(sentences[i][k]| length) %}
