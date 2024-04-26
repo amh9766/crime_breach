@@ -179,9 +179,9 @@ def public_criminal_search():
     if query["alias"] != "":
         criteria.append(table + ".`ID` IN (SELECT ID FROM alias_publicview WHERE Alias LIKE \"" + query["alias"] + "\")")
     if query["sentenceStart"] != "":
-        criteria.append(table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE Start >= DATE(" + query["sentenceStart"] + "))")
+        criteria.append(table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE Start >= DATE(\"" + query["sentenceStart"] + "\"))")
     if query["sentenceEnd"] != "":
-        criteria.append(table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(" + query["sentenceEnd"] + "))")
+        criteria.append(table + ".`ID` IN (SELECT ID FROM sentences_publicview WHERE End <= DATE(\"" + query["sentenceEnd"] + "\"))")
     if query["firstName"] != "":
         criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
     if query["lastName"] != "":
@@ -268,7 +268,7 @@ def public_crime_search():
     if query["dateCharged"] != "":
         criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM " + table + " WHERE " + table + ".`Date Charged` >= DATE(\"" + query["dateCharged"] + "\"))")
     if query["chargeStatus"] != "":
-        criteria.append(table + ".`Crime ID` IN (SELECT `Crime ID` FROM charges_publicview WHERE Status LIKE \"" + query["chargeStatus"] + "\")")
+        criteria.append(table + ".`Crime ID` IN (SELECT `ID` FROM charges_publicview WHERE Status LIKE \"" + query["chargeStatus"] + "\")")
     if query["crimeCode"] != "":
         criteria.append(table + ".`Crime ID` IN (SELECT ID from charges_publicview WHERE Code = " + query["crimeCode"] + ")")
     if query["firstName"] != "":
@@ -403,10 +403,16 @@ def public_officer_view_all():
 # ---- ADMIN PAGES ----
 @app.route("/admin/crime_lookup/")
 def admin_crime_lookup():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     return render_template("admin_crime_lookup.html")
 
 @app.route("/admin/crime_lookup/search")
 def admin_crime_search():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     query = request.args.to_dict()
 
     # Check if query is empty; if so, default to viewing all entries
@@ -478,6 +484,9 @@ def admin_crime_search():
 
 @app.route("/admin/crime_lookup/view_all")
 def admin_crime_view_all():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     searchRequest = "SELECT * FROM Crimes;"
     searchDF = runSelectStatement(searchRequest)
     searchList = searchDF.values.tolist()
@@ -498,6 +507,9 @@ def admin_crime_view_all():
 
 @app.route("/admin/crime_lookup/delete", methods=["GET", "POST"])
 def admin_delete_crime():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     form = request.form.to_dict()
 
     recordNum = ""
@@ -514,6 +526,9 @@ def admin_delete_crime():
 
 @app.route("/admin/crime_lookup/add", methods=["GET", "POST"])
 def admin_add_crime():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     form = request.form.to_dict()
 
     empty = False
@@ -532,16 +547,23 @@ def admin_add_crime():
     try:
         runStatement(insertStatement)
     except:
+        flash("ERROR: Could not add crime entry! Please try again.")
         return redirect("/home/" + session["user"])
     else:
         return redirect("/admin/crime_lookup")
 
 @app.route("/admin/officer_lookup/")
 def admin_officer_lookup():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     return render_template("admin_officer_lookup.html")
 
 @app.route("/admin/officer_lookup/search", methods=["GET", "POST"])
 def admin_officer_search():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     if request.method == "POST":
         print(request.form.to_dict())
         return redirect("/admin/officer_lookup")
@@ -562,16 +584,18 @@ def admin_officer_search():
 
     criteria = []
 
+    if query["officerID"] != "":
+        criteria.append(table + ".Officer_ID = " + query["officerID"])
     if query["badgeNumber"] != "":
-        criteria.append(table + ".`Badge #` LIKE \"" + query["badgeNumber"] + "\"")
+        criteria.append(table + ".Badge LIKE \"" + query["badgeNumber"] + "\"")
     if query["firstName"] != "":
-        criteria.append(table + ".`First Name` LIKE \"" + query["firstName"] + "\"")
+        criteria.append(table + ".First LIKE \"" + query["firstName"] + "\"")
     if query["lastName"] != "":
-        criteria.append(table + ".`Last Name` LIKE \"" + query["lastName"] + "\"")
+        criteria.append(table + ".Last LIKE \"" + query["lastName"] + "\"")
     if query["precinct"] != "":
-        criteria.append(table + ".`Precinct` LIKE \"" + query["precinct"] + "\"")
+        criteria.append(table + ".Precinct LIKE \"" + query["precinct"] + "\"")
     if query["status"] != "":
-        criteria.append(table + ".`Status` LIKE \"" + query["status"] + "\"")
+        criteria.append(table + ".Status LIKE \"" + query["status"] + "\"")
 
     if len(criteria) == 1:
         searchRequest += criteria[0]
@@ -583,7 +607,7 @@ def admin_officer_search():
                 searchRequest += " AND " + criteria[i]
 
     # DEBUG: Console print to view the end-result SQL query
-    #print(searchRequest)
+    print(searchRequest)
 
     try:
         searchDF = runSelectStatement(searchRequest)
@@ -602,6 +626,9 @@ def admin_officer_search():
 
 @app.route("/admin/officer_lookup/view_all")
 def admin_officer_view_all():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     table = "Officers"
     searchRequest = "SELECT * FROM " + table
     searchDF = runSelectStatement(searchRequest)
@@ -614,6 +641,9 @@ def admin_officer_view_all():
 
 @app.route("/admin/officer_lookup/update", methods=["GET", "POST"])
 def admin_update_officer():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     form = request.form.to_dict();
 
     for i in range(0, int(form["save"])):
@@ -623,12 +653,16 @@ def admin_update_officer():
         try:
             runStatement(updateStatement)
         except:
+            flash("ERROR: Could not update one or more officer entries.")
             continue
 
     return redirect("/admin/officer_lookup/")
 
 @app.route("/admin/officer_lookup/add", methods=["GET", "POST"])
 def admin_add_officer():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     form = request.form.to_dict()
 
     empty = False
@@ -647,16 +681,23 @@ def admin_add_officer():
     try:
         runStatement(insertStatement)
     except:
+        flash("ERROR: Could not add officer entry! Please try again.")
         return redirect("/home/" + session["user"])
     else:
         return redirect("/admin/officer_lookup")
 
 @app.route("/admin/criminal_lookup/")
 def admin_criminal_lookup():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     return render_template("admin_criminal_lookup.html")
 
 @app.route("/admin/criminal_lookup/search")
 def admin_criminal_search():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     query = request.args.to_dict()
     # print(query)
 
@@ -682,7 +723,7 @@ def admin_criminal_search():
     if query["sentenceStart"] != "":
         criteria.append(table + ".Criminal_ID IN (SELECT Criminal_ID FROM Sentences WHERE Start_date >= DATE(\"" + query["sentenceStart"] + "\"))")
     if query["sentenceEnd"] != "":
-        table + ".Criminal_ID IN (SELECT Criminal_ID FROM Sentences WHERE End_date <= DATE(\"" + query["sentenceEnd"] + "\"))"
+        criteria.append(table + ".Criminal_ID IN (SELECT Criminal_ID FROM Sentences WHERE End_date <= DATE(\"" + query["sentenceEnd"] + "\"))")
     if query["criminalID"] != "":
         criteria.append(table + ".Criminal_ID = " + query["criminalID"])
     if query["firstName"] != "":
@@ -732,6 +773,9 @@ def admin_criminal_search():
 
 @app.route("/admin/criminal_lookup/view_all")
 def admin_criminal_view_all():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     table = "Criminals"
     searchRequest = "SELECT * FROM " + table + ";"
 
@@ -749,6 +793,9 @@ def admin_criminal_view_all():
 
 @app.route("/admin/criminal_lookup/delete", methods=["GET", "POST"])
 def admin_delete_criminal():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     form = request.form.to_dict();
 
     recordNum = ""
@@ -765,6 +812,9 @@ def admin_delete_criminal():
 
 @app.route("/admin/criminal_lookup/add", methods=["GET", "POST"])
 def admin_add_criminal():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     form = request.form.to_dict()
 
     empty = False
@@ -782,16 +832,23 @@ def admin_add_criminal():
     try:
         runStatement(insertStatement)
     except:
+        flash("ERROR: Could not add criminal entry! Please try again.")
         return redirect("/home/" + session["user"])
     else:
         return redirect("/admin/criminal_lookup")
 
 @app.route("/home/<user>")
 def admin_home(user):
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     return render_template("home.html", name=user)
 
 @app.route("/download_query")
 def download():
+    if session.get("user", None) == None:
+        return redirect("/sign_in")
+
     return send_file(os.path.join("queries", session["user"] + "query.json"),
                      as_attachment=True)
 

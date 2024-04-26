@@ -14,14 +14,18 @@
     <main>
         <section class="admin-lookup-results">
             <h2>Officer Lookup: Administrator View</h2>
+                    {% with errors = get_flashed_messages() %}
+                    {% if errors %}
+                    <p style="color:red"> {% for error in errors %} {{ error }} {% endfor %} </p>
+                    {% endif %} {% endwith %}
             <form id="adminOfficerUpdateForm"
                 action="/admin/officer_lookup/update", method="POST">
                 <table class="search-results lengthy-table">
                     <thead>
                         <tr>
                             <th>Officer ID</th>
-                            <th>First Name</th>
                             <th>Last Name</th>
+                            <th>First Name</th>
                             <th>Precinct</th>
                             <th>Badge #</th>
                             <th>Phone</th>
@@ -38,18 +42,18 @@
                                                                data[i][0] }}"
                                                                readonly ></div></td>
                             <td><div class="form-field"><input type="text"
-                                                               id="firstName"
-                                                               name="firstName-{{ i }}"
-                                                               value="{{
-                                                                      data[i][1]
-                                                                      }}" required
-                                                             pattern="[A-z]{1,10}" size="10" maxlength="10"></div></td>
-                            <td><div class="form-field"><input type="text"
                                                                id="lastName"
                                                                name="lastName-{{ i }}"
                                                                value="{{
-                                                               data[i][2] }}" required
+                                                               data[i][1] }}" required
                                                              pattern="[A-z]{1,15}" size="15" maxlength="15"></div></td>
+                            <td><div class="form-field"><input type="text"
+                                                               id="firstName"
+                                                               name="firstName-{{ i }}"
+                                                               value="{{
+                                                                      data[i][2]
+                                                                      }}" required
+                                                             pattern="[A-z]{1,10}" size="10" maxlength="10"></div></td>
                             <td><div class="form-field"><input type="text"
                                                                id="precinct"
                                                                name="precinct-{{ i }}"
@@ -65,7 +69,8 @@
                                                                }}" required
                                                                pattern="[A-z0-9]{1,14}"
                                                                size="14"
-                                                               maxlength="14"></div></td>
+                                                               maxlength="14"
+                                                               readonly></div></td>
                             <td><div class="form-field"><input type="text"
                                     id="officerPhone" name="officerPhone-{{ i }}"
                                                       value="{{ data[i][5] }}" required
