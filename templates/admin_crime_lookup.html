@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Crime Lookup - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="search-section">
+            <h2>Crime Lookup: Administrator Search</h2>
+            <form id="adminCrimeSearchForm" action="/admin/crime_lookup/search" method="GET" class="search-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="crimeID">Crime ID</label>
+                        <input type="text" id="crimeID" name="crimeID"
+                                                        placeholder="E.g. 123456789" 
+                                                        pattern="[0-9]{0,9}"
+                                                        size="9" maxlength="9">
+                    </div>
+                    <div class="form-field two-item">
+                        <label for="criminalID">Criminal ID</label>
+                        <input type="text" id="criminalID" name="criminalID" placeholder="E.g. 123456" pattern="[0-9]{0, 6}" size="6" maxlength="6">
+                    </div>
+                </div>
+                <p><b>OR</b></p>
+                <br>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="crimeStatus">Status</label>
+                        <select id="crimeStatus" name="crimeStatus">
+                            <option value="">Select</option>
+                            <option value="CL">CL</option>
+                            <option value="CA">CA</option>
+                            <option value="IA">IA</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="classification">Classification</label>
+                        <select id="classification" name="classification">
+                            <option value="">Select</option>
+                            <option value="F">Felony</option>
+                            <option value="M">Misdemeanor</option>
+                            <option value="O">Other</option>
+                            <option value="U">Undefined</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="chargeStatus">Charge Status</label>
+                        <select id="chargeStatus" name="chargeStatus">
+                            <option value="">Select</option>
+                            <option value="PD">Pending</option>
+                            <option value="GL">Guilty</option>
+                            <option value="NG">Not Guilty</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="crimeCode">Crime Code</label>
+                        <input type="text" id="crimeCode" name="crimeCode" placeholder="E.g. 123" pattern="[0-9]{0,3}" size="3" maxlength="3">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="hearingDate">Hearing Date</label>
+                        <input type="date" id="hearingDate" name="hearingDate">
+                    </div>
+                    <div class="form-field">
+                        <label for="appealCutOffDate">Appeal Cut Off Date</label>
+                        <input type="date" id="appealCutOffDate" name="appealCutOffDate">
+                    </div>
+                    <div class="form-field">
+                        <label for="dateCharged">Date Charged</label>
+                        <input type="date" id="dateCharged" name="dateCharged">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">View Results</button>
+                    <button type="submit" class="btn-view">View All Records</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

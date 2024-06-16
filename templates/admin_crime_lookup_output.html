@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Crime Lookup Results - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="admin-lookup-results">
+            <h2>Crime Lookup: Administrator View</h2>
+            <form id="adminCrimeUpdateForm" action="/admin/crime_lookup/delete" method="POST">
+                <table class="search-results lengthy-table">
+                    <thead>
+                        <tr>
+                            <th>Crime ID</th>
+                            <th>Criminal ID</th>
+                            <th>Classification</th>
+                            <th>Date Charged</th>
+                            <th>Status</th>
+                            <th>Crime Hearing Date</th>
+                            <th>Appeal Cut Date</th>
+                            <th>Officer ID(s)</th>
+                            <th>Appeal ID</th>
+                            <th>Filing Date</th>
+                            <th>Hearing Date</th>
+                            <th>Charge ID</th>
+                            <th>Crime Description</th>
+                            <th>Charge Status</th>
+                            <th>Fine Amount</th>
+                            <th>Court Fee</th>
+                            <th>Amount Paid</th>
+                            <th>Pay Due Date</th>
+                            <th>Delete?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- editable row, replace value with value pulled from db -->
+                        {% for i in range(data| length) %}
+                        <tr>
+                            <td><div class="form-field"><input type="text" id="crimeID"
+name="crimeID-{{i}}" value={{data[i][0]}} readonly></div></td>
+                            <td>{{data[i][1]}}</td>
+                            <td>{{data[i][2]}}</td>
+                            <td>{{data[i][3]}}</td>
+                            <td>{{data[i][4]}}</td>
+                            <td>{{data[i][5]}}</td>
+                            <td>{{data[i][6]}}</td>
+                            <td>{% for j in range(officers[i]| length) %}{% if j == 0 %}{{ officers[i][j][0] }}{% else %}, {{officers[i][j][0] }}{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(appeals[i]| length) %}{% if k
+                                == 0 %}{{appeals[i][k][0]}}<br>{% else %}
+                                <br>{{appeals[i][k][0]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(appeals[i]| length) %}{% if k
+                                == 0 %}{{appeals[i][k][1]}}<br>{% else %}
+                                <br>{{appeals[i][k][1]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(appeals[i]| length) %}{% if k
+                                == 0 %}{{appeals[i][k][2]}}<br>{% else %}
+                                <br>{{appeals[i][k][2]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][0]}}<br>{% else %}
+                                <br>{{charges[i][k][0]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][1]}}: {{charges[i][k][2]}}<br>{% else %}
+                                <br>{{charges[i][k][1]}}: {{charges[i][k][2]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][3]}}<br>{% else %}
+                                <br>{{charges[i][k][3]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][4]}}<br>{% else %}
+                                <br>{{charges[i][k][4]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][5]}}<br>{% else %}
+                                <br>{{charges[i][k][5]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][6]}}<br>{% else %}
+                                <br>{{charges[i][k][6]}}<br>{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(charges[i]| length) %}{% if k
+                                == 0 %}{{charges[i][k][7]}}<br>{% else %}
+                                <br>{{charges[i][k][7]}}<br>{% endif %}{% endfor %}</td>
+                            <td><input type="submit" name={{i}} value="Delete Record" class="btn-submit"</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+            <div class="form-actions"  style="display: inline-block;">
+                <button type="button" onclick="location.href='/admin/crime_lookup'" class="btn-view">Return to Lookup</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

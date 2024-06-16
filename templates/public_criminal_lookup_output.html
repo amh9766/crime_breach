@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Criminal Lookup Results - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="public-lookup-results">
+            <h2>Criminal Lookup: Public View</h2>
+            <div class="search-results">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Violent Offender?</th>
+                            <th>On Probation?</th>
+                            <th>Alias(es)</th>
+                            <th>Sentence(s) Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(data| length) %}<tr>
+                            <td>{{ data[i][1] }}</td>
+                            <td>{{ data[i][2] }}</td>
+                            <td>{{ data[i][3] }}</td>
+                            <td>{{ data[i][4] }}</td>
+                            <td> {% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{% else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</td>
+                            <td>{% for k in range(sentences[i]| length) %}{% if k == 0 %}{% for l in range(sentences[i][k]| length) %}
+                                {{ sentenceLabels[l] }}:
+                                {{ sentences[i][k][l] }}<br>{% endfor %} {% else %}
+                                <br>{% for l in range(sentences[i][k]| length) %}
+                                {{ sentenceLabels[l] }}:
+                                {{ sentences[i][k][l] }}<br>{% endfor %}{%endif %}{% endfor %}</td>
+                        </tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" onclick="location.href='/public/criminal_lookup'" class="btn-view">Return to Lookup</button>
+        </section>
+    </main>
+</body>
+</html>

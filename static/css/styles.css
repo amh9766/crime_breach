@@ -1,0 +1,301 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #4e4e4e;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+img {
+    width: 200px;
+    height: auto;
+}
+
+header h1 {
+    margin: 0;
+}
+
+h2{
+    background-color: #f9d835;
+    padding: 0.5%;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.navigation-bar ul {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+main {
+    padding: 20px;
+    background-color: #fff;
+    width: 80%;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+.search-section {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-field {
+    flex-basis: calc(25% - 10px);
+    min-width: 100px;
+    padding-right: 50px;
+    padding-top: 20px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-field input[type="text"],
+.form-field select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-actions {
+    text-align: right;
+    padding-top: 50px;
+}
+
+.btn-view,
+.btn-submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 40px;
+    cursor: pointer;
+}
+
+.btn-view {
+    background-color: #f9d835;
+    color: #333;
+}
+
+.btn-submit {
+    background-color: #353434;
+    color: #fff;
+}
+
+.two-item {
+    margin-right: 475px;
+}
+
+.home-section {
+    padding: 30px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.upd {
+    width: 47%;
+
+}
+
+.acc {
+    width: 40%;
+}
+
+.signin-section {
+    width: 300px; /* Adjust size as needed */
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.signin-form .form-field {
+    margin-bottom: 15px;
+}
+
+.signin-form .form-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.signin-form .form-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.signin-form .form-actions {
+    text-align: right;
+}
+
+.link-continue {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.btn-signin {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+.home-buttons{
+    padding: 1%;
+}
+
+.home-align{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-buttons .btn-view {
+    padding: 15px 50px; 
+    font-size: 1.1em;
+    font-weight: bold;
+    background-color: #353434;
+    color: #fff ;
+}
+/* Additional responsive styling if necessary */
+@media (max-width: 768px) {
+    .signin-section {
+        width: 90%;
+    }
+}
+
+.public-lookup-results h2 {
+    padding: 10px;
+    background-color: #f9d835;
+    color: #333;
+}
+
+.search-results {
+    background: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-results table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.search-results th,
+.search-results td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.search-results th {
+    background-color: #333;
+    color: #fff;
+}
+
+.admin-lookup-results table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.admin-lookup-results h2 {
+    padding: 10px;
+    background-color: #f9d835;
+    color: #333;
+}
+
+.admin-lookup-results th,
+.admin-lookup-results td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-lookup-results th {
+    background-color: #333;
+    color: #fff;
+}
+
+.lengthy-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.space-h3 {
+    padding-bottom: 20px;
+}
+

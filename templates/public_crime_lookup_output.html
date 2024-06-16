@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Crime Lookup Results - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="public-lookup-results">
+            <h2>Crime Lookup: Public View</h2>
+            <div class="search-results">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Alias</th>
+                            <th>Classification</th>
+                            <th>Crime Description</th>
+                            <th>Date Charged</th>
+                            <th>Status</th>
+                            <th>Crime Hearing Date</th>
+                            <th>Charge Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for i in range(data| length) %}<tr>
+                            <td>{{ data[i][1] }}</td>
+                            <td>{{ data[i][2] }}</td>
+                            <td> {% for j in range(aliases[i]| length) %}{% if j == 0 %}{{ aliases[i][j] }}{% else %}, {{ aliases[i][j] }}{% endif %}{% endfor %}</td>
+                            <td>{{ data[i][3] }}</td>
+                            <td>{% for j in range(charges[i]| length) %}{% if j == 0 %}{{ charges[i][j][0] }}: {{ charges[i][j][1] }}<br>{% else %}<br>{{ charges[i][j][0] }}: {{ charges[i][j][1]}}<br>{%endif %}{% endfor %}</td>
+                            <td>{{ data[i][4] }}</td>
+                            <td>{{ data[i][5] }}</td>
+                            <td>{{ data[i][6] }}</td>
+                            <td>{% for j in range(charges[i]| length) %}{% if j
+                                == 0 %}{{ charges[i][j][2] }}<br>{% else %}<br>{{ charges[i][j][2] }}<br>{%endif %}{% endfor %}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" onclick="location.href='/public/crime_lookup'" class="btn-view">Return to Lookup</button>
+        </section>
+    </main>
+</body>
+</html>

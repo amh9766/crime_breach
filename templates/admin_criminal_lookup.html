@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Criminal Lookup - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="search-section">
+            <h2>Criminal Lookup: Administrator Search</h2>
+            <form id="adminCriminalSearchForm" action="/admin/criminal_lookup/search" method="GET" class="search-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="criminalID">Criminal ID</label>
+                        <input type="text" id="criminalID" name="criminalID" placeholder="E.g. 123456" pattern="[0-9]{0, 6}" size="6" maxlength="6">
+                    </div>
+                    <div class="form-field two-item">
+                        <label for="aliasID">Alias ID</label>
+                        <input type="text" id="aliasID" name="aliasID" placeholder="E.g. 123456" pattern="[0-9]{0, 6}" size="6" maxlength="6">
+                    </div>
+                    <!-- <div class="form-field">
+                        <label for="sentenceID">Sentence ID</label>
+                        <input type="text" id="sentenceID" name="sentenceID" placeholder="E.g. 123456">
+                    </div>
+                    <div class="form-field">
+                        <label for="poID">P.O. ID</label>
+                        <input type="text" id="poID" name="poID" placeholder="E.g. 12345">
+                    </div> -->
+                </div>
+                <br>
+                <p><b>OR</b></p>
+                <br>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John" pattern="[A-z]{0,10}" size="10" maxlength="10">
+                    </div>
+                    <div class="form-field">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith" pattern="[A-z]{0,15}" size="15" maxlength="15">
+                    </div>
+                    <div class="form-field">
+                        <label for="alias">Alias</label>
+                        <input type="text" id="alias" name="alias" placeholder="E.g. Zodiac Killer" size="20" maxlength="20">
+                    </div>
+                    <div class="form-field">
+                        <label for="violentOffender">Violent Offender?</label>
+                        <select id="violentOffender" name="violentOffender">
+                            <option value="">Select</option>
+                            <option value="N">No</option>
+                            <option value="Y">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state"
+                        placeholder="E.g. NY" pattern="[A-Z]{2}" size="2" maxlength="2">
+                    </div>
+                    <div class="form-field">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city"
+                                                     placeholder="E.g. Brooklyn"
+                                                     pattern="[A-z]{0,20}"
+                                                     size="20" maxlength="20">
+                    </div>
+                    <div class="form-field">
+                        <label for="zip">Zip</label>
+                        <input type="text" id="zip" name="zip" placeholder="E.g. 11201" pattern="[0-9]{5}" size="5" maxlength="5">
+                    </div>
+                    <div class="form-field">
+                        <label for="probation">On Probation?</label>
+                        <select id="probation" name="probation">
+                            <option value="">Select</option>
+                            <option value="N">No</option>
+                            <option value="Y">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="sentenceStart">Sentence Start Date</label>
+                        <input type="date" id="sentenceStart" name="sentenceStart">
+                    </div>
+                    <div class="form-field two-item">
+                        <label for="sentenceEnd">Sentence End Date</label>
+                        <input type="date" id="sentenceEnd" name="sentenceEnd">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">View Results</button>
+                    <button type="submit" class="btn-view">View All Records</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

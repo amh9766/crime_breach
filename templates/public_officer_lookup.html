@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Officer Lookup - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="search-section">
+            <h2>Officer Lookup: Public Search</h2>
+            <form id="publicOfficerSearchForm" action="/public/officer_lookup/search" method="GET" class="search-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="badgeNumber">Badge #</label>
+                        <input type="text" id="badgeNumber" name="badgeNumber" placeholder="E.g. 123456" pattern="[A-z0-9]{1,14}" size="14" maxlength="14">
+                    </div>
+                </div>
+                <br>
+                <p><b>OR</b></p>
+                <br>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="E.g. John" pattern="[A-z]{1,10}" size="10" maxlength="10">
+                    </div>
+                    <div class="form-field">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="E.g. Smith" pattern="[A-z]{1,15}" size="15" maxlength="15">
+
+                    </div>
+                    <div class="form-field">
+                        <label for="precinct">Precinct</label>
+                        <input type="text" id="precinct" name="precinct" placeholder="E.g. NYPD" pattern="[A-z0-9]{4}" size="4" maxlength="4">
+                    </div>
+                    <div class="form-field">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="">Select</option>
+                            <option value="A">Active</option>
+                            <option value="I">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">View Results</button>
+                    <button type="button"
+                        onclick="location.href='/public/officer_lookup/view_all'" class="btn-view">View All Records</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

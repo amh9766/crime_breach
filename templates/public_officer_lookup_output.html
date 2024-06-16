@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Officer Lookup Results - Crime Breach</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href={{ url_for('static', filename='./css/styles.css') }}>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src={{ url_for('static', filename='./js/navbar.js') }}></script>
+</head>
+<body>
+    <div id="navbar-container"><!-- Navigation bar will be loaded here --></div>
+    <main>
+        <section class="public-lookup-results">
+            <h2>Officer Lookup: Public View</h2>
+            <div class="search-results">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Badge #</th>
+                            <th>Last</th>
+                            <th>First</th>
+                            <th>Precinct</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in data %}
+                        <tr>
+                            <td>{{ entry[0] }}</td>
+                            <td>{{ entry[1] }}</td>
+                            <td>{{ entry[2] }}</td>
+                            <td>{{ entry[3] }}</td>
+                            <td>{{ entry[4] }}</td>
+                        </tr>
+                        {% endfor %}
+                   </tbody>
+                </table>
+            </div>
+            <button type="button" onclick="location.href='/public/officer_lookup'" class="btn-view">Return to Lookup</button>
+        </section>
+    </main>
+</body>
+</html>
